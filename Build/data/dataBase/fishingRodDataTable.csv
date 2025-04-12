@@ -1,0 +1,7 @@
+id,name,description,thumbnail,currencyId,currencyNum,power
+0,Toy Fishing Rod,basic fishing rod,./images/widget/thumbnails/fishingRodThumbnail1.png,1,0,10
+1,Basic Fishing Rod,better fishing rod,./images/widget/thumbnails/fishingRodThumbnail2.png,1,100,20
+2,Advanced Fishing Rod,crazy fishing rod,./images/widget/thumbnails/fishingRodThumbnail3.png,2,1000,30
+3,Mechanical Fishing Rod,crazy fishing rod,./images/widget/thumbnails/fishingRodThumbnail4.png,3,2500,40
+4,Glowing Fishing Rod,crazy fishing rod,./images/widget/thumbnails/fishingRodThumbnail5.png,4,5000,50
+5,asdf,asdf,./images/widget/thumbnails/fishingRodThumbnail6.png,1,1,10000
