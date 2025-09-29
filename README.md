@@ -4,7 +4,7 @@ This is an idle game that revolves around fishing. The goal of the game is to fi
 
 Tech stats:
 - C++
-- OpenGL: Glew, Glad, GM
+- OpenGL: Glew, Glad, GLM
 
 ### How to play
 
