@@ -7,11 +7,10 @@ Tech stats:
 - OpenGL: Glew, Glad, GM
 
 ### How to play
-```
-1. Git clone https://github.com/bspafford/idleFisher
+
+1. ```Git clone https://github.com/bspafford/idleFisher```
 2. Open build folder
 3. Run IdleFisher.exe
-```
 
 I started this project because I wanted something that was good enough to complete. Previously I had a bunch of projects that I would do all the fun stuff and quit. Which left me with not a lot of good looking projects. This one I wanted to be different, a game that I would actually complete and upload to steam.
 
