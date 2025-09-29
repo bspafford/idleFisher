@@ -16,5 +16,6 @@ I started this project because I wanted something that was good enough to comple
 
 [Youtube Page](https://www.youtube.com/watch?v=DkfKwfjaVx0&list=PL4fpZ9q86R0rhFIy01VvRDk5ntGfsypv6)
 
-[![Watch the demo](https://bspafford.github.io/images/thumbnails/idleFisher.png)](https://bspafford.github.io/idleFisher/media/idleFisher.mp4)
+### Watch Demo
+[![Watch the demo](https://bspafford.github.io/idleFisher/media/thumbnail.png)](https://bspafford.github.io/idleFisher/media/idleFisher.mp4)
 
