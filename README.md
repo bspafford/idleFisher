@@ -1,4 +1,5 @@
 #Idle Fisher
+
 This is an idle game that revolves around fishing. The goal of the game is to fish, upgrade, and make as much money as possible. There are many different upgrades, currency, worlds, pets, etc. I’ve also included rebirths with their own unique upgrades. There are also 7 different NPCs with their own unique upgrades. I have a fisherman who upgrades fishing rods and baits. A merchant for the fish upgrades. A mechanic for auto fishers and fish transporter upgrades. And many more.
 
 Tech stats:
@@ -13,7 +14,5 @@ I started this project because I wanted something that was good enough to comple
 
 [Youtube Page](https://www.youtube.com/watch?v=DkfKwfjaVx0&list=PL4fpZ9q86R0rhFIy01VvRDk5ntGfsypv6)
 
-<video width="640" controls>
-  <source src="https://bspafford.github.io/idleFisher/media/idleFisher.mp4" type="video/mp4">
-</video>
+[![Watch the demo](https://bspafford.github.io/images/thumbnails/idleFisher.png)](https://bspafford.github.io/idleFisher/media/idleFisher.mp4)
 
