@@ -11,6 +11,7 @@ Open build folder, run IdleFisher.exe
 
 I started this project because I wanted something that was good enough to complete. Previously I had a bunch of projects that I would do all the fun stuff and quit. Which left me with not a lot of good looking projects. This one I wanted to be different, a game that I would actually complete and upload to steam.
 
-https://www.youtube.com/watch?v=DkfKwfjaVx0&list=PL4fpZ9q86R0rhFIy01VvRDk5ntGfsypv6
+[Youtube Page](https://www.youtube.com/watch?v=DkfKwfjaVx0&list=PL4fpZ9q86R0rhFIy01VvRDk5ntGfsypv6)
 
-!["Video Demo"](http://raw.githubusercontent.com/bspafford/bspafford.github.io/main/idleFisher/media/idleFisher.mp4)
+![Video Demo](http://raw.githubusercontent.com/bspafford/bspafford.github.io/main/idleFisher/media/idleFisher.mp4)
+![Video Demo](bspafford.github.io/main/idleFisher/media/idleFisher.mp4)
