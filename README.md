@@ -2,7 +2,7 @@
 
 This is an idle game that revolves around fishing. The goal of the game is to fish, upgrade, and make as much money as possible. There are many different upgrades, currency, worlds, pets, etc. I’ve also included rebirths with their own unique upgrades. There are also 7 different NPCs with their own unique upgrades. I have a fisherman who upgrades fishing rods and baits. A merchant for the fish upgrades. A mechanic for auto fishers and fish transporter upgrades. And many more.
 
-**Tech stats:**
+**Tech Stats:**
 - C++
 - OpenGL: Glew, Glad, GLM
 
