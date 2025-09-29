@@ -14,4 +14,4 @@ I started this project because I wanted something that was good enough to comple
 [Youtube Page](https://www.youtube.com/watch?v=DkfKwfjaVx0&list=PL4fpZ9q86R0rhFIy01VvRDk5ntGfsypv6)
 
 ![Video Demo](http://raw.githubusercontent.com/bspafford/bspafford.github.io/main/idleFisher/media/idleFisher.mp4)
-![Video Demo](bspafford.github.io/main/idleFisher/media/idleFisher.mp4)
+![Video Demo](bspafford.github.io/idleFisher/media/idleFisher.mp4)
