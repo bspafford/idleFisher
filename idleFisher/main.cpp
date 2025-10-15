@@ -603,7 +603,7 @@ void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfI
 	if (currWidget)
 		currWidget->removeFromViewport();
 
-	//collision::getCollisionObjects();
+	collision::getCollisionObjects();
 
 	// deconstruct worlds
 	Texture::deleteCache();
@@ -653,7 +653,7 @@ void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfI
 	if (world::currWorld)
 		world::currWorld->start();
 
-	//AStar::init();
+	AStar::init();
 }
 
 void Main::checkAchievements() {
