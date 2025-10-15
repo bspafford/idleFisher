@@ -40,7 +40,7 @@
 #include "comboOvertimeWidget.h"
 #include "newRecordWidget.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 	srand(time(0));
 	math::randRange(0, 100); // steups up srand i guess? otherwise first value always the same
 
@@ -290,12 +290,7 @@ void Main::Start() {
 	
 	setupWidgets();
 
-	std::cout << "currworld: " << SaveData::saveData.currWorld << std::endl;
-	//openLevel(SaveData::saveData.currWorld, worldLoc::None, true);
-	for (int i = 0; i < 1; i++) {// loads the world 100 times to test memory leaks
-		//openLevel("titleScreen", worldLoc::None, true);
-		openLevel("world1", worldLoc::None, true);
-	}
+	openLevel("titleScreen", worldLoc::None, true);
 	
 	character = new Acharacter();
 	camera = new Camera(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));
