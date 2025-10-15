@@ -1,0 +1,82 @@
+#include "dumpster.h"
+
+#include "main.h"
+#include "worlds.h"
+#include "saveData.h"
+#include "AautoFisher.h"
+#include "autoFisherUI.h"
+#include "upgrades.h"
+
+// widget
+#include "heldFishWidget.h"
+#include "currencyWidget.h"
+
+dumpster::dumpster(vector loc) {
+	this->loc = loc;
+
+	img = std::make_unique<Image>("./images/dumpster.png", loc, true);
+	img->setUseAlpha(true);
+}
+
+void dumpster::onHover() {
+
+	bool temp = bMouseOver;
+	bMouseOver = mouseOver();
+	if (!temp && bMouseOver) {
+		img->setImage("./images/dumpsterHovered.png");
+		Main::hoverObject(NULL);
+	} else if (temp && !bMouseOver) {
+		img->setImage("./images/dumpster.png");
+		Main::leaveHoverObject(NULL);
+	}
+
+	if (bMouseOver && Main::bLeftClick && !Main::currWidget)
+		Main::addLeftClick(this, &dumpster::sellFish);
+}
+
+void dumpster::draw(Shader* shaderProgram) {
+	onHover();
+
+	img->draw(shaderProgram);
+}
+
+void dumpster::sellFish() {
+	for (int i = 0; i < SaveData::saveData.fishData.size(); i++) {
+		FsaveFishData* currSaveFish = &SaveData::saveData.fishData[i];
+		FfishData* currFish = &SaveData::data.fishData[currSaveFish->id];
+
+		for (int j = 0; j < SaveData::saveData.fishData[i].numOwned.size(); j++) {
+			double currencyGained = currSaveFish->numOwned[j] * upgrades::getFishSellPrice(*currFish, j);
+			if (currencyGained > 0)
+				SaveData::saveData.currencyList[currFish->currencyId].unlocked = true;
+			SaveData::saveData.currencyList[currFish->currencyId].numOwned += currencyGained;
+			SaveData::saveData.currencyList[currFish->currencyId].totalNumOwned += currencyGained;
+			currSaveFish->numOwned[j] = 0;
+		}
+	}
+
+	Main::heldFishWidget->updateList();
+	Main::currencyWidget->updateList();
+
+	// updates UI max
+	for (int i = 0; i < world::currWorld->autoFisherList.size(); i++)
+		world::currWorld->autoFisherList[i]->UI->updateUI();
+}
+
+bool dumpster::mouseOver() {
+	vector mousePos = Main::mousePos;
+
+	vector screenLoc = math::worldToScreen(img->getLoc(), "topleft");
+	vector size = img->getSize();
+
+	vector min = { screenLoc.x, screenLoc.y - size.y };
+	vector max = { screenLoc.x + size.x, screenLoc.y };
+
+	if (mousePos.x >= min.x && mousePos.x <= max.x && mousePos.y >= min.y && mousePos.y <= max.y) {
+		vector pos = { mousePos.x - min.x, mousePos.y - min.y };
+		glm::vec4 pixelColor = img->GetPixelColor((int)pos.x, (int)pos.y);
+		if ((int)pixelColor.a != 0)
+			return true;
+	}
+	return false;
+}

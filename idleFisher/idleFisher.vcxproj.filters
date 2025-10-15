@@ -1,0 +1,734 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\npc">
+      <UniqueIdentifier>{ecbf26d6-8881-4f01-a0a6-e547d6060587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\npc">
+      <UniqueIdentifier>{baf36443-b264-4025-9eb7-5a7b079cd018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\widgets">
+      <UniqueIdentifier>{efef9226-9955-4da8-9778-b5b41e66571e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\widgets">
+      <UniqueIdentifier>{dca0c07d-c3f2-4ede-a8e8-0939c2506cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\buildings">
+      <UniqueIdentifier>{1f3cc1e7-1234-474a-a0da-fc40842dcf89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\buildings">
+      <UniqueIdentifier>{e30413b9-e350-4888-a006-a231dfadd78b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\buffs">
+      <UniqueIdentifier>{356765fa-775e-4204-8824-6065034115bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\buffs">
+      <UniqueIdentifier>{81afbf55-27b0-41dc-84b5-c03d79b0b6f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pathfinding">
+      <UniqueIdentifier>{638ade51-abb9-4596-bbe0-046145ac42ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pathfinding">
+      <UniqueIdentifier>{cf9ee7f9-7dc0-42f6-a9e0-30fb4d680a38}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="waterShader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="waterShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shadowMap.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shadowMap.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="default.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="default.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="2dWaterShader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="2dWaterShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="2dShader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="2dShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="test.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="test.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="csvReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="saveData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shaderClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VAO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glac.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stuff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="npc.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="widget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="textureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCwidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="worlds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="verticalBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="scrollBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="building.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="house.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="mechanicHouse.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="merchantShop.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="petShop.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wrapBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="upgradeBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UIWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="slider.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="rebirthWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="rebirthUnlock.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="progressBar.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="premiumBuffWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="pauseMenu.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="newRecordWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="merchantWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="mechanicWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="journalProgressWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="journal.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="hoverBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="horizontalBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="heldFishWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="fishUnlocked.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="fishNumWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="fishermanWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="fishComboWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="fishBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="equippedWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="decoratorWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="decorationBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="currencyWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="currencyConverterWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="currencyConverterBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="comboWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="comboOvertimeWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="autoFisherUI.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AFmoreInfoUI.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="achievementWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="achievementBox.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ship.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="tree.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="shake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vaultPlacedItems.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="sailorWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="scuba.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="sailor.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="petSeller.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="pet.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="merchant.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="mechanic.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="fishTransporter.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="fisherman.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="dumpster.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="decorator.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="atm.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="AautoFisher.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="fishGod.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="buyAutoFisher.cpp">
+      <Filter>Source Files\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="rock.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="rebirthExit.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="rain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="placeable.cpp">
+      <Filter>Source Files\buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="petBuffs.cpp">
+      <Filter>Source Files\buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="baitBuffs.cpp">
+      <Filter>Source Files\buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="achievementBuffs.cpp">
+      <Filter>Source Files\buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="achievement.cpp">
+      <Filter>Source Files\buffs</Filter>
+    </ClCompile>
+    <ClCompile Include="idleProfitWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="pathfinding.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="path.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="node.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="line.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="fishSchool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="upgrades.cpp">
+      <Filter>Source Files\buffs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="csvReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saveData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shaderClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VAO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stuff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="npc.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="widget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="textureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCwidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="worlds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="verticalBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="scrollBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="building.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="house.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="mechanicHouse.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="petShop.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="merchantShop.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wrapBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="upgradeBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UIWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="slider.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="settings.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="rebirthWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="rebirthUnlock.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="progressBar.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="premiumBuffWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="pauseMenu.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="newRecordWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="merchantWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="mechanicWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="journalProgressWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="journal.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="hoverBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="horizontalBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="heldFishWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="fishUnlocked.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="fishNumWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="fishermanWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="fishComboWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="fishBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="equippedWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="decoratorWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="decorationBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="currencyWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="currencyConverterWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="currencyConverterBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="comboWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="comboOvertimeWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="autoFisherUI.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AFmoreInfoUI.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="achievementWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="achievementBox.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="sailorWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="scuba.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="sailor.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="petSeller.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="pet.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="merchant.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="mechanic.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="fishTransporter.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="fisherman.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="dumpster.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="decorator.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="atm.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="AautoFisher.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="fishGod.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="buyAutoFisher.h">
+      <Filter>Header Files\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="exprtk.hpp">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="line.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="path.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="pathfinding.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="placeable.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="rebirthExit.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="rock.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="ship.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="tree.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="vaultPlacedItems.h">
+      <Filter>Header Files\buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="achievement.h">
+      <Filter>Header Files\buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="achievementBuffs.h">
+      <Filter>Header Files\buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="baitBuffs.h">
+      <Filter>Header Files\buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="petBuffs.h">
+      <Filter>Header Files\buffs</Filter>
+    </ClInclude>
+    <ClInclude Include="idleProfitWidget.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="rain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shortNumbers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fishSchool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="upgrades.h">
+      <Filter>Header Files\buffs</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

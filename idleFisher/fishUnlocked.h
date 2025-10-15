@@ -1,0 +1,32 @@
+#pragma once
+
+#include "widget.h"
+
+class timer;
+class animation;
+struct FfishData;
+struct Image;
+struct FachievementStruct;
+class text;
+
+class UfishUnlocked : public widget {
+public:
+	UfishUnlocked();
+	~UfishUnlocked();
+	void draw(Shader* shaderProgram);
+
+	void start(FfishData fish);
+	void start(FachievementStruct* achievement);
+	void setupLocs() override;
+
+private:
+	void reverse();
+	void finished();
+
+	std::unique_ptr<Image> bannerImg;
+	std::unique_ptr<animation> anim;
+	std::unique_ptr<Image> thumbnail;
+	std::unique_ptr<text> name;
+
+	std::unique_ptr<timer> finishedTimer;
+};

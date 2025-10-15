@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{8b186055-1a3d-4723-b5c6-1c4781f770a3}</ProjectGuid>
+    <RootNamespace>idleFisher</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;C:\CPPLibraries\alpaca-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;C:\CPPLibraries\alpaca-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;C:\CPPLibraries\alpaca-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\CPPLibraries\glm;C:\CPPLibraries\glfw-3.4.bin.WIN64\include;C:\CPPLibraries\glad\include;C:\CPPLibraries\stb\include;C:\CPPLibraries\json\include;C:\CPPLibraries\alpaca-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\CPPLibraries\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="2dShader.frag" />
+    <None Include="2dShader.vert" />
+    <None Include="2dWaterShader.frag" />
+    <None Include="2dWaterShader.vert" />
+    <None Include="default.frag" />
+    <None Include="default.vert" />
+    <None Include="shadowMap.frag" />
+    <None Include="shadowMap.vert" />
+    <None Include="test.frag" />
+    <None Include="test.vert" />
+    <None Include="waterShader.frag" />
+    <None Include="waterShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AautoFisher.cpp" />
+    <ClCompile Include="achievement.cpp" />
+    <ClCompile Include="achievementBox.cpp" />
+    <ClCompile Include="achievementBuffs.cpp" />
+    <ClCompile Include="achievementWidget.cpp" />
+    <ClCompile Include="AFmoreInfoUI.cpp" />
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="atm.cpp" />
+    <ClCompile Include="autoFisherUI.cpp" />
+    <ClCompile Include="baitBuffs.cpp" />
+    <ClCompile Include="building.cpp" />
+    <ClCompile Include="button.cpp" />
+    <ClCompile Include="buyAutoFisher.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="character.cpp" />
+    <ClCompile Include="collision.cpp" />
+    <ClCompile Include="comboOvertimeWidget.cpp" />
+    <ClCompile Include="comboWidget.cpp" />
+    <ClCompile Include="csvReader.cpp" />
+    <ClCompile Include="currencyConverterBox.cpp" />
+    <ClCompile Include="currencyConverterWidget.cpp" />
+    <ClCompile Include="currencyWidget.cpp" />
+    <ClCompile Include="decorationBox.cpp" />
+    <ClCompile Include="decorator.cpp" />
+    <ClCompile Include="decoratorWidget.cpp" />
+    <ClCompile Include="dumpster.cpp" />
+    <ClCompile Include="EBO.cpp" />
+    <ClCompile Include="equippedWidget.cpp" />
+    <ClCompile Include="fishBox.cpp" />
+    <ClCompile Include="fishComboWidget.cpp" />
+    <ClCompile Include="fisherman.cpp" />
+    <ClCompile Include="fishermanWidget.cpp" />
+    <ClCompile Include="fishGod.cpp" />
+    <ClCompile Include="fishNumWidget.cpp" />
+    <ClCompile Include="fishSchool.cpp" />
+    <ClCompile Include="fishTransporter.cpp" />
+    <ClCompile Include="fishUnlocked.cpp" />
+    <ClCompile Include="fps.cpp" />
+    <ClCompile Include="glac.c" />
+    <ClCompile Include="heldFishWidget.cpp" />
+    <ClCompile Include="horizontalBox.cpp" />
+    <ClCompile Include="house.cpp" />
+    <ClCompile Include="hoverBox.cpp" />
+    <ClCompile Include="idleProfitWidget.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="journal.cpp" />
+    <ClCompile Include="journalProgressWidget.cpp" />
+    <ClCompile Include="line.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="math.cpp" />
+    <ClCompile Include="mechanic.cpp" />
+    <ClCompile Include="mechanicHouse.cpp" />
+    <ClCompile Include="mechanicWidget.cpp" />
+    <ClCompile Include="merchant.cpp" />
+    <ClCompile Include="merchantShop.cpp" />
+    <ClCompile Include="merchantWidget.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="model.cpp" />
+    <ClCompile Include="newRecordWidget.cpp" />
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="npc.cpp" />
+    <ClCompile Include="NPCwidget.cpp" />
+    <ClCompile Include="path.cpp" />
+    <ClCompile Include="pathfinding.cpp" />
+    <ClCompile Include="pauseMenu.cpp" />
+    <ClCompile Include="pet.cpp" />
+    <ClCompile Include="petBuffs.cpp" />
+    <ClCompile Include="petSeller.cpp" />
+    <ClCompile Include="petShop.cpp" />
+    <ClCompile Include="placeable.cpp" />
+    <ClCompile Include="premiumBuffWidget.cpp" />
+    <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="rain.cpp" />
+    <ClCompile Include="rebirthExit.cpp" />
+    <ClCompile Include="rebirthUnlock.cpp" />
+    <ClCompile Include="rebirthWidget.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="rock.cpp" />
+    <ClCompile Include="sailor.cpp" />
+    <ClCompile Include="sailorWidget.cpp" />
+    <ClCompile Include="saveData.cpp" />
+    <ClCompile Include="scrollBox.cpp" />
+    <ClCompile Include="scuba.cpp" />
+    <ClCompile Include="settings.cpp" />
+    <ClCompile Include="shaderClass.cpp" />
+    <ClCompile Include="shake.cpp" />
+    <ClCompile Include="ship.cpp" />
+    <ClCompile Include="slider.cpp" />
+    <ClCompile Include="stb.cpp" />
+    <ClCompile Include="stuff.cpp" />
+    <ClCompile Include="text.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="UIWidget.cpp" />
+    <ClCompile Include="upgradeBox.cpp" />
+    <ClCompile Include="upgrades.cpp" />
+    <ClCompile Include="VAO.cpp" />
+    <ClCompile Include="vaultPlacedItems.cpp" />
+    <ClCompile Include="VBO.cpp" />
+    <ClCompile Include="verticalBox.cpp" />
+    <ClCompile Include="widget.cpp" />
+    <ClCompile Include="worlds.cpp" />
+    <ClCompile Include="wrapBox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AautoFisher.h" />
+    <ClInclude Include="achievement.h" />
+    <ClInclude Include="achievementBox.h" />
+    <ClInclude Include="achievementBuffs.h" />
+    <ClInclude Include="achievementWidget.h" />
+    <ClInclude Include="AFmoreInfoUI.h" />
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="AStar.h" />
+    <ClInclude Include="atm.h" />
+    <ClInclude Include="autoFisherUI.h" />
+    <ClInclude Include="baitBuffs.h" />
+    <ClInclude Include="building.h" />
+    <ClInclude Include="button.h" />
+    <ClInclude Include="buyAutoFisher.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="character.h" />
+    <ClInclude Include="collision.h" />
+    <ClInclude Include="comboOvertimeWidget.h" />
+    <ClInclude Include="comboWidget.h" />
+    <ClInclude Include="csvReader.h" />
+    <ClInclude Include="currencyConverterBox.h" />
+    <ClInclude Include="currencyConverterWidget.h" />
+    <ClInclude Include="currencyWidget.h" />
+    <ClInclude Include="decorationBox.h" />
+    <ClInclude Include="decorator.h" />
+    <ClInclude Include="decoratorWidget.h" />
+    <ClInclude Include="dumpster.h" />
+    <ClInclude Include="EBO.h" />
+    <ClInclude Include="equippedWidget.h" />
+    <ClInclude Include="exprtk.hpp" />
+    <ClInclude Include="fishBox.h" />
+    <ClInclude Include="fishComboWidget.h" />
+    <ClInclude Include="fisherman.h" />
+    <ClInclude Include="fishermanWidget.h" />
+    <ClInclude Include="fishGod.h" />
+    <ClInclude Include="fishNumWidget.h" />
+    <ClInclude Include="fishSchool.h" />
+    <ClInclude Include="fishTransporter.h" />
+    <ClInclude Include="fishUnlocked.h" />
+    <ClInclude Include="fps.h" />
+    <ClInclude Include="heldFishWidget.h" />
+    <ClInclude Include="horizontalBox.h" />
+    <ClInclude Include="house.h" />
+    <ClInclude Include="hoverBox.h" />
+    <ClInclude Include="idleProfitWidget.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="journal.h" />
+    <ClInclude Include="journalProgressWidget.h" />
+    <ClInclude Include="line.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="math.h" />
+    <ClInclude Include="mechanic.h" />
+    <ClInclude Include="mechanicHouse.h" />
+    <ClInclude Include="mechanicWidget.h" />
+    <ClInclude Include="merchant.h" />
+    <ClInclude Include="merchantShop.h" />
+    <ClInclude Include="merchantWidget.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="newRecordWidget.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="npc.h" />
+    <ClInclude Include="NPCwidget.h" />
+    <ClInclude Include="path.h" />
+    <ClInclude Include="pathfinding.h" />
+    <ClInclude Include="pauseMenu.h" />
+    <ClInclude Include="pet.h" />
+    <ClInclude Include="petBuffs.h" />
+    <ClInclude Include="petSeller.h" />
+    <ClInclude Include="petShop.h" />
+    <ClInclude Include="placeable.h" />
+    <ClInclude Include="premiumBuffWidget.h" />
+    <ClInclude Include="progressBar.h" />
+    <ClInclude Include="rain.h" />
+    <ClInclude Include="rebirthExit.h" />
+    <ClInclude Include="rebirthUnlock.h" />
+    <ClInclude Include="rebirthWidget.h" />
+    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="rock.h" />
+    <ClInclude Include="sailor.h" />
+    <ClInclude Include="sailorWidget.h" />
+    <ClInclude Include="saveData.h" />
+    <ClInclude Include="scrollBox.h" />
+    <ClInclude Include="scuba.h" />
+    <ClInclude Include="settings.h" />
+    <ClInclude Include="shaderClass.h" />
+    <ClInclude Include="shake.h" />
+    <ClInclude Include="ship.h" />
+    <ClInclude Include="shortNumbers.h" />
+    <ClInclude Include="slider.h" />
+    <ClInclude Include="sounds.h" />
+    <ClInclude Include="stuff.h" />
+    <ClInclude Include="text.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="textureManager.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="UIWidget.h" />
+    <ClInclude Include="upgradeBox.h" />
+    <ClInclude Include="upgrades.h" />
+    <ClInclude Include="VAO.h" />
+    <ClInclude Include="vaultPlacedItems.h" />
+    <ClInclude Include="VBO.h" />
+    <ClInclude Include="verticalBox.h" />
+    <ClInclude Include="widget.h" />
+    <ClInclude Include="worlds.h" />
+    <ClInclude Include="wrapBox.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
