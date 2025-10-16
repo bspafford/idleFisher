@@ -1,5 +1,6 @@
 #include "fishTransporter.h"
 #include "main.h"
+#include "character.h"
 #include "worlds.h"
 #include "AautoFisher.h"
 #include "upgrades.h"
@@ -183,7 +184,7 @@ void AfishTransporter::draw(Shader* shaderProgram) {
 	npcAnim->draw(shaderProgram);
 	fishPileAnim->draw(shaderProgram);
 
-	if (mouseOver(npcAnim->spriteSheet) && fullnessText) {
+	if (npcAnim->spriteSheet->isMouseOver(true) && fullnessText) {
 		fullnessText->setLoc(loc + vector(npcAnim->cellWidth / 2.f, npcAnim->cellHeight));
 		fullnessText->draw(shaderProgram);
 		progressBar->setLoc(loc + vector{ -progressBar->getSize().x / 2 / stuff::pixelSize, npcAnim->cellHeight + 11.f });
@@ -490,6 +491,15 @@ void AfishTransporter::upgrade(FsaveMechanicStruct* mechanicStruct) {
 
 	fullnessText->setText(shortNumbers::convert2Short(calcCurrencyHeld()) + "/" + shortNumbers::convert2Short(maxHoldNum));
 
+}
+
+bool AfishTransporter::calcIfPlayerInfront() {
+	if (npcAnim) {
+		vector charLoc = Acharacter::getCharLoc();
+		vector npcLoc = loc;
+		return (charLoc.y < npcLoc.y);
+	}
+	return false;
 }
 
 double AfishTransporter::getMaxHoldNum() {

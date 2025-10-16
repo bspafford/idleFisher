@@ -89,7 +89,7 @@ void AautoFisher::Update(float deltaTime) {
 	calcIfPlayerInfront();
 
 	if (autoFisher)
-		calcMouseOver(bMouseOver, mouseOver(autoFisher->spriteSheet));
+		calcMouseOver(bMouseOver, autoFisher->spriteSheet->isMouseOver(true));
 
 	if (Main::bLeftClick)
 		leftClick();
@@ -132,27 +132,6 @@ void AautoFisher::rightClick() {
 		if (UI)
 			UI->openUI();
 	}
-}
-
-// get mouse over
-// if mouse is over that image border then do a better check to see what the pixel color is
-// if alpha is 0 then mouse isn't over it
-// needs screen coords
-bool AautoFisher::mouseOver(std::weak_ptr<Image> img) {
-	vector screenPos = math::worldToScreen(img.lock()->getLoc(), "topleft");
-
-	vector min = vector{ screenPos.x, screenPos.y - img.lock()->getSize().y };
-	vector max = vector{ screenPos.x + img.lock()->getSize().x, screenPos.y };
-
-	if (Main::mousePos.x >= min.x && Main::mousePos.x <= max.x && Main::mousePos.y >= min.y && Main::mousePos.y <= max.y) {
-		vector screenPos = min;
-		vector pos = { Main::mousePos.x - screenPos.x, Main::mousePos.y - screenPos.y };
-		glm::vec4 pixelColor = img.lock()->GetPixelColor((int)pos.x, (int)pos.y);
-		if ((int)pixelColor.a != 0)
-			return true;
-	}
-
-	return false;
 }
 
 // calcs if mouse over and updates the mouse over num in main

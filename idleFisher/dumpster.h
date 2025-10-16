@@ -14,10 +14,7 @@ public:
 	void draw(Shader* shaderProgram);
 	
 private:
-	bool mouseOver();
-
 	bool bMouseOver = false;
-
 
 	std::unique_ptr<Image> img;
 

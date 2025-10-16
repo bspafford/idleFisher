@@ -88,38 +88,29 @@ void UequippedWidget::setLoc(vector loc) {
 
 bool UequippedWidget::mouseOverSlot(std::string &name, std::string &description) {
 	bool hovering = false;
-	if (fishingRodEquip && mouseOver(fishingRodEquip.get())) {
+	if (fishingRodEquip && fishingRodEquip->isMouseOver()) {
 		name = "Fishing Rod"; // SaveData::saveData.equippedFishingRod.name;
 		description = "Fishing Rod"; // SaveData::saveData.equippedFishingRod.description;
 		hovering = true;
-	} else if (baitEquip && mouseOver(baitEquip.get())) {
+	} else if (baitEquip && baitEquip->isMouseOver()) {
 		name = SaveData::saveData.equippedBait.name;
 		description = SaveData::saveData.equippedBait.description;
 		hovering = true;
-	} else if (headEquip && mouseOver(headEquip.get())) {
+	} else if (headEquip && headEquip->isMouseOver()) {
 		//hoverBox->setInfo();
 		hovering = true;
-	} else if (shirtEquip && mouseOver(shirtEquip.get())) {
+	} else if (shirtEquip && shirtEquip->isMouseOver()) {
 		//hoverBox->setInfo();
 		hovering = true;
-	} else if (legsEquip && mouseOver(legsEquip.get())) {
+	} else if (legsEquip && legsEquip->isMouseOver()) {
 		//hoverBox->setInfo();
 		hovering = true;
-	} else if (shoesEquip && mouseOver(shoesEquip.get())) {
+	} else if (shoesEquip && shoesEquip->isMouseOver()) {
 		//hoverBox->setInfo();
 		hovering = true;
 	}
 
 	if (hovering)
-		return true;
-	return false;
-}
-
-bool UequippedWidget::mouseOver(Image* img) {
-	vector mousePos = Main::mousePos;
-	vector newLoc = img->getLoc() + parent->ogLoc;
-	vector size = img->getSize();
-	if (mousePos.x >= newLoc.x && mousePos.x <= newLoc.x + size.x && mousePos.y >= newLoc.y && mousePos.y <= newLoc.y + size.y)
 		return true;
 	return false;
 }

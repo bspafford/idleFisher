@@ -13,19 +13,17 @@
 
 dumpster::dumpster(vector loc) {
 	this->loc = loc;
-
 	img = std::make_unique<Image>("./images/dumpster.png", loc, true);
 	img->setUseAlpha(true);
 }
 
 void dumpster::onHover() {
-
-	bool temp = bMouseOver;
-	bMouseOver = mouseOver();
-	if (!temp && bMouseOver) {
+	bool prevMouseOver = bMouseOver;
+	bMouseOver = img->isMouseOver(true);
+	if (!prevMouseOver && bMouseOver) {
 		img->setImage("./images/dumpsterHovered.png");
 		Main::hoverObject(NULL);
-	} else if (temp && !bMouseOver) {
+	} else if (prevMouseOver && !bMouseOver) {
 		img->setImage("./images/dumpster.png");
 		Main::leaveHoverObject(NULL);
 	}
@@ -36,7 +34,6 @@ void dumpster::onHover() {
 
 void dumpster::draw(Shader* shaderProgram) {
 	onHover();
-
 	img->draw(shaderProgram);
 }
 
@@ -61,22 +58,4 @@ void dumpster::sellFish() {
 	// updates UI max
 	for (int i = 0; i < world::currWorld->autoFisherList.size(); i++)
 		world::currWorld->autoFisherList[i]->UI->updateUI();
-}
-
-bool dumpster::mouseOver() {
-	vector mousePos = Main::mousePos;
-
-	vector screenLoc = math::worldToScreen(img->getLoc(), "topleft");
-	vector size = img->getSize();
-
-	vector min = { screenLoc.x, screenLoc.y - size.y };
-	vector max = { screenLoc.x + size.x, screenLoc.y };
-
-	if (mousePos.x >= min.x && mousePos.x <= max.x && mousePos.y >= min.y && mousePos.y <= max.y) {
-		vector pos = { mousePos.x - min.x, mousePos.y - min.y };
-		glm::vec4 pixelColor = img->GetPixelColor((int)pos.x, (int)pos.y);
-		if ((int)pixelColor.a != 0)
-			return true;
-	}
-	return false;
 }

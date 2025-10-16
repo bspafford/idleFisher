@@ -14,7 +14,6 @@ public:
 
 	void draw(Shader* shaderProgram);
 
-	bool mouseOver();
 	bool bMouseOver;
 
 	void updateLoc();

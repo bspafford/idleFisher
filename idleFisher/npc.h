@@ -26,11 +26,9 @@ public:
 	virtual void setLoc(vector loc);
 
 	// returns true if player is infront of the NPC
-	bool calcIfPlayerInfront();
+	virtual bool calcIfPlayerInfront();
 
 	std::weak_ptr<Image> getCharImg();
-
-	void removeDanglingWidget();
 
 	virtual void click();
 
@@ -39,7 +37,6 @@ protected:
 	void setup(std::string npcName);
 	virtual void setupCollision();
 
-	bool mouseOver(std::weak_ptr<Image> img);
 	virtual void mouseEnter();
 	virtual void mouseExit();
 	

@@ -74,38 +74,7 @@ void Ubutton::onHover(Shader* shaderProgra) {
 bool Ubutton::isMouseOver() {
 	if (!buttonAnim)
 		return false;
-
-	if (useAlpha) {
-		vector mousePos = Main::mousePos;
-		vector worldPos = math::worldToScreen(buttonAnim->getLoc(), "topleft");
-		vector min = vector{ worldPos.x, worldPos.y - buttonAnim->cellHeight * stuff::pixelSize };
-		vector max = vector{ worldPos.x + buttonAnim->cellWidth * stuff::pixelSize, worldPos.y };
-
-		if (mousePos.x >= min.x && mousePos.x <= max.x && mousePos.y >= min.y && mousePos.y <= max.y) {
-			vector screenPos = min;
-			vector pos = { Main::mousePos.x - screenPos.x, Main::mousePos.y - screenPos.y };
-			glm::vec4 pixelColor = buttonAnim->spriteSheet->GetPixelColor((int)pos.x, (int)pos.y);
-
-			if ((int)pixelColor.a != 0)
-				return true;
-		}
-	} else {
-		vector screenLoc = loc;
-		if (useWorldLoc) {
-			vector mousePos = Main::mousePos;
-			screenLoc = math::worldToScreen(loc, "topleft");
-			if (mousePos.x >= screenLoc.x && mousePos.x <= screenLoc.x + buttonAnim->cellWidth * stuff::pixelSize && mousePos.y >= screenLoc.y - buttonAnim->cellHeight * stuff::pixelSize && mousePos.y <= screenLoc.y)
-				return true;
-			return false;
-		} else {
-			bool inX = Main::mousePos.x >= screenLoc.x && Main::mousePos.x <= screenLoc.x + buttonAnim->cellWidth * stuff::pixelSize;
-			bool inY = Main::mousePos.y >= screenLoc.y && Main::mousePos.y <= screenLoc.y + buttonAnim->cellHeight * stuff::pixelSize;
-			if (inX && inY)
-				return true;
-		}
-	}
-
-	return false;
+	return buttonAnim->spriteSheet->isMouseOver(useAlpha);
 }
 
 void Ubutton::setLoc(vector loc) {

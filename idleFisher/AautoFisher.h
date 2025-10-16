@@ -26,7 +26,6 @@ public:
 
 	void leftClick();
 	void rightClick();
-	bool mouseOver(std::weak_ptr<Image> img);
 	void collectFish();
 	void catchFish();
 	FfishData calcFish();

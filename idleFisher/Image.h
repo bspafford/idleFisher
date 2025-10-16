@@ -36,7 +36,7 @@ public:
 	vector getAbsoluteLoc();
 	void setRotation(float rot);
 
-	bool isMouseOver();
+	bool isMouseOver(bool ignoreTransparent = false);
 
 	vector getSize();
 	void setSize(vector scale);

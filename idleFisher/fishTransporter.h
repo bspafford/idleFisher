@@ -40,6 +40,8 @@ private:
 	void setLoc(vector loc) override;
 	void click() override;
 
+	bool calcIfPlayerInfront() override;
+
 	std::unique_ptr<AStar> Astar;
 
 	std::unique_ptr<UprogressBar> progressBar;

@@ -38,7 +38,7 @@ void buyAutoFisher::draw(Shader* shaderProgram) {
 		return;
 
 	bool prevMouseOver = bMouseOver;
-	bMouseOver = mouseOver();
+	bMouseOver = plusAnim->spriteSheet->isMouseOver();
 	if (!prevMouseOver && bMouseOver) {
 		plusAnim->setAnimation("hover");
 		Main::hoverObject(NULL);
@@ -99,17 +99,6 @@ int buyAutoFisher::calcAutoFisherId() {
 	int worldMultiplier = (std::stoi(stringNum) - 1) * autoFisherNumPerWorld + autoFisherWorldNum;
 
 	return worldMultiplier;
-}
-
-bool buyAutoFisher::mouseOver() {
-	if (!plusAnim)
-		return false;
-
-	vector mousePos = Main::mousePos;
-	vector screenLoc = math::worldToScreen(plusAnim->getLoc(), "topleft");
-	if (mousePos.x >= screenLoc.x && mousePos.x <= screenLoc.x + plusAnim->cellWidth * stuff::pixelSize && mousePos.y >= screenLoc.y - plusAnim->cellHeight * stuff::pixelSize && mousePos.y <= screenLoc.y)
-		return true;
-	return false;
 }
 
 double buyAutoFisher::calcPrice() {

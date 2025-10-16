@@ -16,8 +16,6 @@ public:
 	void update();
 	bool mouseOverSlot(std::string &name, std::string &description);
 private:
-	bool mouseOver(Image* img);
-
 	std::unique_ptr<Image> charImg;
 
 	// fishing equipped

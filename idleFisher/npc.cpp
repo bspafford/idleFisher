@@ -65,7 +65,15 @@ void npc::setupCollision() {
 }
 
 void npc::draw(Shader* shaderProgram) {
-	mouseOver(npcAnim->spriteSheet);
+	bool prevMouseOver = bMouseOver;
+	bool bMouseOver = npcAnim->spriteSheet->isMouseOver(true); // mouseOver(npcAnim->spriteSheet);
+	if (bMouseOver && Main::bLeftClick)
+		Main::addLeftClick(this, &npc::click);
+	if (!prevMouseOver && bMouseOver)
+		mouseEnter();
+	else if (prevMouseOver && !bMouseOver)
+		mouseExit();
+
 	npcAnim->draw(shaderProgram);
 
 	if (!isDiscovered())
@@ -80,39 +88,6 @@ void npc::setLoc(vector loc) {
 
 	npcAnim->setLoc(loc - vector{ npcAnim->cellWidth / 2.f, float(npcAnim->cellHeight) });
 	exclamationPointAnim->setLoc(npcAnim->getLoc() + vector{npcAnim->cellWidth / 2.f - exclamationPointAnim->cellWidth / 2, float(npcAnim->cellHeight + 1 * stuff::pixelSize) });
-}
-
-bool npc::mouseOver(std::weak_ptr<Image> img) {
-	if (Main::currWidget || !img.lock() || !npcAnim)
-		return false;
-	
-	vector val1 = math::worldToScreen(npcAnim->spriteSheet->getLoc(), "topleft");
-	vector val2 = val1 + (vector{ float(npcAnim->spriteSheet->w), float(-npcAnim->spriteSheet->h) } * stuff::pixelSize);
-	// sorts to make sure min is min and max is max
-	vector max = vector{ math::max(val1.x, val2.x), math::max(val1.y, val2.y) };
-	vector min = vector{ math::min(val1.x, val2.x), math::min(val1.y, val2.y) };
-
-	vector mousePos = Main::mousePos;
-	if (min.x <= mousePos.x && mousePos.x <= max.x && min.y <= mousePos.y && mousePos.y <= max.y) {
-		vector screenPos = min;
-		vector pos = { mousePos.x - screenPos.x, mousePos.y - screenPos.y };
-		glm::vec4 pixelColor = img.lock()->GetPixelColor((int)pos.x, (int)pos.y);
-		if ((int)pixelColor.a != 0) {
-			if (!bMouseOver)
-				mouseEnter();
-
-			if (Main::bLeftClick && bMouseOver)
-				Main::addLeftClick(this, &npc::click);
-				//click();
-
-			return true;
-		}
-		
-	}
-
-	if (bMouseOver)
-		mouseExit();
-	return false;
 }
 
 void npc::click() {
@@ -152,8 +127,4 @@ vector npc::getOffset() {
 
 std::weak_ptr<Image> npc::getCharImg() {
 	return npcAnim->spriteSheet;
-}
-
-void npc::removeDanglingWidget() {
-	widget = nullptr;
 }

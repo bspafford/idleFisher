@@ -343,13 +343,26 @@ std::vector<float> Image::getPositionsList() {
 	return positions;
 }
 
-bool Image::isMouseOver() {
+bool Image::isMouseOver(bool ignoreTransparent) {
+
 	vector screenLoc = loc;
 	if (useWorldPos) {
 		vector mousePos = Main::mousePos;
 		screenLoc = math::worldToScreen(loc, "topleft");
-		if (mousePos.x >= screenLoc.x && mousePos.x <= screenLoc.x + w * stuff::pixelSize && mousePos.y >= screenLoc.y - h * stuff::pixelSize && mousePos.y <= screenLoc.y)
-			return true;
+
+		vector size = getSize();
+		vector min = { screenLoc.x, screenLoc.y - size.y };
+		vector max = { screenLoc.x + size.x, screenLoc.y };
+		if (mousePos.x >= min.x && mousePos.x <= max.x && mousePos.y >= min.y && mousePos.y <= max.y) {
+			if (ignoreTransparent) {
+				vector pos = { mousePos.x - min.x, mousePos.y - min.y };
+				glm::vec4 pixelColor = GetPixelColor((int)pos.x, (int)pos.y);
+				if ((int)pixelColor.a != 0)
+					return true;
+				return false;
+			} else
+				return true;
+		}
 	} else {
 		std::cout << "mousePos: " << Main::mousePos << ", screenLoc: " << screenLoc << ", size: " << vector{ w, h } * stuff::pixelSize << std::endl;
 		bool inX = Main::mousePos.x >= screenLoc.x && Main::mousePos.x <= screenLoc.x + w * stuff::pixelSize;
@@ -359,6 +372,12 @@ bool Image::isMouseOver() {
 	}
 
 	return false;
+
+
+
+	
+
+	
 }
 
 vector Image::getSize() {
