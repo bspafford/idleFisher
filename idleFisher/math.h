@@ -22,7 +22,8 @@ struct vector {
 	}
 
 	vector round() {
-		return vector{ roundf(x), roundf(y) };
+		//return vector{ roundf(x), roundf(y) };
+		return vector{ floorf(x), floorf(y) };
 	}
 
 	// Addition

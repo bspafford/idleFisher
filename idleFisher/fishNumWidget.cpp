@@ -75,6 +75,7 @@ void UfishNumWidget::draw(Shader* shaderProgram) { // , float x, float y
 }
 
 void UfishNumWidget::setLoc(vector loc) {
+	loc = loc.round();
 	__super::setLoc(loc);
 
 	if (thumbnail)

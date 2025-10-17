@@ -362,6 +362,8 @@ void world::start() {
 	Main::twoDWaterShader->setVec3("shallowWaterColor", glm::vec3(206.f / 255.f, 210.f / 255.f, 158.f / 255.f));
 	Main::twoDWaterShader->setFloat("causticSize", 16.f);
 
+	setupAutoFishers();
+
 	// load idle profits
 	Main::loadIdleProfits();
 	if (autoFisherList.size() > 0 && SaveData::saveData.mechanicStruct[0].unlocked) { // if has atleast 1 autofisher and has fish transporter
@@ -418,6 +420,13 @@ void world::makeDrawLists() {
 		buildingList.push_back(mechanicHouse.get());
 	if (petShop)
 		buildingList.push_back(petShop.get());
+
+	std::vector<vector> rockLocs = { { 1068, 699 }, { 1379, 689 } };
+	for (int i = 0; i < rockLocs.size(); i++) {
+		std::unique_ptr<Arock> rock = std::make_unique<Arock>(rockLocs[i]);
+		buildingList.push_back(rock.get());
+		rockList.push_back(std::move(rock));
+	}
 }
 
 void world::draw(Shader* shaderProgram) {
@@ -619,8 +628,6 @@ world1::world1(int worldChangeLoc) {
 	circleImgs = std::vector<std::string>{ circlePath + "1.png", circlePath + "2.png", circlePath + "3.png", circlePath + "4.png"};
 	circle = std::make_unique<Image>(circlePath + "1.png", vector{ 0, 0 }, false);
 
-	setupAutoFishers();
-	
 	sellFish = std::make_unique<dumpster>(vector{ 739+110, 672+50 });
 
 	// npcs
@@ -660,13 +667,6 @@ world1::world1(int worldChangeLoc) {
 	sortTreeList();
 
 	makeDrawLists();
-
-	std::vector<vector> rockLocs = { { 1068, 699 }, { 1379, 689 } };
-	for (int i = 0; i < rockLocs.size(); i++) {
-		std::unique_ptr<Arock> rock = std::make_unique<Arock>(rockLocs[i]);
-		buildingList.push_back(rock.get());
-		rockList.push_back(std::move(rock));
-	}
 
 	std::unordered_map<std::string, animDataStruct> beachData;
 	beachData.insert({ "in", {{0, 0}, {14, 0}, .1, false } });

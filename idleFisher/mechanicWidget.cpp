@@ -49,8 +49,8 @@ UmechanicWidget::UmechanicWidget(npc* parent) {
 	else
 		fishTransporterImg->setColorMod(glm::vec4(glm::vec3(0), 1.f));
 
-	fishTransporterImg->w *= 2.5; // temp
-	fishTransporterImg->h *= 2.5; // temp
+	fishTransporterImg->w *= 2.5;
+	fishTransporterImg->h *= 2.5;
 	level = std::make_unique<text>("0/100", "biggerStraight", vector{ 0, 0 }, false, false, textAlign::right);
 	levelProgress = std::make_unique<UprogressBar>(false, 125, 7);
 	maxHoldText = std::make_unique<text>("Max Hold:", "straight", vector{ 0, 0 });
@@ -95,8 +95,8 @@ void UmechanicWidget::draw(Shader* shaderProgram) {
 
 	nameHolder->draw(shaderProgram);
 
-	fishTransporterImg->draw(shaderProgram);
 	// fish transporter
+	fishTransporterImg->draw(shaderProgram);
 	if (!saveMechanicStruct->unlocked) {
 		buyFishTransporterButton->draw(shaderProgram);
 		buyFishTransporterText->draw(shaderProgram);
@@ -161,7 +161,7 @@ void UmechanicWidget::setupLocs() {
 	}
 
 	// bought fish transporter
-	fishTransporterName->setLoc(upgradeBackground->getLoc() + vector{6, 6} *stuff::pixelSize);
+	fishTransporterName->setLoc(upgradeBackground->getLoc() + vector{6, 6} * stuff::pixelSize);
 	buyFishTransporterText->setLoc(fishTransporterName->getLoc());
 	fishTransporterImg->setLoc(fishTransporterName->loc + vector{ 2 * stuff::pixelSize, fishTransporterName->getSize().y + 15 * stuff::pixelSize});
 
@@ -185,7 +185,6 @@ void UmechanicWidget::setupLocs() {
 	collectSpeedText->setLoc(speedText->getLoc() + vector{ 0, 20 * stuff::pixelSize });
 	collectSpeedValue->setLoc(speedValue->getLoc() + vector{ 0, 20 * stuff::pixelSize });
 	if (buyButton) {
-		//buyButton->setLoc(upgradeBackground->loc + upgradeBackground->getSize() - buyButton->getSize() - vector{ 5, 5 } *stuff::pixelSize);
 		buyButton->setLoc({ xMid - buyButton->getSize().x / 2.f, collectSpeedText->getLoc().y + 20 * stuff::pixelSize });
 		//buyButtonText->setLoc(buyButton->getLoc() + buyButton->getSize() / 2 - buyButtonText->getSize() / 2);
 		multiMax->setLoc(buyButton->getLoc() - vector{ buyButton->getSize().x + 3 * stuff::pixelSize, 0 });
@@ -220,6 +219,8 @@ void UmechanicWidget::update() {
 
 	upgradePriceText->setText(shortNumbers::convert2Short(calcUpgradeCost()));
 
+	Main::currencyWidget->updateList();
+
 	if (world::currWorld->fishTransporter) {
 		maxHoldValue->setText(shortNumbers::convert2Short(world::currWorld->fishTransporter->getMaxHoldNum()));
 		speedValue->setText(shortNumbers::convert2Short(world::currWorld->fishTransporter->getSpeed()));
@@ -228,8 +229,10 @@ void UmechanicWidget::update() {
 }
 
 void UmechanicWidget::upgradeFishTransporter() {
-	if (saveMechanicStruct->level < 100) {
-		// saveMechanicStruct->level++;
+	FsaveCurrencyStruct& currencyStruct = SaveData::saveData.currencyList[math::getWorldIndexFromName(Main::currWorldName)+1];
+	double cost = calcUpgradeCost();
+	if (saveMechanicStruct->level < 100 && currencyStruct.numOwned >= cost) {
+		currencyStruct.numOwned -= cost;
 		if (world::currWorld->fishTransporter)
 			world::currWorld->fishTransporter->upgrade(saveMechanicStruct);
 		update();

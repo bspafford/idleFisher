@@ -12,6 +12,7 @@ Image::Image(std::shared_ptr<Image> image, std::shared_ptr<Rect> source, vector 
 
 	this->useWorldPos = useWorldPos;
 
+	loc = loc.round();
 	this->loc = loc;
 	texture = image->texture;
 
@@ -79,6 +80,7 @@ Image::Image(std::shared_ptr<Image> image, std::shared_ptr<Rect> source, vector 
 Image::Image(std::string image, vector loc, bool useWorldPos) {
 	path = image;
 	this->useWorldPos = useWorldPos;
+	loc = loc.round();
 	this->loc = loc;
 
 	GLenum texType = GL_TEXTURE_2D;
@@ -220,19 +222,19 @@ void Image::setLoc(vector loc) {
 		vector halfScreen = stuff::screenSize / 2.f;
 		vector newLoc;
 		if (xAnchor == anchor::left) { // if anchor left
-			newLoc.x = roundf(loc.x - halfScreen.x);
+			newLoc.x = floorf(loc.x - halfScreen.x);
 		} else if (xAnchor == anchor::right) { // if anchor right
-			newLoc.x = roundf(loc.x + halfScreen.x - w * stuff::pixelSize);
+			newLoc.x = floorf(loc.x + halfScreen.x - w * stuff::pixelSize);
 		} else if (xAnchor == anchor::center) {
-			newLoc.x = roundf(loc.x - w * stuff::pixelSize / 2.f);
+			newLoc.x = floorf(loc.x - w * stuff::pixelSize / 2.f);
 		}
 
 		if (yAnchor == anchor::top) { // if anchor top
-			newLoc.y = roundf(loc.y - halfScreen.y + h * stuff::pixelSize);
+			newLoc.y = floorf(loc.y - halfScreen.y + h * stuff::pixelSize);
 		} else if (yAnchor == anchor::bottom) { // if anchor bottom
-			newLoc.y = roundf(loc.y + halfScreen.y);
+			newLoc.y = floorf(loc.y + halfScreen.y);
 		} else if (yAnchor == anchor::center) { // if anchor bottom
-			newLoc.y = roundf(loc.y + h * stuff::pixelSize / 2.f);
+			newLoc.y = floorf(loc.y + h * stuff::pixelSize / 2.f);
 		}
 
 		absoluteLoc = newLoc.round();
@@ -251,12 +253,11 @@ vector Image::getAbsoluteLoc() {
 
 void Image::updatePositionsList(std::vector<float> positions) {
 	currVAO->Bind();
-	//currVBO->Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
 
 	// round positions list
 	for (int i = 0; i < positions.size(); i++) {
-		positions[i] = roundf(positions[i]);
+		positions[i] = floorf(positions[i]);
 	}
 
 	// updates the tex coords
@@ -344,7 +345,6 @@ std::vector<float> Image::getPositionsList() {
 }
 
 bool Image::isMouseOver(bool ignoreTransparent) {
-
 	vector screenLoc = loc;
 	if (useWorldPos) {
 		vector mousePos = Main::mousePos;
@@ -364,7 +364,6 @@ bool Image::isMouseOver(bool ignoreTransparent) {
 				return true;
 		}
 	} else {
-		std::cout << "mousePos: " << Main::mousePos << ", screenLoc: " << screenLoc << ", size: " << vector{ w, h } * stuff::pixelSize << std::endl;
 		bool inX = Main::mousePos.x >= screenLoc.x && Main::mousePos.x <= screenLoc.x + w * stuff::pixelSize;
 		bool inY = Main::mousePos.y >= screenLoc.y && Main::mousePos.y <= screenLoc.y + h * stuff::pixelSize;
 		if (inX && inY)
@@ -372,12 +371,6 @@ bool Image::isMouseOver(bool ignoreTransparent) {
 	}
 
 	return false;
-
-
-
-	
-
-	
 }
 
 vector Image::getSize() {

@@ -12,7 +12,7 @@ AStar::AStar() {
 
 void AStar::init() {
 	gridWorldSize = { 350, 175 };
-	nodeSize = 8;
+	nodeSize = 7;
 
 	gridSize.x = round(gridWorldSize.x / nodeSize * stuff::pixelSize);
 	gridSize.y = round(gridWorldSize.y / nodeSize * stuff::pixelSize);
@@ -26,22 +26,22 @@ void AStar::init() {
 			// do col test
 			vector loc = vector{ nodeSize * x, nodeSize * y } + gridOffset;
 
-			std::vector<vector> temp = std::vector<vector>(4);
-			temp[0] = loc;
-			temp[1] = loc + vector{ nodeSize, 0 };
-			temp[2] = loc + vector{ nodeSize, nodeSize };
-			temp[3] = loc + vector{ 0, nodeSize };
-			std::unique_ptr<Fcollision> col = std::make_unique<Fcollision>(temp, "");
+			std::vector<vector> nodeList = std::vector<vector>(4);
+			nodeList[0] = loc;
+			nodeList[1] = loc + vector{ nodeSize, 0 };
+			nodeList[2] = loc + vector{ nodeSize, nodeSize };
+			nodeList[3] = loc + vector{ 0, nodeSize };
+			std::unique_ptr<Fcollision> col = std::make_unique<Fcollision>(nodeList, "");
 
 			bool walkable = true;
 			for (int i = 0; i < collision::allCollision.size(); i++) {
-				if (collision::isCloseEnough(col.get(), collision::allCollision[i])) {
+				//if (collision::isCloseEnough(col.get(), collision::allCollision[i])) {
 					vector normal;
 					float depth;
-					if (collision::intersectPolygons(temp, collision::allCollision[i]->points, normal, depth)) {
+					if (collision::intersectPolygons(nodeList, collision::allCollision[i]->points, normal, depth)) {
 						walkable = false;
 					}
-				}
+				//}
 			}
 
 			grid[y][x] = new node(walkable, loc, x, y);
@@ -64,17 +64,10 @@ void AStar::drawBoard(Shader* shaderProgram) {
 	if (path.get())
 		path.get()->draw(shaderProgram);
 
-	/*
-	glm::vec4 color = glm::vec4(255, 0, 255, 50);
-	URectangle rect(gridOffset, gridWorldSize * stuff::pixelSize * stuff::pixelSize, true, color);
-	rect.draw(shaderProgram);
-	return;
-	*/
-
 	// draw grid
 	for (int y = 0; y < gridSize.y; y++) {
 		for (int x = 0; x < gridSize.x; x++) {
-			vector loc = grid[y][x]->loc;// math::worldToScreen(grid[y][x]->loc, "topleft");
+			vector loc = grid[y][x]->loc;
 			glm::vec4 color;
 			if (grid[y][x]->parent)
 				color = glm::vec4(255, 0, 255, 50);
@@ -164,12 +157,10 @@ vector AStar::followPath(vector loc, float deltaTime, float speed) {
 		}
 		// distance from current pos to end,		how far the character moves each frame
 	} else if (math::distance(targetPos, pos) >= math::length(math::normalize(targetPos - pos) * deltaTime * speed)) { // if outside of target position range
-		std::cout << "going to target pos!\n";
 		// go to end point
 		vector diff = math::normalize(targetPos - pos) * deltaTime;
 		return diff;
 	} else { // if at target position
-		std::cout << "at target pos!\n";
 		followingPath = false;
 		finished = true;
 

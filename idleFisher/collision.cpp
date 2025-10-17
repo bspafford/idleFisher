@@ -118,8 +118,10 @@ void collision::getCollisionObjects() {
 
 void collision::removeCollisionObject(Fcollision* collision) {
 	auto it = std::find(allCollision.begin(), allCollision.end(), collision);
-	if (it != allCollision.end())
+	if (it != allCollision.end()) {
 		allCollision.erase(it);
+		std::cout << "removing collision!\n";
+	}
 }
 
 bool collision::mouseOverWater(vector mousePos, std::vector<Fcollision*> allCollision) {

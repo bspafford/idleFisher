@@ -14,7 +14,7 @@ text::text(std::string text, std::string font, vector loc, bool useWorldPos, boo
 	this->textString = text;
 	this->alignment = alignment;
 	this->font = font;
-	this->loc = loc;
+	this->loc = loc.round();
 	this->isometric = isometric;
 	this->useWorldPos = useWorldPos;
 
@@ -275,13 +275,13 @@ void text::makeTextTexture() {
 	Main::twoDShader->Activate();
 	Main::twoDShader->setMat4("projection", Main::camera->getProjectionMat(fboSize));
 
-	//vector scaledLoc = { 0, 0 };// (-stuff::screenSize / 2.f + vector{ 0, fboSize.y })* vector { 1, -1 }; // need to add fboSize.y cause i flip the axis
+	absoluteLoc = absoluteLoc.round();
 	vector scaledLoc = absoluteLoc * vector{ 1, -1 };
 	if (useWorldPos)
 		scaledLoc = absoluteLoc * stuff::pixelSize;
 
 	float positions[] = {
-		// Positions // Texture Coords
+		// Positions											// Texture Coords
 		fboSize.x + scaledLoc.x,	scaledLoc.y,				1.f, 1.f,	// Bottom-right
 		fboSize.x + scaledLoc.x,	fboSize.y + scaledLoc.y,	1.f, 0.f,	// Top-right // idk why the y texCoords have to be flipped
 		scaledLoc.x,				fboSize.y + scaledLoc.y,	0.f, 0.f,	// Top-left
@@ -326,11 +326,8 @@ void text::makeTextTexture() {
 		std::cerr << "FBO is incomplete!" << std::endl;
 	}
 
-	// Render to the FBO
 
-	// draw stuff here
-	//glClearColor(0, 0, 0, 1);
-	//glClear(GL_COLOR_BUFFER_BIT);
+	// Renders to the FBO
 	for (int i = 0; i < letters.size(); i++)
 		if (letters[i]) {
 			letters[i]->setLoc((letters[i]->getLoc() - fboSize / 2.f + letters[i]->getSize() / 2.f)); // positions top left of frame buffer
@@ -348,41 +345,15 @@ void text::makeTextTexture() {
 }
 
 void text::draw(Shader* shaderProgram) {
-	/*
-	if (!visible)
-		return;
-
-	if (!SaveData::settingsData.pixelFont && normFont) {
-		normFont->draw(shaderProgram);
-		return;
-	}
-
-	vector tempLoc = loc;
-	if (useWorldPos) {
-		tempLoc = math::worldToScreen(tempLoc, "topleft");
-	}
-
-	if (alignment == textAlign::right)
-		tempLoc.x -= size.x;
-
-	if (alignment == textAlign::center)
-		tempLoc.x -= size.x / 2;
-
-	setLoc(tempLoc);
-	*/
-
-	drawTexture(shaderProgram, textTexture);
-
-	/*
-	for (int i = 0; i < letters.size(); i++)
-		if (letters[i])
-			letters[i]->draw(Main::twoDShader);
-	setTextColor(colorMod.r, colorMod.g, colorMod.b);
-	//*/
-
-	//letters[0]->draw(Main::twoDShader);
-
-	// now render the fbo elsewhere
+	//if (textString == "Fish Transporter") {
+		//setLoc({ 0, 0 });
+		//absoluteLoc = { 0, 0 };
+		//loc = { 0, 0 };
+		//updatePositionsList();
+		drawTexture(shaderProgram, textTexture);
+		//for (int i = 0; i < letters.size(); i++)
+			//letters[i]->draw(shaderProgram);
+	//}
 }
 
 void text::setLocAndSize(vector loc, vector size) {
@@ -391,18 +362,17 @@ void text::setLocAndSize(vector loc, vector size) {
 
 void text::setLoc(vector loc) {
 	__super::setLoc(loc);
-
 	// this is the non pixel font
 	if (normFont) {
 		if (alignment == textAlign::center) {
-			this->loc = loc - vector{ (normFont->getSize().x / 2.f), 0 };
-			normFont->setLoc(loc - vector{ (normFont->getSize().x / 2.f), 0 });
+			this->loc = (loc - vector{ (normFont->getSize().x / 2.f), 0 }).round();
+			normFont->setLoc(this->loc);
 		} else if (alignment == textAlign::right) {
-			this->loc = loc - vector{ (normFont->getSize().x), 0 };
-			normFont->setLoc(loc - vector{ (normFont->getSize().x), 0 });
+			this->loc = (loc - vector{ (normFont->getSize().x), 0 }).round();
+			normFont->setLoc(this->loc);
 		} else {
-			this->loc = loc;
-			normFont->setLoc(loc);
+			this->loc = (loc - vector{ (normFont->getSize().x / 2.f), 0 }).round();
+			normFont->setLoc(this->loc);
 		}
 	}
 
@@ -421,6 +391,7 @@ void text::setLoc(vector loc) {
 		} else if (alignment == textAlign::center) {
 			absoluteLoc = loc - vector{ getSize().x / 2.f, 0.f };
 		}
+		absoluteLoc = absoluteLoc.round();
 
 		updatePositionsList();
 	} else {
@@ -437,6 +408,7 @@ void text::setLoc(vector loc) {
 		} else if (alignment == textAlign::center) {
 			absoluteLoc = loc - vector{ (getSize().x / 2.f), 0.f };
 		}
+		absoluteLoc.round();
 
 		updatePositionsList();
 	}
@@ -455,9 +427,9 @@ void text::updatePositionsList() {
 	float y2 = 1;
 
 	vector scale = getSize();
-	vector scaledLoc = absoluteLoc * vector{ 1, -1 };
+	vector scaledLoc = (absoluteLoc * vector{ 1, -1 }).round();
 	if (useWorldPos)
-		scaledLoc = absoluteLoc * stuff::pixelSize;
+		scaledLoc = (absoluteLoc * stuff::pixelSize).round();
 	float positions[] = {
 		// Positions // Texture Coords
 		fboSize.x + scaledLoc.x,	scaledLoc.y,				1.f, 0.f,	// Bottom-right
@@ -534,12 +506,6 @@ void text::setupLocs() {
 }
 
 void text::drawTexture(Shader* shaderProgram, GLuint textureID) {
-	/*
-	if (textString == "10.6k")
-		for (int i = 0; i < letters.size(); i++)
-			letters[i]->draw(shaderProgram);
-	return;
-	*/
 	if (!currVAO)
 		return;
 

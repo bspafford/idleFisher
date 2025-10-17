@@ -181,6 +181,8 @@ void AfishTransporter::startPathFinding() {
 }
 
 void AfishTransporter::draw(Shader* shaderProgram) {
+	//Astar->drawBoard(shaderProgram);
+
 	npcAnim->draw(shaderProgram);
 	fishPileAnim->draw(shaderProgram);
 
@@ -193,8 +195,6 @@ void AfishTransporter::draw(Shader* shaderProgram) {
 	}
 
 	progressBar->draw(shaderProgram);
-
-	//Astar->drawBoard(shaderProgram);
 }
 
 void AfishTransporter::update(float deltaTime) {

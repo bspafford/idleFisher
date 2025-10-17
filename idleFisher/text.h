@@ -77,7 +77,7 @@ private:
 	unsigned char* textTex;
 
 	std::shared_ptr<Image> textImg;
-	std::vector<FtextInfo> textInfo = std::vector<FtextInfo>(126);//new FtextInfo[126];
+	std::vector<FtextInfo> textInfo = std::vector<FtextInfo>(126);
 
 	bool alreadySetText = false;
 	glm::vec4 colorMod = glm::vec4(1.f);
