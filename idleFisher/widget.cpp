@@ -13,6 +13,13 @@ widget::widget(widget* parent) {
 	instances.insert(this);
 
 	this->parent = parent;
+	// add this as parents child
+
+	if (parent) {
+		parent->children.push_back(this);
+		setRootParent(parent->getRootParent());
+	} else // if parent null, this is the root
+		setRootParent(this);
 }
 
 widget::~widget() {
@@ -114,16 +121,59 @@ widget* widget::getParent() {
 	return parent;
 }
 
-void widget::setParent(widget* parent) {
-	if (this == parent)
-		std::cerr << "Parent cannot be itself\n";
+void widget::setParent(widget* newParent) {
+	// its the same parent
+	if (parent == newParent)
+		return;
 
-	this->parent = parent;
+	if (this == newParent) {
+		std::cerr << "Parent cannot be itself\n";
+		return;
+	}
+
+	// when removing object from parent, remove this child from parents child list, then update this and all childrens root parents
+	if (parent) {
+		// remove this from parents child list
+		std::vector<widget*>& siblings = this->parent->children;
+		auto it = std::find(siblings.begin(), siblings.end(), this);
+		if (it != siblings.end())
+			siblings.erase(it);
+	}
+
+	// update parent
+	parent = newParent;
+	
+	// update root parent
+	rootParent = recalcRootParent();
+
+	// add this to new parents child list
+	if (parent)
+		parent->children.push_back(this);
+
+	// update recursively all childrens parents to new root parent
+	updateAllChildrensRootParent(this, rootParent);
 }
 
-widget* widget::getRootParent() {
+widget* widget::recalcRootParent() {
 	widget* curr = this;
 	while (curr->getParent() != nullptr)
 		curr = curr->getParent();
 	return curr;
+}
+
+void widget::updateAllChildrensRootParent(widget* curr, widget* newRootParent) {
+	// DFS all children and set new root parent
+	if (!curr) return;
+	for (widget* child : curr->children) {
+		child->setRootParent(newRootParent);
+		updateAllChildrensRootParent(child, newRootParent);
+	}
+}
+
+widget* widget::getRootParent() {
+	return rootParent;
+}
+
+void widget::setRootParent(widget* rootParent) {
+	this->rootParent = rootParent;
 }

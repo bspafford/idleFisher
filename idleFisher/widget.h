@@ -51,8 +51,15 @@ public:
 	vector size = { 0, 0 };
 
 	widget* getParent();
-	void setParent(widget* parent);
+	void setParent(widget* newParent);
+	// returns root parent variable
 	widget* getRootParent();
+	void updateAllChildrensRootParent(widget* curr, widget* newRootParent);
 private:
 	widget* parent = nullptr;
+	widget* rootParent = nullptr;
+	// calculates the root parent from this objects position
+	widget* recalcRootParent();
+	void setRootParent(widget* rootParent);
+	std::vector<widget*> children;
 };
