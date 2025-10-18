@@ -172,6 +172,7 @@ int Main::createWindow() {
 		// process input
 		glfwPollEvents();
 
+		leftClickCallback = nullptr;
 		Update(deltaTime);
 		updateShaders(deltaTime);
 		switchingWorld = false;
@@ -230,6 +231,10 @@ int Main::createWindow() {
 			shaderProgram->setInt("shadowOnly", 1);
 			draw3D(shaderProgram);
 		}
+
+		// make sure its the same item thats being hovered and clicked
+		if (checkValidInteract() && leftClickCallback)
+			leftClickCallback();
 
 		glfwSwapBuffers(window);
 
@@ -399,11 +404,10 @@ void Main::setHoveredItem(IHoverable* item) {
 }
 
 void Main::calcMouseImg() {
-	std::cout << "hoveredItem: " << hoveredItem << std::endl;
-
-	if (hoveredItem && currCursor != "cursor1")
+	bool canHover = checkValidInteract();
+	if (hoveredItem && canHover && currCursor != "cursor1")
 		setMouseImg("cursor1");
-	else if (!hoveredItem && currCursor != "cursor")
+	else if ((!hoveredItem || !canHover) && currCursor != "cursor")
 		setMouseImg("cursor");
 
 	// resets hoveredItem
@@ -465,8 +469,6 @@ void Main::draw3D(Shader* shaderProgram) {
 void Main::draw(Shader* shaderProgram) {
 	shaderProgram->Activate();
 	
-	leftClickList.clear();
-
 	if (titleScreen::currTitleScreen && currWorldName == "titleScreen")
 		titleScreen::currTitleScreen->draw(shaderProgram);
 	else if (currWorldName == "vault") {
@@ -476,9 +478,6 @@ void Main::draw(Shader* shaderProgram) {
 	} else if (currWorldName.find("world") != std::string::npos)
 		world::currWorld->draw(shaderProgram);
 
-	// draw A* pathfinding grid
-	//Astar::drawBoard(shaderProgram);
-
 	if (currWidget)
 		currWidget->draw(shaderProgram);
 
@@ -486,12 +485,6 @@ void Main::draw(Shader* shaderProgram) {
 
 	// draw collision
 	//collision::showCollisionBoxes(shaderProgram);
-	// draw mouse // draw last
-
-	// call last function in list
-	if (leftClickList.size() > 0)
-		leftClickList[leftClickList.size() - 1]();
-
 }
 
 void Main::windowSizeCallback(GLFWwindow* window, int width, int height) {
@@ -500,8 +493,6 @@ void Main::windowSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 void Main::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	
-
 	if (action == GLFW_PRESS && key != -1) {
 		if (key == GLFW_KEY_ESCAPE && currWorldName != "titleScreen") {
 			//glfwSetWindowShouldClose(window, true);
@@ -735,10 +726,13 @@ void Main::loadIdleProfits() {
 		world::currWorld->atm->calcIdleProfits(timeDiff);
 }
 
-void Main::addLeftClick(void (*callback) ()) {
-	leftClickList.push_back(callback);
-}
-
-void Main::addLeftClick(std::function<void()> callback) {
-	leftClickList.push_back(callback);
+bool Main::checkValidInteract() {
+	if (!hoveredItem)
+		return false;
+	// if object is widget, then check if its part of the override widget
+	// if no overriding widget left click
+	widget* _widget = dynamic_cast<widget*>(hoveredItem);
+	if (!currWidget || (currWidget && _widget && _widget->getRootParent() == currWidget))
+		return true;
+	return false;
 }

@@ -11,6 +11,7 @@
 
 widget::widget(widget* parent) {
 	instances.insert(this);
+
 	this->parent = parent;
 }
 
@@ -114,5 +115,15 @@ widget* widget::getParent() {
 }
 
 void widget::setParent(widget* parent) {
+	if (this == parent)
+		std::cerr << "Parent cannot be itself\n";
+
 	this->parent = parent;
+}
+
+widget* widget::getRootParent() {
+	widget* curr = this;
+	while (curr->getParent() != nullptr)
+		curr = curr->getParent();
+	return curr;
 }

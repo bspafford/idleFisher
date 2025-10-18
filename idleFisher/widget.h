@@ -52,6 +52,7 @@ public:
 
 	widget* getParent();
 	void setParent(widget* parent);
+	widget* getRootParent();
 private:
-	widget* parent = NULL;
+	widget* parent = nullptr;
 };

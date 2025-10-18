@@ -105,7 +105,7 @@ void autoFisherUI::upgrade() {
 }
 
 void autoFisherUI::moveButtonText(int frame) {
-	std::vector<vector> delta = std::vector<vector>{ {0, 0}, { -3, -3 }, {1, 1}, {3, 2}, {-1, 0} };
+	std::vector<vector> delta = std::vector<vector>{ {0, 0}, { -3, 3 }, {1, -1}, {3, -2}, {-1, 0} };
 	buttonText->setLoc(buttonText->loc + delta[frame]);
 
 	if (frame == 0)

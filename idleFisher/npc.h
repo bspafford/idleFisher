@@ -14,7 +14,7 @@
 class Shader;
 class Image;
 
-class npc : IHoverable {
+class npc : public IHoverable {
 protected:
 	npc(vector loc);
 public:

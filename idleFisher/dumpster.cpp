@@ -29,7 +29,7 @@ void dumpster::onHover() {
 	}
 
 	if (bMouseOver && Main::bLeftClick && !Main::currWidget)
-		Main::addLeftClick(this, &dumpster::sellFish);
+		Main::setLeftClick(this, &dumpster::sellFish);
 }
 
 void dumpster::draw(Shader* shaderProgram) {

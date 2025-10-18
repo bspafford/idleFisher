@@ -17,7 +17,7 @@ class Ubutton;
 class animation;
 class Fcollision;
 
-class AautoFisher : IHoverable {
+class AautoFisher : public IHoverable {
 public:
 	AautoFisher(int id);
 	~AautoFisher();

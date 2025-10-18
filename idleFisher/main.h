@@ -119,14 +119,17 @@ public:
 	static inline bool switchingWorld = false;
 	static inline std::string prevWorld = "world1"; // the previous world before entering the vault
 
+private:
 	// mouse input
-	static inline std::vector<std::function<void()>> leftClickList; // which items were clicked that frame
-	// static
-	static void addLeftClick(void (*callback) ());
-	static void addLeftClick(std::function<void()> callback);
-	// non static
-	template <class T> static void addLeftClick(T* const object, void (T::* const callback) ()) {
-		leftClickList.push_back(std::bind_front(callback, object));
+
+	// which items were clicked that frame
+	// 
+	static inline std::function<void()> leftClickCallback;
+	// prevents players from clicking through UIs
+	static inline bool checkValidInteract();
+public:
+	template <class T> static void setLeftClick(T* const object, void (T::* const callback) ()) {
+		leftClickCallback = std::bind_front(callback, object);
 	}
 	static inline bool bLeftClick = false;
 	static inline bool bRightClick = false;

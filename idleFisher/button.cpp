@@ -54,9 +54,9 @@ void Ubutton::onHover(Shader* shaderProgra) {
 			Main::setHoveredItem(this);
 			if (!prevMouseOver && hasHover && buttonAnim)
 				buttonAnim->setAnimation("hover");
+			if (Main::bLeftClick)
+				Main::setLeftClick(this, &Ubutton::onClick);
 		}
-		if (Main::bLeftClick && (!Main::currWidget || widgetClass == Main::currWidget))
-			onClick();
 	} else if (buttonAnim && prevMouseOver) {
 		if (buttonAnim)
 			buttonAnim->setAnimation("click");
@@ -89,7 +89,7 @@ void Ubutton::onClick() {
 	// Mix_PlayChannel(-1, sounds::buttonClick, 0);
 
 	if (callback_)
-		Main::addLeftClick(callback_);
+		callback_();
 }
 
 void Ubutton::enable(bool enabled) {

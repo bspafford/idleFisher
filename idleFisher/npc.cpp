@@ -68,7 +68,7 @@ void npc::draw(Shader* shaderProgram) {
 	bool prevMouseOver = bMouseOver;
 	bool bMouseOver = npcAnim->spriteSheet->isMouseOver(true); // mouseOver(npcAnim->spriteSheet);
 	if (bMouseOver && Main::bLeftClick)
-		Main::addLeftClick(this, &npc::click);
+		Main::setLeftClick(this, &npc::click);
 	if (bMouseOver)
 		Main::setHoveredItem(this);
 

@@ -48,7 +48,7 @@ void buyAutoFisher::draw(Shader* shaderProgram) {
 	}
 
 	if (bMouseOver && Main::bLeftClick && !Main::currWidget)
-		Main::addLeftClick(this, &buyAutoFisher::spawnAutoFisher);
+		Main::setLeftClick(this, &buyAutoFisher::spawnAutoFisher);
 
 	calcIfPlayerInFront();
 	plusAnim->draw(shaderProgram);
