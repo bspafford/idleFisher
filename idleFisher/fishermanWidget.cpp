@@ -10,6 +10,7 @@
 #include "shortNumbers.h"
 
 UfishermanWidget::UfishermanWidget(widget* parent, npc* NPCParent) : widget(parent) {
+	std::cout << "this fishermanwidget: " << this << "\n";
 	this->NPCParent = NPCParent;
 
 	closeButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
@@ -77,7 +78,7 @@ void UfishermanWidget::setup() {
 		FbaitStruct* currData = &SaveData::data.baitData[i];
 		FsaveBaitStruct* currSaveData = &SaveData::saveData.baitList[currData->id];
 
-		std::unique_ptr<UupgradeBox> upgradeBox = std::make_unique<UupgradeBox>(this, currData, currSaveData);
+		std::unique_ptr<UupgradeBox> upgradeBox = std::make_unique<UupgradeBox>(baitHolderList.get(), this, currData, currSaveData);
 		if (upgradeBox->buyButton)
 			upgradeBox->buyButton->setParent(baitHolderList.get());
 		baitHolderList->addChild(upgradeBox.get(), upgradeBox->getSize().y);

@@ -14,7 +14,8 @@
 #include "merchantWidget.h"
 #include "fishermanWidget.h"
 
-UupgradeBox::UupgradeBox(widget* parent, FworldStruct* worldStruct, FsaveWorldStruct* saveWorldStruct) : widget(parent) {
+UupgradeBox::UupgradeBox(widget* parent, widget* NPCWidget, FworldStruct* worldStruct, FsaveWorldStruct* saveWorldStruct) : widget(parent) {
+	this->NPCWidget = NPCWidget;
 	this->worldStruct = worldStruct;
 	this->saveWorldStruct = saveWorldStruct;
 
@@ -30,7 +31,8 @@ UupgradeBox::UupgradeBox(widget* parent, FworldStruct* worldStruct, FsaveWorldSt
 	setup();
 }
 
-UupgradeBox::UupgradeBox(widget* parent, FbaitStruct* baitStruct, FsaveBaitStruct* saveBaitStruct) : widget(parent) {
+UupgradeBox::UupgradeBox(widget* parent, widget* NPCWidget, FbaitStruct* baitStruct, FsaveBaitStruct* saveBaitStruct) : widget(parent) {
+	this->NPCWidget = NPCWidget;
 	this->baitStruct = baitStruct;
 	this->saveBaitStruct = saveBaitStruct;
 
@@ -50,7 +52,8 @@ UupgradeBox::UupgradeBox(widget* parent, FbaitStruct* baitStruct, FsaveBaitStruc
 	setup();
 }
 
-UupgradeBox::UupgradeBox(widget* parent, FpetStruct* petStruct, FsavePetStruct* savePetStruct) : widget(parent) {
+UupgradeBox::UupgradeBox(widget* parent, widget* NPCWidget, FpetStruct* petStruct, FsavePetStruct* savePetStruct) : widget(parent) {
+	this->NPCWidget = NPCWidget;
 	this->petStruct = petStruct;
 	this->savePetStruct = savePetStruct;
 
@@ -68,7 +71,8 @@ UupgradeBox::UupgradeBox(widget* parent, FpetStruct* petStruct, FsavePetStruct* 
 	setup();
 }
 
-UupgradeBox::UupgradeBox(widget* parent, FupgradeStruct* upgradeStruct, FsaveUpgradeStruct* saveUpgradeStruct) : widget(parent) {
+UupgradeBox::UupgradeBox(widget* parent, widget* NPCWidget, FupgradeStruct* upgradeStruct, FsaveUpgradeStruct* saveUpgradeStruct) : widget(parent) {
+	this->NPCWidget = NPCWidget;
 	this->upgradeStruct = upgradeStruct;
 	this->saveUpgradeStruct = saveUpgradeStruct;
 
@@ -84,7 +88,8 @@ UupgradeBox::UupgradeBox(widget* parent, FupgradeStruct* upgradeStruct, FsaveUpg
 	setup();
 }
 
-UupgradeBox::UupgradeBox(widget* parent, FvaultUnlocksStruct* vaultUnlocksStruct, FsaveVaultUnlocksStruct* saveVaultUnlocksStruct) : widget(parent) {
+UupgradeBox::UupgradeBox(widget* parent, widget* NPCWidget, FvaultUnlocksStruct* vaultUnlocksStruct, FsaveVaultUnlocksStruct* saveVaultUnlocksStruct) : widget(parent) {
+	this->NPCWidget = NPCWidget;
 	this->vaultUnlocksStruct = vaultUnlocksStruct;
 	this->saveVaultUnlocksStruct = saveVaultUnlocksStruct;
 
@@ -133,11 +138,8 @@ void UupgradeBox::setup() {
 				buttonPriceText->setText("equip");
 		} else {
 			buyButton->enable(false);
-			//buyButton->setImg("./images/widget/upgradeButton3.png");
 		}
 	}
-
-	//update();
 }
 
 void UupgradeBox::draw(Shader* shaderProgram) {
@@ -178,13 +180,13 @@ void UupgradeBox::draw(Shader* shaderProgram) {
 	if (mouseOver()) {
 		// disable scissor test cause its inside of scroll box and will get culled otherwise
 		glDisable(GL_SCISSOR_TEST);
-		if (NPCwidget* widget = dynamic_cast<NPCwidget*>(getParent())) {
+		if (NPCwidget* widget = dynamic_cast<NPCwidget*>(NPCWidget)) {
 			if (widget->name->getString() != nameString)
 				widget->setNameDescription(nameString, descriptionString);
-		} else if (UmerchantWidget* widget = dynamic_cast<UmerchantWidget*>(getParent())) {
+		} else if (UmerchantWidget* widget = dynamic_cast<UmerchantWidget*>(NPCWidget)) {
 			if (widget && widget->name->getString() != nameString)
 				widget->setNameDescription(nameString, descriptionString);
-		} else if (UfishermanWidget* widget = dynamic_cast<UfishermanWidget*>(getParent())) {
+		} else if (UfishermanWidget* widget = dynamic_cast<UfishermanWidget*>(NPCWidget)) {
 			if (widget && widget->name->getString() != nameString) {
 				widget->setNameDescription(nameString, buffString, debuffString);
 			}
@@ -294,7 +296,7 @@ void UupgradeBox::buyUpgrade() {
 			if (petStruct) {
 				// since happening after function its gotta be reversed
 				if (Main::pet.get() && petStruct == Main::pet->getPetStruct()) {
-					NPCwidget* npcWidget = dynamic_cast<NPCwidget*>(getParent());
+					NPCwidget* npcWidget = dynamic_cast<NPCwidget*>(NPCWidget);
 					if (npcWidget)
 						for (int i = 0; i < npcWidget->upgradeHolder->childList.size(); i++) {
 							widget* child = npcWidget->upgradeHolder->childList[i].child;
@@ -309,7 +311,7 @@ void UupgradeBox::buyUpgrade() {
 			} else if (baitStruct) {
 				// since happening after function its gotta be reversed
 				if (baitStruct->id == SaveData::saveData.equippedBait.id) {
-					UfishermanWidget* fishermanWidget = dynamic_cast<UfishermanWidget*>(getParent());
+					UfishermanWidget* fishermanWidget = dynamic_cast<UfishermanWidget*>(NPCWidget);
 					if (fishermanWidget)
 						for (int i = 0; i < fishermanWidget->baitHolderList->childList.size(); i++) {
 							widget* child = fishermanWidget->baitHolderList->childList[i].child;

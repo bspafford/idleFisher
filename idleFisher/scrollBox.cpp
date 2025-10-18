@@ -42,8 +42,6 @@ void UscrollBox::scrolling() {
 	vector diff = mouseStartPos - startLoc;
 	loc.y = math::clamp(Main::mousePos.y - diff.y, -overflowSizeY + size.y, 0);
 
-	std::cout << "loc: " << loc << ", mouse pos diff: " << Main::mousePos.y - diff.y << ", " << -overflowSizeY << " + " << size.y << std::endl;
-
 	// need to set location of all the children
 	float yOffset = 0;
 	for (vertChildComp comp : childList) {

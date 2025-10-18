@@ -63,8 +63,8 @@ void UmerchantWidget::setup() {
 			
 			worldIndex++;
 		}
-		
-		std::unique_ptr<UupgradeBox> upgradeBox = std::make_unique<UupgradeBox>(this, currData, currSaveData);
+
+		std::unique_ptr<UupgradeBox> upgradeBox = std::make_unique<UupgradeBox>(upgradeHolderList[upgradeHolderList.size() - 1].get(), this, currData, currSaveData);
 		if (upgradeBox->buyButton)
 			upgradeBox->buyButton->setParent(upgradeHolderList[upgradeHolderList.size() - 1].get());
 		upgradeHolderList[upgradeHolderList.size() - 1]->addChild(upgradeBox.get(), upgradeBox->getSize().y);

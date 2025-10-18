@@ -20,8 +20,6 @@ text::text(widget* parent, std::string text, std::string font, vector loc, bool 
 
 	loadTextImg();
 	setText(text);
-
-	alreadySetText = true;
 }
 
 text::~text() {
@@ -129,8 +127,16 @@ void text::loadTextImg() {
 					token.erase(0, pos1 + delimiter1.length());
 					textInfo[32].loc = { float(xOffset), float(lineNum) };
 				}
-				
+
 				token1 = 32;
+			} else if (token.find("58:") != std::string::npos) {
+				line.erase(0, pos + delimiter.length());
+				if ((pos1 = token.find(":")) != std::string::npos) {
+					token.erase(0, pos1 + delimiter1.length());
+					textInfo[58].loc = { float(xOffset), float(lineNum) };
+				}
+
+				token1 = 58;
 			} else {
 				line.erase(0, pos + delimiter.length());
 				while ((pos1 = token.find(":")) != std::string::npos) {
@@ -160,6 +166,11 @@ void text::makeText(int i, std::string text, vector &offset) {
 	}
 
 	FtextInfo currInfo = textInfo[text[i]];
+	if (currInfo.loc.x == 0 && currInfo.loc.y == 0 && currInfo.size.x == 0 && currInfo.size.y == 0) {
+		std::cout << "Char is not in list: '" << text[i] << "' (" << (int)text[i] << ") not in '" << font << "'\n";
+		throw std::runtime_error("Character is not in list");
+	}
+
 	std::shared_ptr<Rect> source = std::make_shared<Rect>(currInfo.loc.x, currInfo.loc.y, currInfo.size.x, currInfo.size.y);
 
 	if (textString == "Feed Fish")
@@ -208,15 +219,15 @@ void text::makeText(int i, std::string text, vector &offset) {
 }
 
 void text::setText(std::string text) {
+	textString = text;
+	
+	if (text == "")
+		return;
+
 	if (!SaveData::settingsData.pixelFont) {
-		textString = text;
 		changeFont();
 	} else {
-		if (alreadySetText) {
-			// when starting its looping through an empty list
-			letters.clear();
-		}
-		textString = text;
+		letters.clear();
 		letters = std::vector<std::unique_ptr<Image>>(text.size());
 
 		vector offset = { 0, 0 };
@@ -345,15 +356,9 @@ void text::makeTextTexture() {
 }
 
 void text::draw(Shader* shaderProgram) {
-	//if (textString == "Fish Transporter") {
-		//setLoc({ 0, 0 });
-		//absoluteLoc = { 0, 0 };
-		//loc = { 0, 0 };
-		//updatePositionsList();
-		drawTexture(shaderProgram, textTexture);
-		//for (int i = 0; i < letters.size(); i++)
-			//letters[i]->draw(shaderProgram);
-	//}
+	if (textString == "")
+		return;
+	drawTexture(shaderProgram, textTexture);
 }
 
 void text::setLocAndSize(vector loc, vector size) {

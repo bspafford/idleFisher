@@ -23,11 +23,11 @@ struct FsaveVaultUnlocksStruct;
 
 class UupgradeBox : public widget {
 public:
-	UupgradeBox(widget* parent, FworldStruct* worldStruct, FsaveWorldStruct* saveWorldStruct);
-	UupgradeBox(widget* parent, FbaitStruct* baitStruct, FsaveBaitStruct* saveBaitStruct);
-	UupgradeBox(widget* parent, FpetStruct* data, FsavePetStruct* saveData);
-	UupgradeBox(widget* parent, FupgradeStruct* data, FsaveUpgradeStruct* saveData);
-	UupgradeBox(widget* parent, FvaultUnlocksStruct* data, FsaveVaultUnlocksStruct* saveData);
+	UupgradeBox(widget* parent, widget* NPCWidget, FworldStruct* worldStruct, FsaveWorldStruct* saveWorldStruct);
+	UupgradeBox(widget* parent, widget* NPCWidget, FbaitStruct* baitStruct, FsaveBaitStruct* saveBaitStruct);
+	UupgradeBox(widget* parent, widget* NPCWidget, FpetStruct* data, FsavePetStruct* saveData);
+	UupgradeBox(widget* parent, widget* NPCWidget, FupgradeStruct* data, FsaveUpgradeStruct* saveData);
+	UupgradeBox(widget* parent, widget* NPCWidget, FvaultUnlocksStruct* data, FsaveVaultUnlocksStruct* saveData);
 	~UupgradeBox();
 	void setup();
 	void update();
@@ -38,6 +38,8 @@ public:
 
 private:
 	void buyUpgrade();
+
+	widget* NPCWidget;
 
 	// structs
 	FworldStruct* worldStruct;

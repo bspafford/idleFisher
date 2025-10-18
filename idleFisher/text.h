@@ -79,7 +79,6 @@ private:
 	std::shared_ptr<Image> textImg;
 	std::vector<FtextInfo> textInfo = std::vector<FtextInfo>(126);
 
-	bool alreadySetText = false;
 	glm::vec4 colorMod = glm::vec4(1.f);
 
 	// text fbo

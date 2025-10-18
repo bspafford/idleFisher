@@ -47,7 +47,7 @@ public:
 		for (int i = 0; i < data.size(); i++) {
 			T1* currData = &data[i];
 			T2* currSaveData = &saveData[currData->id];
-			std::unique_ptr<UupgradeBox> upgradeBox = std::make_unique<UupgradeBox>(this, currData, currSaveData);
+			std::unique_ptr<UupgradeBox> upgradeBox = std::make_unique<UupgradeBox>(upgradeHolder.get(), this, currData, currSaveData);
 			if (upgradeBox->buyButton)
 				upgradeBox->buyButton->setParent(upgradeHolder.get());
 			upgradeHolder->addChild(upgradeBox.get(), upgradeBox->getSize().y);
