@@ -94,4 +94,6 @@ private:
 	vector absoluteLoc;
 	std::string xAnchor = anchor::left;
 	std::string yAnchor = anchor::top;
+
+	int textHeight;
 };

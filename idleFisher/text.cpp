@@ -45,32 +45,7 @@ void text::changeFontAll() {
 
 void text::changeFont() {
 	if (!SaveData::settingsData.pixelFont) {
-		/*
-		delete normFont;
-
-		TTF_Font* Sans = TTF_OpenFont("./fonts/ariblk.ttf", calcFontSize());
-
-		SDL_Color White = { 64, 54, 69 };
-
-		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, textString.c_str(), White);
-
-		int w, h;
-		SDL_Texture* Message = SDL_CreateTextureFromSurface(Main::shaderProgram, surfaceMessage);
-		SDL_QueryTexture(Message, NULL, NULL, &w, &h);
-
-		normFont = Image(Message, NULL, loc);
-		normFont->w = w / stuff::pixelSize;
-		normFont->h = h / stuff::pixelSize;
-
-		//
-
-		if (textString == "Probability") {
-			std::cout << "hello: " << loc << std::endl;
-		}
-
-		SDL_FreeSurface(surfaceMessage);
-		// SDL_DestroyTexture(Message);
-		*/
+		
 	} else {
 		setText(textString);
 	}
@@ -107,7 +82,7 @@ void text::loadTextImg() {
 	// gets the height of the text
 	std::string textHeightStr;
 	std::getline(file, textHeightStr);
-	int textHeight = std::stoi(textHeightStr);
+	textHeight = std::stoi(textHeightStr);
 
 	while (std::getline(file, line)) {
 		// get each word in line
@@ -166,59 +141,70 @@ void text::makeText(int i, std::string text, vector &offset) {
 	}
 
 	FtextInfo currInfo = textInfo[text[i]];
-	if (currInfo.loc.x == 0 && currInfo.loc.y == 0 && currInfo.size.x == 0 && currInfo.size.y == 0) {
+	// ignores special chars, and makes sure the char is in the font
+	if (text[i] >= 32 && currInfo.loc.x == 0 && currInfo.loc.y == 0 && currInfo.size.x == 0 && currInfo.size.y == 0) {
 		std::cout << "Char is not in list: '" << text[i] << "' (" << (int)text[i] << ") not in '" << font << "'\n";
 		throw std::runtime_error("Character is not in list");
 	}
 
-	std::shared_ptr<Rect> source = std::make_shared<Rect>(currInfo.loc.x, currInfo.loc.y, currInfo.size.x, currInfo.size.y);
-
-	if (textString == "Feed Fish")
-		std::cout << *source << std::endl;
-
-	letters[i] = std::make_unique<Image>(textImg, source, vector{0, 0}, false);
-	letters[i]->setAnchor(anchor::center, anchor::center);
-	Image* letter = letters[i].get();
-
-	if (alignment != textAlign::right)
-		letter->setLoc(offset);
-
-	int temp = 1;
-	if (alignment == textAlign::right)
-		temp = -1;
-
-	offset.x += letter->w * temp * stuff::pixelSize;
-
-	if (isometric) {
-		if (text[i] == '.')
-			offset.y -= 1 * stuff::pixelSize * temp;
-		else
-			offset.y -= 2 * stuff::pixelSize * temp;
-	}
-
-	if (alignment == textAlign::right)
-		letter->setLoc(offset);
-
-	// ONLY works for ALIGNED LEFT
-	// wraps text if its length is greater than its linelength
-	if (lineLength != -1 && offset.x > lineLength) { //  && textString[start] != ' '
+	// makes new line
+	if (text[i] == '\n') {
 		offset.x = 0;
-		offset.y += (letter->h + 1) * stuff::pixelSize;
-		for (int j = start; j < start + numLetters + 1; j++) {
-			letters[j]->setLoc(offset);
-			offset.x += letters[j]->w * stuff::pixelSize;
-		}
-	}
+		offset.y += (textHeight + 1) * stuff::pixelSize;
+	} else {
+		std::shared_ptr<Rect> source = std::make_shared<Rect>(currInfo.loc.x, currInfo.loc.y, currInfo.size.x, currInfo.size.y);
 
-	std::vector<char> dropList = { 'g', 'p', 'q', 'j', 'y', };
-	std::vector<std::string> dontDropFont = { "afScreen", "biggerStraight", "biggerStraightDark" };
-	if (std::find(dontDropFont.begin(), dontDropFont.end(), font) == dontDropFont.end() && std::find(dropList.begin(), dropList.end(), text[i]) != dropList.end())
-		letters[i]->setLoc((letters[i]->getLoc() + vector{ 0, letters[i]->getSize().y / 2.f - 1 })); // weird problem if i don't subtract 1
+		letters[i] = std::make_unique<Image>(textImg, source, vector{ 0, 0 }, false);
+		letters[i]->setAnchor(anchor::center, anchor::center);
+		Image* letter = letters[i].get();
+
+		if (alignment != textAlign::right)
+			letter->setLoc(offset);
+
+		int temp = 1;
+		if (alignment == textAlign::right)
+			temp = -1;
+
+		offset.x += letter->w * temp * stuff::pixelSize;
+
+		if (isometric) {
+			if (text[i] == '.')
+				offset.y -= 1 * stuff::pixelSize * temp;
+			else
+				offset.y -= 2 * stuff::pixelSize * temp;
+		}
+
+		if (alignment == textAlign::right)
+			letter->setLoc(offset);
+
+		// ONLY works for ALIGNED LEFT
+		// wraps text if its length is greater than its linelength
+		if (lineLength != -1 && offset.x > lineLength) { //  && textString[start] != ' '
+			offset.x = 0;
+			offset.y += (letter->h + 1) * stuff::pixelSize;
+			for (int j = start; j < start + numLetters + 1; j++) {
+				letters[j]->setLoc(offset);
+				offset.x += letters[j]->w * stuff::pixelSize;
+			}
+		}
+
+		std::vector<char> dropList = { 'g', 'p', 'q', 'j', 'y', };
+		std::vector<std::string> dontDropFont = { "afScreen", "biggerStraight", "biggerStraightDark" };
+		if (std::find(dontDropFont.begin(), dontDropFont.end(), font) == dontDropFont.end() && std::find(dropList.begin(), dropList.end(), text[i]) != dropList.end())
+			letters[i]->setLoc((letters[i]->getLoc() + vector{ 0, letters[i]->getSize().y / 2.f - 1 })); // weird problem if i don't subtract 1
+	}
 
 	numLetters++;
 }
 
 void text::setText(std::string text) {
+	// converts \\n to \n
+	size_t pos = 0;
+	while ((pos = text.find("\\n", pos)) != std::string::npos) {
+		text.replace(pos, 2, "\n");
+		pos += 1;
+	}
+
 	textString = text;
 	
 	if (text == "")
