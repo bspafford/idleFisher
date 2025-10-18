@@ -13,7 +13,7 @@ struct FsaveCurrencyStruct;
 
 class UcurrencyConverterBox : public widget {
 public:
-	UcurrencyConverterBox(UcurrencyConverterWidget* parent, FcurrencyStruct* currencyStruct, FsaveCurrencyStruct* saveCurrencyStruct);
+	UcurrencyConverterBox(widget* parent, FcurrencyStruct* currencyStruct, FsaveCurrencyStruct* saveCurrencyStruct);
 	~UcurrencyConverterBox();
 	void setup();
 	void update();

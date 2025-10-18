@@ -7,7 +7,7 @@ class timer;
 
 class UcomboOvertimeWidget : public widget {
 public:
-	UcomboOvertimeWidget();
+	UcomboOvertimeWidget(widget* parent);
 	~UcomboOvertimeWidget();
 	void draw(Shader* shaderProgram);
 	void addTimer(timer* timer);

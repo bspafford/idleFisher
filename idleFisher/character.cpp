@@ -514,12 +514,12 @@ void Acharacter::premiumFishBuff() {
 		Main::currencyWidget->updateList();
 	} else if (rand <= .9) { // low long buff
 		std::cout << "10x for 1:30 min" << std::endl;
-		UpremiumBuffWidget* buff = new UpremiumBuffWidget(SaveData::data.goldenFishData[2]);
+		UpremiumBuffWidget* buff = new UpremiumBuffWidget(nullptr, SaveData::data.goldenFishData[2]);
 		Main::premiumBuffList.push_back(buff);
 		Main::UIWidget->setupLocs();
 	} else { // high short buff
 		std::cout << "100x for 10 sec" << std::endl;
-		UpremiumBuffWidget* buff = new UpremiumBuffWidget(SaveData::data.goldenFishData[3]);
+		UpremiumBuffWidget* buff = new UpremiumBuffWidget(nullptr, SaveData::data.goldenFishData[3]);
 		Main::premiumBuffList.push_back(buff);
 		Main::UIWidget->setupLocs();
 	}

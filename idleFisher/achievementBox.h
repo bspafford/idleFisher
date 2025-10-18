@@ -8,7 +8,7 @@ struct FsaveAchievementStruct;
 
 class UachievementBox : public widget {
 public:
-	UachievementBox(int id);
+	UachievementBox(widget* parent, int id);
 	~UachievementBox();
 
 	void draw(Shader* shaderProgram);

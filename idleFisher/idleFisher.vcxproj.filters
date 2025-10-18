@@ -730,5 +730,8 @@
     <ClInclude Include="upgrades.h">
       <Filter>Header Files\buffs</Filter>
     </ClInclude>
+    <ClInclude Include="Hoverable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

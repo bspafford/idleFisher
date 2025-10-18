@@ -9,7 +9,7 @@
 #include "fishNumWidget.h"
 #include "Rectangle.h"
 
-UheldFishWidget::UheldFishWidget() {
+UheldFishWidget::UheldFishWidget(widget* parent) : widget(parent) {
 	line = std::make_unique<URectangle>(vector{ 0, 0 }, vector{ 20 * stuff::pixelSize, stuff::pixelSize }, false);
 }
 
@@ -33,7 +33,7 @@ void UheldFishWidget::updateList(std::vector<FsaveFishData> saveFishList) {
 				continue;
 
 			// setup fishNumWidget
-			std::unique_ptr<UfishNumWidget> widget = std::make_unique<UfishNumWidget>();
+			std::unique_ptr<UfishNumWidget> widget = std::make_unique<UfishNumWidget>(this);
 
 			widget->setLoc({ widget->getLoc().x, yOffset });
 			widget->setup(&SaveData::data.fishData[fishList[i].id], &fishList[i], j);
@@ -50,7 +50,7 @@ void UheldFishWidget::updateList(std::vector<FsaveFishData> saveFishList) {
 	getCurrency();
 	currencyList.clear();
 	for (int i = 0; i < currency.size(); i++) {
-		std::unique_ptr<UfishNumWidget> widget = std::make_unique<UfishNumWidget>();
+		std::unique_ptr<UfishNumWidget> widget = std::make_unique<UfishNumWidget>(this);
 
 		FcurrencyStruct* currencyStruct = &SaveData::data.currencyData[currency[i].x];
 

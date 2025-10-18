@@ -10,7 +10,7 @@
 
 class widget {
 protected:
-	widget();
+	widget(widget* parent);
 	virtual ~widget();
 
 	bool visible = true;
@@ -50,5 +50,8 @@ public:
 	vector ogLoc = { 0, 0 };
 	vector size = { 0, 0 };
 
+	widget* getParent();
+	void setParent(widget* parent);
+private:
 	widget* parent = NULL;
 };

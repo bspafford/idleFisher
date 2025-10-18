@@ -10,7 +10,7 @@ class UscrollBox;
 
 class UidleProfitWidget : public widget {
 public:
-	UidleProfitWidget();
+	UidleProfitWidget(widget* parent);
 	~UidleProfitWidget();
 	void draw(Shader* shaderProgram) override;
 	void setup(std::vector<FsaveFishData> fishList);

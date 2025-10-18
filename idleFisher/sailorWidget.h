@@ -10,7 +10,7 @@ class timer;
 
 class UsailorWidget : public widget {
 public:
-	UsailorWidget();
+	UsailorWidget(widget* parent);
 	~UsailorWidget();
 
 

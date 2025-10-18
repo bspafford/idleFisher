@@ -10,7 +10,7 @@ struct Image;
 
 class UpauseMenu : public widget {
 public:
-	UpauseMenu();
+	UpauseMenu(widget* parent);
 	~UpauseMenu();
 	void draw(Shader* shaderProgram);
 private:

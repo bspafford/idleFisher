@@ -3,8 +3,8 @@
 #include "progressBar.h"
 #include "timer.h"
 
-UcomboOvertimeWidget::UcomboOvertimeWidget() {
-	progressBar = std::make_unique<UprogressBar>(false, 45, 3, FprogressBarDir::right, true);
+UcomboOvertimeWidget::UcomboOvertimeWidget(widget* parent) : widget(parent) {
+	progressBar = std::make_unique<UprogressBar>(this, false, 45, 3, FprogressBarDir::right, true);
 	setVisibility(false);
 
 	setupLocs();

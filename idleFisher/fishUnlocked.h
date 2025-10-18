@@ -11,7 +11,7 @@ class text;
 
 class UfishUnlocked : public widget {
 public:
-	UfishUnlocked();
+	UfishUnlocked(widget* parent);
 	~UfishUnlocked();
 	void draw(Shader* shaderProgram);
 

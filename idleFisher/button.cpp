@@ -5,12 +5,12 @@
 #include "widget.h"
 
 // only give NON NULL values to overriding widgets ONLY
-Ubutton::Ubutton(widget* widget, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha) {
+Ubutton::Ubutton(widget* parent, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha) : widget(parent) {
 	// buttons will have a sprite sheet with click anim on top, and hover right below it, and prolly also a disabled one too
 	// needs:
 	// sprite sheet path, cell size, number of frames
 
-	widgetClass = widget;
+	widgetClass = parent;
 	this->loc = loc;
 
 	std::unordered_map<std::string, animDataStruct> animData;
@@ -46,28 +46,20 @@ void Ubutton::onHover(Shader* shaderProgra) {
 	if (buttonAnim)
 		buttonAnim->draw(shaderProgra);
 
-	if (isMouseOver()) {
-		// when going from nonHover to Hover
-		if (!bIsHovered) {
-			Main::hoverObject(widgetClass);
-			if (isEnabled) {
-				if (hasHover && buttonAnim)
-					buttonAnim->setAnimation("hover");
-			}
-		}
+	prevMouseOver = mouseOver;
+	mouseOver = isMouseOver();
 
-		bIsHovered = true;
+	if (mouseOver) {
+		if (isEnabled) {
+			Main::setHoveredItem(this);
+			if (!prevMouseOver && hasHover && buttonAnim)
+				buttonAnim->setAnimation("hover");
+		}
 		if (Main::bLeftClick && (!Main::currWidget || widgetClass == Main::currWidget))
 			onClick();
-	} else {
-		// when going from Hover to nonHover
-		if (bIsHovered) {
-			Main::leaveHoverObject(widgetClass);
-			if (buttonAnim)
-				//buttonImg->setImage(path, buttonImg->loc);
-				buttonAnim->setAnimation("click");
-		}
-		bIsHovered = false;
+	} else if (buttonAnim && prevMouseOver) {
+		if (buttonAnim)
+			buttonAnim->setAnimation("click");
 	}
 }
 
@@ -104,7 +96,7 @@ void Ubutton::enable(bool enabled) {
 	isEnabled = enabled;
 
 	// sets it to normal animation if the button is hovered
-	if (hasHover && !isEnabled && bIsHovered) {
+	if (hasHover && !isEnabled) {
 		buttonAnim->setAnimation("hover");
 	}
 }
@@ -113,10 +105,6 @@ std::weak_ptr<Image> Ubutton::getButtonImg() {
 	if (buttonAnim)
 		return buttonAnim->spriteSheet;
 	return std::weak_ptr<Image>();
-}
-
-void Ubutton::setParent(widget* parent) {
-	this->parent = parent;
 }
 
 vector Ubutton::getSize() {

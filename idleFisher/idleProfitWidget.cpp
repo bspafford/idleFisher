@@ -6,19 +6,19 @@
 #include "scrollBox.h"
 #include "Rectangle.h"
 
-UidleProfitWidget::UidleProfitWidget() {
+UidleProfitWidget::UidleProfitWidget(widget* parent) : widget(parent) {
 	collectButton = std::make_unique<Ubutton>(this, "widget/button.png", 54, 39, 2, vector{ 0, 0 }, false, false);
 
-	title = std::make_unique<text>("Idle Profit", "straight", vector{ 0, 0 }, false, false, textAlign::center);
+	title = std::make_unique<text>(this, "Idle Profit", "straight", vector{ 0, 0 }, false, false, textAlign::center);
 
 	std::vector<std::string> collectButtonAnim = { "./images/widget/button1.png", "./images/widget/button2.png" };
 	//collectButton->setClickAnim(collectButtonAnim);
 	collectButton->addCallback<widget>(this, &widget::removeFromViewport);
 
-	collectText = std::make_unique<text>("Collect", "straight", vector{ 0, 0 }, false, false, textAlign::center);
+	collectText = std::make_unique<text>(this, "Collect", "straight", vector{ 0, 0 }, false, false, textAlign::center);
 
-	scrollBox = std::make_unique<UscrollBox>();
-	heldFishWidget = std::make_unique<UheldFishWidget>();
+	scrollBox = std::make_unique<UscrollBox>(this);
+	heldFishWidget = std::make_unique<UheldFishWidget>(this);
 
 	setupLocs();
 }

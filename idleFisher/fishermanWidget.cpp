@@ -9,19 +9,19 @@
 #include "upgrades.h"
 #include "shortNumbers.h"
 
-UfishermanWidget::UfishermanWidget(npc* parent) {
-	this->parent = parent;
+UfishermanWidget::UfishermanWidget(widget* parent, npc* NPCParent) : widget(parent) {
+	this->NPCParent = NPCParent;
 
 	closeButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	closeButton->addCallback<widget>(this, &NPCwidget::removeFromViewport);
 	npcImg = std::make_unique<Image>("./images/widget/npcbuttons/fisherman.png", vector{ 100, 100 }, false);
 
-	name = std::make_unique<text>("asdfasdfasdf", "biggerStraight", vector{ 0, 0 });
-	buffText = std::make_unique<text>("asdfasdfasdf", "straight", vector{ 0, 0 });
+	name = std::make_unique<text>(this, "---", "biggerStraight", vector{ 0, 0 });
+	buffText = std::make_unique<text>(this, "---", "straight", vector{ 0, 0 });
 	buffText->setTextColor(0, 255, 0);
-	debuffText = std::make_unique<text>("asdfasdfasdf", "straight", vector{ 0, 0 });
+	debuffText = std::make_unique<text>(this, "---", "straight", vector{ 0, 0 });
 	debuffText->setTextColor(255, 0, 0);
-	nameHolder = std::make_unique<verticalBox>();
+	nameHolder = std::make_unique<verticalBox>(this);
 	nameHolder->addChild(name.get(), 8 * stuff::pixelSize);
 	nameHolder->addChild(buffText.get(), 7 * stuff::pixelSize);
 	nameHolder->addChild(debuffText.get(), 7 * stuff::pixelSize);
@@ -35,31 +35,31 @@ UfishermanWidget::UfishermanWidget(npc* parent) {
 	// fishing rod page
 	fishingRodThumbnail = std::make_unique<Image>("./images/widget/thumbnails/fishingRodThumbnail1.png", vector{ 0, 0 }, false);
 	fishingRodThumbnail->setSize(fishingRodThumbnail->getSize() * 2.f * stuff::pixelSize);
-	powerText = std::make_unique<text>("Power", "straight", vector{ 0, 0 });
+	powerText = std::make_unique<text>(this, "Power", "straight", vector{ 0, 0 });
 	powerUpgradeButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 37, 16, 2, vector{ 0, 0 }, false, false);
 	powerUpgradeButton->addCallback(this, &UfishermanWidget::upgradePower);
-	speedText = std::make_unique<text>("Speed", "straight", vector{ 0, 0 });
+	speedText = std::make_unique<text>(this, "Speed", "straight", vector{ 0, 0 });
 	speedUpgradeButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 37, 16, 2, vector{ 0, 0 }, false, false);
 	speedUpgradeButton->addCallback(this, &UfishermanWidget::upgradeSpeed);
-	catchChanceText = std::make_unique<text>("Catch Chance", "straight", vector{ 0, 0 });
+	catchChanceText = std::make_unique<text>(this, "Catch Chance", "straight", vector{ 0, 0 });
 	catchChanceUpgradeButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 37, 16, 2, vector{ 0, 0 }, false, false);
 	catchChanceUpgradeButton->addCallback(this, &UfishermanWidget::upgradeCatchChance);
 
-	powerButtonPrice = std::make_unique<text>("0.00k", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
-	speedButtonPrice = std::make_unique<text>("0.00k", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
-	catchChanceButtonPrice = std::make_unique<text>("0.00k", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
+	powerButtonPrice = std::make_unique<text>(this, "0.00k", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
+	speedButtonPrice = std::make_unique<text>(this, "0.00k", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
+	catchChanceButtonPrice = std::make_unique<text>(this, "0.00k", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
 
-	powerLevelText = std::make_unique<text>("0", "straight", vector{ 0, 0 });
-	speedLevelText = std::make_unique<text>("0", "straight", vector{ 0, 0 });
-	catchChanceLevelText = std::make_unique<text>("0", "straight", vector{ 0, 0 });
+	powerLevelText = std::make_unique<text>(this, "0", "straight", vector{ 0, 0 });
+	speedLevelText = std::make_unique<text>(this, "0", "straight", vector{ 0, 0 });
+	catchChanceLevelText = std::make_unique<text>(this, "0", "straight", vector{ 0, 0 });
 
 	// fishing rod stats
-	powerStatsText = std::make_unique<text>("Power", "straight", vector{ 0, 0 });
-	powerStatsTextNum = std::make_unique<text>("00", "straight", vector{ 0, 0 }, false, false, textAlign::right);
-	speedStatsText = std::make_unique<text>("Speed", "straight", vector{ 0, 0 });
-	speedStatsTextNum = std::make_unique<text>("00", "straight", vector{ 0, 0 }, false, false, textAlign::right);
-	catchChanceStatsText = std::make_unique<text>("Catch Chance", "straight", vector{ 0, 0 });
-	catchChanceStatsTextNum = std::make_unique<text>("00", "straight", vector{ 0, 0 }, false, false, textAlign::right);
+	powerStatsText = std::make_unique<text>(this, "Power", "straight", vector{ 0, 0 });
+	powerStatsTextNum = std::make_unique<text>(this, "00", "straight", vector{ 0, 0 }, false, false, textAlign::right);
+	speedStatsText = std::make_unique<text>(this, "Speed", "straight", vector{ 0, 0 });
+	speedStatsTextNum = std::make_unique<text>(this, "00", "straight", vector{ 0, 0 }, false, false, textAlign::right);
+	catchChanceStatsText = std::make_unique<text>(this, "Catch Chance", "straight", vector{ 0, 0 });
+	catchChanceStatsTextNum = std::make_unique<text>(this, "00", "straight", vector{ 0, 0 }, false, false, textAlign::right);
 
 	setup();
 	//setupLocs();
@@ -71,7 +71,7 @@ UfishermanWidget::~UfishermanWidget() {
 
 void UfishermanWidget::setup() {
 	// setup bait
-	baitHolderList = std::make_unique<UscrollBox>();
+	baitHolderList = std::make_unique<UscrollBox>(this);
 	baitHolderList->setVisibility(false);
 	for (int i = 0; i < SaveData::data.baitData.size(); i++) {
 		FbaitStruct* currData = &SaveData::data.baitData[i];

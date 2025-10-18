@@ -1,6 +1,6 @@
 #include "wrapBox.h"
 
-UwrapBox::UwrapBox(vector loc, vector size) {
+UwrapBox::UwrapBox(widget* parent, vector loc, vector size) : widget(parent) {
 	this->loc = loc;
 	ogLoc = loc;
 	this->size = size;
@@ -24,7 +24,7 @@ void UwrapBox::draw(Shader* shaderProgram) {
 }
 
 void UwrapBox::addChild(widget* child) {
-	child->parent = this;
+	child->setParent(this);
 	childrenList.push_back(child);
 }
 

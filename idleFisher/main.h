@@ -25,6 +25,7 @@ class Acharacter;
 class animation;
 class widget;
 class AautoFisher;
+class IHoverable;
 
 //widgets
 class widget;
@@ -66,10 +67,6 @@ public:
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	static inline bool KEYS[348];
-
-	static void hoverObject(widget* widget);
-	static void leaveHoverObject(widget* widget);
-	static inline int hoverNum = 0;
 
 	void renderShadowMap(Shader& depthShader, glm::mat4 lightSpaceMatrix);
 	void renderSceneWithShadows(Shader & shader, glm::mat4 lightSpaceMatrix);
@@ -136,6 +133,11 @@ public:
 	static inline bool bLeftMouseButtonDown = false;
 	static inline bool bRightMouseButtonDown = false;
 	static inline int mouseWheelDir = 0;
+
+private:
+	static inline IHoverable* hoveredItem;
+public:
+	static void setHoveredItem(IHoverable* item);
 
 	static inline vector mousePos;
 	static void calcMouseImg();

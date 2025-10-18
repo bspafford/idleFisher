@@ -6,6 +6,7 @@
 
 #include "math.h"
 #include "saveData.h"
+#include "Hoverable.h"
 #include "NPCwidget.h"
 #include "animation.h"
 #include "collision.h"
@@ -13,7 +14,7 @@
 class Shader;
 class Image;
 
-class npc {
+class npc : IHoverable {
 protected:
 	npc(vector loc);
 public:
@@ -37,9 +38,6 @@ protected:
 	void setup(std::string npcName);
 	virtual void setupCollision();
 
-	virtual void mouseEnter();
-	virtual void mouseExit();
-	
 	vector loc;
 
 	bool bMouseOver = false;

@@ -337,6 +337,7 @@
     <ClInclude Include="heldFishWidget.h" />
     <ClInclude Include="horizontalBox.h" />
     <ClInclude Include="house.h" />
+    <ClInclude Include="Hoverable.h" />
     <ClInclude Include="hoverBox.h" />
     <ClInclude Include="idleProfitWidget.h" />
     <ClInclude Include="Image.h" />

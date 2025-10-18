@@ -5,17 +5,17 @@
 #include "button.h"
 #include "text.h"
 
-UdecorationBox::UdecorationBox(UdecoratorWidget* parentRef, widget* buttonParent, FvaultUnlocksStruct* vaultUnlock, FsaveVaultUnlocksStruct* saveVaultUnlock) {
+UdecorationBox::UdecorationBox(widget* parent, UdecoratorWidget* parentRef, widget* buttonParent, FvaultUnlocksStruct* vaultUnlock, FsaveVaultUnlocksStruct* saveVaultUnlock) : widget(parent) {
 	this->parentRef = parentRef;
-	this->parent = (widget*)parentRef;
+	this->setParent(parentRef);
 	this->vaultUnlock = vaultUnlock;
 	this->saveVaultUnlock = saveVaultUnlock;
 
 	thumbnail = std::make_unique<Image>(vaultUnlock->thumbnailPath, vector{ 0, 0 }, false);
-	buyButton = std::make_unique<Ubutton>((widget*)parentRef, "button.png", 21, 7, 1, vector{ 0, 0 }, false, false);
+	buyButton = std::make_unique<Ubutton>(parentRef, "button.png", 21, 7, 1, vector{ 0, 0 }, false, false);
 	buyButton->addCallback(this, &UdecorationBox::buyDecoration);
 	buyButton->setParent(buttonParent);
-	buttonText = std::make_unique<text>(" ", "straight", vector{ 0, 0 }, false, false, textAlign::center);
+	buttonText = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 }, false, false, textAlign::center);
 }
 
 UdecorationBox::~UdecorationBox() {

@@ -6,7 +6,7 @@
 #include "text.h"
 #include "achievementWidget.h"
 
-UequippedWidget::UequippedWidget() {
+UequippedWidget::UequippedWidget(widget* parent) : widget(parent) {
 	charImg = std::make_unique<Image>("./images/character/idleSE1.png", vector{ 0, 0 }, false);
 
 	fishingRodEquipSlot = std::make_unique<Image>("./images/widget/thumbnailBackground.png", vector{ 0, 0 }, false);
@@ -57,7 +57,7 @@ vector UequippedWidget::getSize() {
 void UequippedWidget::setLoc(vector loc) {
 	__super::setLoc(loc);
 
-	vector parentSize = parent->getSize();
+	vector parentSize = getParent()->getSize();
 	vector offset = loc + vector{ (parentSize / 2 - getSize() / 2).x, 0 };
 
 	vector size = fishingRodEquipSlot->getSize() + stuff::pixelSize;

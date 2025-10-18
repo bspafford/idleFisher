@@ -17,20 +17,20 @@
 #include "atm.h"
 
 
-UUIWidget::UUIWidget() {
-	progressBar = std::make_unique<UprogressBar>(false, 43, 6);
+UUIWidget::UUIWidget(widget* parent) : widget(parent) {
+	progressBar = std::make_unique<UprogressBar>(this, false, 43, 6);
 	progressBar->setBackgroundColor(glm::vec4(0, 0, 0, 1.f));
 	progressBar->setForegroundColor(glm::vec4(0, 1.f, 1.f, 1.f));
-	currRunRebirthPoints = std::make_unique<text>(" ", "straight", vector{ 0, 0 }, false, false, textAlign::right);
-	rebirthPointNum = std::make_unique<text>(" ", "straight", vector{ 0, 0 }, false, false, textAlign::right);
+	currRunRebirthPoints = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 }, false, false, textAlign::right);
+	rebirthPointNum = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 }, false, false, textAlign::right);
 
-	NPCshowButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/shopIcon.png", 26, 22, 1, vector{ 0, 0 }, false, false);
-	merchantButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/npcButton1.png", 18, 18, 1, vector{ 0, 0 }, false, false);
-	sailorButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/npcButton2.png", 18, 18, 1, vector{ 0, 0 }, false, false);
-	fishermanButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/npcButton3.png", 18, 18, 1, vector{ 0, 0 }, false, false);
-	mechanicButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/npcButton4.png", 18, 18, 1, vector{ 0, 0 }, false, false);
-	petSellerButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/npcButton5.png", 18, 18, 1, vector{ 0, 0 }, false, false);
-	atmButton = std::make_unique<Ubutton>(nullptr, "widget/npcButtons/npcButton1.png", 18, 18, 1, vector{ 0, 0 }, false, false);
+	NPCshowButton = std::make_unique<Ubutton>(this, "widget/npcButtons/shopIcon.png", 26, 22, 1, vector{ 0, 0 }, false, false);
+	merchantButton = std::make_unique<Ubutton>(this, "widget/npcButtons/npcButton1.png", 18, 18, 1, vector{ 0, 0 }, false, false);
+	sailorButton = std::make_unique<Ubutton>(this, "widget/npcButtons/npcButton2.png", 18, 18, 1, vector{ 0, 0 }, false, false);
+	fishermanButton = std::make_unique<Ubutton>(this, "widget/npcButtons/npcButton3.png", 18, 18, 1, vector{ 0, 0 }, false, false);
+	mechanicButton = std::make_unique<Ubutton>(this, "widget/npcButtons/npcButton4.png", 18, 18, 1, vector{ 0, 0 }, false, false);
+	petSellerButton = std::make_unique<Ubutton>(this, "widget/npcButtons/npcButton5.png", 18, 18, 1, vector{ 0, 0 }, false, false);
+	atmButton = std::make_unique<Ubutton>(this, "widget/npcButtons/npcButton1.png", 18, 18, 1, vector{ 0, 0 }, false, false);
 
 	// set alpha to 0
 	if (merchantButton) {

@@ -146,13 +146,13 @@ AfishTransporter::AfishTransporter(vector loc) : npc(loc) {
 	fishPileAnim->setAnimation("emptyidleSE");
 	fishPileAnim->start();
 
-	fullnessText = std::make_unique<text>("0/" + shortNumbers::convert2Short(maxHoldNum), "straight", loc, true, false, textAlign::center);
+	fullnessText = std::make_unique<text>(nullptr, "0/" + shortNumbers::convert2Short(maxHoldNum), "straight", loc, true, false, textAlign::center);
 
 	collectTimer = std::make_unique<timer>();
 	collectTimer->addCallback(this, &AfishTransporter::finishCollectTimer);
 	collectTimer->addUpdateCallback(this, &AfishTransporter::collectTimerUpdate);
 
-	progressBar = std::make_unique<UprogressBar>(true, 25, 3);
+	progressBar = std::make_unique<UprogressBar>(nullptr, true, 25, 3);
 	progressBar->setVisibility(false);
 
 	setLoc(loc);

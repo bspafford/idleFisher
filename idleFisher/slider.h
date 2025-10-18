@@ -6,7 +6,7 @@ class text;
 
 class Uslider : public widget {
 public:
-	Uslider(bool useCharLoc, vector size, float minVal, float maxVal, bool showValueText = true);
+	Uslider(widget* parent, bool useCharLoc, vector size, float minVal, float maxVal, bool showValueText = true);
 	~Uslider();
 	void setBackgroundColor(glm::vec4 color);
 	void setForegroundColor(glm::vec4 color);

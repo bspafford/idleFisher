@@ -6,12 +6,13 @@
 #include "upgradeBox.h"
 #include "button.h"
 
+class npc;
 class text;
 class verticalBox;
 
 class UmerchantWidget : public widget {
 public:
-	UmerchantWidget(class npc* parent);
+	UmerchantWidget(widget* parent, npc* NPCParent);
 	~UmerchantWidget();
 
 	void draw(Shader* shaderProgram) override;
@@ -21,7 +22,7 @@ public:
 
 	void setNameDescription(std::string name, std::string description);
 
-	class npc* parent;
+	class npc* NPCParent;
 
 	// upgrades
 	std::vector<std::unique_ptr<UscrollBox>> upgradeHolderList;

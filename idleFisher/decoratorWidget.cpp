@@ -10,7 +10,7 @@
 #include "text.h"
 #include "Rectangle.h"
 
-UdecoratorWidget::UdecoratorWidget(Adecorator* parent) {
+UdecoratorWidget::UdecoratorWidget(widget* parent, Adecorator* decoratorParent) : widget(parent) {
 	/*
 	this->parent = parent;
 

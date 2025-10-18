@@ -12,7 +12,7 @@ struct FprogressBarDir {
 
 class UprogressBar : public widget {
 public:
-	UprogressBar(bool useCharLoc, float width, float height, int dir = FprogressBarDir::right, bool reverse = false);
+	UprogressBar(widget* parent, bool useCharLoc, float width, float height, int dir = FprogressBarDir::right, bool reverse = false);
 	// background color, foreground color, direction (left, up, reverse), width, height
 	void setBackgroundColor(glm::vec4 color);
 	// id is when the progress bar has mutliple preogress bars

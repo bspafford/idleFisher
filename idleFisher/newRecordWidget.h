@@ -7,7 +7,7 @@ class timer;
 
 class UnewRecordWidget : public widget {
 public:
-	UnewRecordWidget();
+	UnewRecordWidget(widget* parent);
 	void draw(Shader* shaderProgram);
 	void start(int fishSize);
 	void finished();

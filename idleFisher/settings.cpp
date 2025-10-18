@@ -9,7 +9,7 @@
 #include "horizontalBox.h"
 #include "saveData.h"
 
-Usettings::Usettings() {
+Usettings::Usettings(widget* parent) : widget(parent) {
 	SaveData::loadSettings();
 
 	// button click anim
@@ -22,11 +22,11 @@ Usettings::Usettings() {
 	backButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	backButton->addCallback(this, &Usettings::goBack);
 
-	scrollBox = std::make_unique<UscrollBox>();
+	scrollBox = std::make_unique<UscrollBox>(this);
 
-	settingsTitle = std::make_unique<text>("Settings", "biggerStraight", vector{ 0, 0 });
-	audioTitle = std::make_unique<text>("  Audio:", "biggerStraight", vector{ 0, 0 });
-	graphicsTitle = std::make_unique<text>("  Graphics:", "biggerStraight", vector{ 0, 0 });
+	settingsTitle = std::make_unique<text>(this, "Settings", "biggerStraight", vector{ 0, 0 });
+	audioTitle = std::make_unique<text>(this, "  Audio:", "biggerStraight", vector{ 0, 0 });
+	graphicsTitle = std::make_unique<text>(this, "  Graphics:", "biggerStraight", vector{ 0, 0 });
 
 	// padding
 	scrollBox->addChild(NULL, 3 * stuff::pixelSize);
@@ -35,26 +35,26 @@ Usettings::Usettings() {
 
 	saveButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	saveButton->addCallback(SaveData::saveSettings);
-	saveText = std::make_unique<text>("Save", "straightDark", vector{ 0, 0 });
+	saveText = std::make_unique<text>(this, "Save", "straightDark", vector{ 0, 0 });
 	
 	cancelButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	cancelButton->addCallback(this, &Usettings::cancel);
 	
-	cancelText = std::make_unique<text>("Cancel", "straightDark", vector{ 0, 0 });
+	cancelText = std::make_unique<text>(this, "Cancel", "straightDark", vector{ 0, 0 });
 
 // audio
 	scrollBox->addChild(audioTitle.get(), audioTitle->getSize().y + 3 * stuff::pixelSize);
 
-	masterVolumeSlider = std::make_unique<Uslider>(false, vector{ background->w - 50.f, 3}, 0, 100);
+	masterVolumeSlider = std::make_unique<Uslider>(this, false, vector{ background->w - 50.f, 3}, 0, 100);
 	masterVolumeSlider->setSliderTitle("     Master ");
 	masterVolumeSlider->bindValue(&SaveData::settingsData.masterVolume);
-	musicVolume = std::make_unique<Uslider>(false, vector{ background->w - 50.f, 3 }, 0, 100);
+	musicVolume = std::make_unique<Uslider>(this, false, vector{ background->w - 50.f, 3 }, 0, 100);
 	musicVolume->setSliderTitle("     Music   ");
 	musicVolume->bindValue(&SaveData::settingsData.musicVolume);
-	sfxVolume = std::make_unique<Uslider>(false, vector{ background->w - 50.f, 3 }, 0, 100);
+	sfxVolume = std::make_unique<Uslider>(this, false, vector{ background->w - 50.f, 3 }, 0, 100);
 	sfxVolume->setSliderTitle("     SFX       ");
 	sfxVolume->bindValue(&SaveData::settingsData.sfxVolume);
-	dialogVolume = std::make_unique<Uslider>(false, vector{ background->w - 50.f, 3 }, 0, 100);
+	dialogVolume = std::make_unique<Uslider>(this, false, vector{ background->w - 50.f, 3 }, 0, 100);
 	dialogVolume->setSliderTitle("     Dialog ");
 	dialogVolume->bindValue(&SaveData::settingsData.dialogVolume);
 
@@ -67,8 +67,8 @@ Usettings::Usettings() {
 	scrollBox->addChild(graphicsTitle.get(), graphicsTitle->getSize().y + 3 * stuff::pixelSize);
 
 	pixelFontHorizBox;
-	pixelFontHorizBox = std::make_unique<horizontalBox>();
-	std::unique_ptr<text> pixelFontText = std::make_unique<text>("     Pixel Font", "straight", vector{ 0, 0 });
+	pixelFontHorizBox = std::make_unique<horizontalBox>(this);
+	std::unique_ptr<text> pixelFontText = std::make_unique<text>(this, "     Pixel Font", "straight", vector{ 0, 0 });
 
 	std::unique_ptr<Ubutton> pixelFontButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	//pixelFontButton->setClickAnim(buttonClickAnim);
@@ -78,8 +78,8 @@ Usettings::Usettings() {
 	pixelFontHorizBox->addChild(pixelFontButton.get(), pixelFontButton->getSize().x);
 	scrollBox->addChild(pixelFontHorizBox.get(), 16 * stuff::pixelSize);
 
-	shortNumHorizBox = std::make_unique<horizontalBox>();
-	shortNumbersText = std::make_unique<text>("     Enable Short Numbers", "straight", vector{ 0, 0 });
+	shortNumHorizBox = std::make_unique<horizontalBox>(this);
+	shortNumbersText = std::make_unique<text>(this, "     Enable Short Numbers", "straight", vector{ 0, 0 });
 	shortNumbersButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	//shortNumbersButton->setClickAnim(buttonClickAnim);
 	shortNumbersButton->addCallback(this, &Usettings::toggleShortNumbers);
@@ -89,8 +89,8 @@ Usettings::Usettings() {
 	scrollBox->addChild(shortNumHorizBox.get(), 16 * stuff::pixelSize);
 
 	// show pets
-	petHorizBox = std::make_unique<horizontalBox>();
-	petText = std::make_unique<text>("     Show Pets                     ", "straight", vector{ 0, 0 });
+	petHorizBox = std::make_unique<horizontalBox>(this);
+	petText = std::make_unique<text>(this, "     Show Pets                     ", "straight", vector{ 0, 0 });
 	petButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	//petButton->setClickAnim(buttonClickAnim);
 	petButton->addCallback(this, &Usettings::togglePets);
@@ -100,8 +100,8 @@ Usettings::Usettings() {
 	scrollBox->addChild(petHorizBox.get(), 16 * stuff::pixelSize);
 
 	// show rain
-	rainHorizBox = std::make_unique<horizontalBox>();
-	rainText = std::make_unique<text>("     Show Rain                     ", "straight", vector{ 0, 0 });
+	rainHorizBox = std::make_unique<horizontalBox>(this);
+	rainText = std::make_unique<text>(this, "     Show Rain                     ", "straight", vector{ 0, 0 });
 	rainButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	//rainButton->setClickAnim(buttonClickAnim);
 	rainButton->addCallback(this, &Usettings::toggleRain);

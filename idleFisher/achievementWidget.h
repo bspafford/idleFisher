@@ -12,7 +12,7 @@ class UequippedWidget;
 
 class UachievementWidget : public widget {
 public:
-	UachievementWidget();
+	UachievementWidget(widget* parent);
 	~UachievementWidget();
 
 	void draw(Shader* shaderProgram) override;

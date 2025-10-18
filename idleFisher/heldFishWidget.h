@@ -12,7 +12,7 @@ class URectangle;
 
 class UheldFishWidget : public widget {
 public:
-	UheldFishWidget();
+	UheldFishWidget(widget* parent);
 	~UheldFishWidget();
 
 	// if fishList is empty it will use SaveData::data.fishData

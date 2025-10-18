@@ -39,8 +39,6 @@ public:
 private:
 	void buyUpgrade();
 
-	widget* widgetParent;
-
 	// structs
 	FworldStruct* worldStruct;
 	FsaveWorldStruct* saveWorldStruct;

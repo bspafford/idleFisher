@@ -8,7 +8,7 @@ class text;
 
 class AFmoreInfoUI : public widget {
 public:
-	AFmoreInfoUI(AautoFisher* autoFisher);
+	AFmoreInfoUI(widget* parent, AautoFisher* autoFisher);
 	~AFmoreInfoUI();
 
 	void draw(Shader* shaderProgram) override;

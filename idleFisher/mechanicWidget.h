@@ -6,6 +6,7 @@
 #include "upgradeBox.h"
 #include "button.h"
 
+class npc;
 class text;
 class verticalBox;
 class UprogressBar;
@@ -14,7 +15,7 @@ struct FsaveMechanicStruct;
 
 class UmechanicWidget : public widget {
 public:
-	UmechanicWidget(class npc* parent);
+	UmechanicWidget(widget* parent, npc* NPCParent);
 	~UmechanicWidget();
 
 	void draw(Shader* shaderProgram) override;
@@ -27,7 +28,7 @@ public:
 
 	double calcUpgradeCost();
 
-	class npc* parent;
+	npc* NPCParent;
 
 	FmechanicStruct* mechanicStruct;
 	FsaveMechanicStruct* saveMechanicStruct;

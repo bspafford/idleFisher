@@ -13,25 +13,20 @@
 #include "text.h"
 #include "equippedWidget.h"
 
-UachievementWidget::UachievementWidget() {
-	//vector loc = { stuff::screenSize.x * .15f, stuff::screenSize.y * .2f };
-	//vector size = { stuff::screenSize.x * .7f, stuff::screenSize.y * .6f };
+UachievementWidget::UachievementWidget(widget* parent) : widget(parent) {
 	background = std::make_unique<Image>("./images/widget/achievementBackground.png", vector{ 0, 0 }, false);
 
-	startTimeText = std::make_unique<text>("", "straight", vector{ 0, 0 });
+	startTimeText = std::make_unique<text>(this, "", "straight", vector{ 0, 0 });
 	changeTextTimer = std::make_unique<timer>();
 	changeTextTimer->addCallback(this, &UachievementWidget::updateText);
 	updateText();
-	//changeTextTimer->start(1);
 
-
-	scrollBox = std::make_unique<UscrollBox>();
-	equippedWidget = std::make_unique<UequippedWidget>();
-	equippedWidget->parent = scrollBox.get();
-	achievementHolder = std::make_unique<UwrapBox>(loc, size);
-	//achievementHolder->parent = scrollBox;
-	achievementText = std::make_unique<text>("Achievements - 0/500 (0%)", "straight", vector{ 0, 0 });
-	hoverBox = std::make_unique<UhoverBox>();
+	scrollBox = std::make_unique<UscrollBox>(this);
+	equippedWidget = std::make_unique<UequippedWidget>(this);
+	equippedWidget->setParent(scrollBox.get());
+	achievementHolder = std::make_unique<UwrapBox>(this, loc, size);
+	achievementText = std::make_unique<text>(this, "Achievements - 0/500 (0%)", "straight", vector{ 0, 0 });
+	hoverBox = std::make_unique<UhoverBox>(this);
 	xButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	xButton->addCallback(this, &UachievementWidget::closeWidget);
 	if (scrollBox) {
@@ -44,8 +39,7 @@ UachievementWidget::UachievementWidget() {
 
 
 	for (int i = 0; i < SaveData::data.achievementData.size(); i++) {
-		UachievementBox* achievementBox = new UachievementBox(i);
-		achievementBox->parent = achievementHolder.get();
+		UachievementBox* achievementBox = new UachievementBox(achievementHolder.get(), i);
 		achievementHolder->addChild(achievementBox);
 	}
 
@@ -108,9 +102,7 @@ void UachievementWidget::setupLocs() {
 
 	background->setLoc(vector{ stuff::screenSize.x / 2.f, stuff::screenSize.y / 2.f } - background->getSize() / 2);
 
-	//vector scrollBoxLoc = background->loc + vector{ 10, 8 } * stuff::pixelSize;
 	vector scrollBoxLoc = background->getLoc() + vector{11, 8} * stuff::pixelSize;
-	//vector scrollBoxSize = vector{ (20 * 16 + 2) * stuff::pixelSize, background->getSize().y - 15 * stuff::pixelSize };
 	vector scrollBoxSize = vector{ (17 * 25 + 2) * stuff::pixelSize, background->getSize().y - 15 * stuff::pixelSize };
 	scrollBox->setOgLoc(scrollBoxLoc);
 	achievementHolder->setOgLoc(scrollBoxLoc);

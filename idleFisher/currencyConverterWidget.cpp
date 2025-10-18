@@ -7,17 +7,17 @@
 #include "text.h"
 #include "button.h"
 
-UcurrencyConverterWidget::UcurrencyConverterWidget(npc* parent) {
-	this->parent = parent;
+UcurrencyConverterWidget::UcurrencyConverterWidget(widget* parent, npc* NPCParent) : widget(parent) {
+	this->parent = NPCParent;
 
-	upgradeHolder = std::make_unique<UscrollBox>();
+	upgradeHolder = std::make_unique<UscrollBox>(this);
 	closeButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	closeButton->addCallback<widget>(this, &UcurrencyConverterWidget::removeFromViewport);
 	npcImg = std::make_unique<Image>("./images/widget/npcButtons/atm.png", vector{ 0, 0 }, false);
 
-	name = std::make_unique<text>(" ", "biggerStraight", vector{ 0,0 });
-	description = std::make_unique<text>(" ", "straight", vector{ 0,0 });
-	nameHolder = std::make_unique<verticalBox>();
+	name = std::make_unique<text>(this, " ", "biggerStraight", vector{ 0,0 });
+	description = std::make_unique<text>(this, " ", "straight", vector{ 0,0 });
+	nameHolder = std::make_unique<verticalBox>(this);
 	nameHolder->addChild(name.get(), 8 * stuff::pixelSize);
 	nameHolder->addChild(description.get(), 4 * stuff::pixelSize);
 

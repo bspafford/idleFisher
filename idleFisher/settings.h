@@ -10,7 +10,7 @@ class horizontalBox;
 
 class Usettings : public widget {
 public:
-	Usettings();
+	Usettings(widget* parent);
 	~Usettings();
 	void draw(Shader* shaderProgram);
 	void setupLocs() override;

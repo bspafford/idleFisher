@@ -15,7 +15,7 @@ struct URectangle;
 
 class UdecoratorWidget : public widget {
 public:
-	UdecoratorWidget(Adecorator* parent);
+	UdecoratorWidget(widget* parent, Adecorator* decoratorParent);
 	~UdecoratorWidget();
 
 	void draw(Shader* shaderProgram) override;

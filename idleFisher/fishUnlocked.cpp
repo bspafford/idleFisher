@@ -7,7 +7,7 @@
 #include "animation.h"
 #include "text.h"
 
-UfishUnlocked::UfishUnlocked() {
+UfishUnlocked::UfishUnlocked(widget* parent) : widget(parent) {
 	bannerImg = std::make_unique<Image>("./images/widget/fishUnlocked.png", vector{ 0, 0 }, false);
 
 	std::unordered_map<std::string, animDataStruct> animData;
@@ -53,7 +53,7 @@ void UfishUnlocked::start(FfishData fish) {
 void UfishUnlocked::start(FachievementStruct* achievementData) {
 	visible = true;
 	thumbnail = std::make_unique<Image>("./images/widget/achievementIcons/achievementIcon" + std::to_string(achievementData->id + 1) + ".png", vector{ 0, 0 }, false);
-	name = std::make_unique<text>(achievementData->name, "straight", vector{ 0, 0 });
+	name = std::make_unique<text>(this, achievementData->name, "straight", vector{ 0, 0 });
 	name->setLineLength(50 * stuff::pixelSize);
 
 	finishedTimer->start(4);

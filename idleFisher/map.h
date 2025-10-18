@@ -19,7 +19,7 @@ private:
 	void moveMap();
 	void setLocs(vector loc);
 
-	UsailorWidget* parent;
+	UsailorWidget* sailorWidgetParent;
 
 	bool mouseDown = false;
 	vector mouseStartPos;

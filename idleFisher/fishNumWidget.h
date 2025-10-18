@@ -10,6 +10,7 @@ struct FcurrencyStruct;
 
 class UfishNumWidget : public widget {
 public:
+	UfishNumWidget(widget* parent);
 	~UfishNumWidget();
 
 	// one for fish, and the other for currency

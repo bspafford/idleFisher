@@ -11,37 +11,37 @@
 #include "button.h"
 #include "text.h"
 
-autoFisherUI::autoFisherUI(AautoFisher* autoFisherRef, vector loc) {
+autoFisherUI::autoFisherUI(widget* parent, AautoFisher* autoFisherRef, vector loc) : widget(parent) {
 	autoFisher = autoFisherRef;
 
 	UILoc = loc + vector{ -12, 47 };
 
 	// button
-	upgradeButton = std::make_unique<Ubutton>(nullptr, "autoFisher/UI/button.png", 36, 66, 4, UILoc, true, true);
+	upgradeButton = std::make_unique<Ubutton>(this, "autoFisher/UI/button.png", 36, 66, 4, UILoc, true, true);
 	upgradeButton->addCallback(this, &autoFisherUI::upgrade);
 	upgradeButton->buttonAnim->addFrameCallback(this, &autoFisherUI::moveButtonText);
 
 	// multipliers
-	multi1 = std::make_unique<Ubutton>(nullptr, "autoFisher/UI/multipliers/multi1.png", 36, 66, 3, UILoc, true, true);
-	multi10 = std::make_unique<Ubutton>(nullptr, "autoFisher/UI/multipliers/multi10.png", 36, 66, 3, UILoc, true, true);
-	multiMax = std::make_unique<Ubutton>(nullptr, "autoFisher/UI/multipliers/multiMax.png", 36, 66, 3, UILoc, true, true);
+	multi1 = std::make_unique<Ubutton>(this, "autoFisher/UI/multipliers/multi1.png", 36, 66, 3, UILoc, true, true);
+	multi10 = std::make_unique<Ubutton>(this, "autoFisher/UI/multipliers/multi10.png", 36, 66, 3, UILoc, true, true);
+	multiMax = std::make_unique<Ubutton>(this, "autoFisher/UI/multipliers/multiMax.png", 36, 66, 3, UILoc, true, true);
 	multi1->addCallback(this, &autoFisherUI::setMulti1);
 	multi10->addCallback(this, &autoFisherUI::setMulti10);
 	multiMax->addCallback(this, &autoFisherUI::setMultiMax);
 
 	pressTest = std::make_unique<Image>("./images/autoFisher/UI/multipliers/multi3.png", UILoc, true);
 
-	menuButton = std::make_unique<Ubutton>(nullptr, "autoFisher/UI/menu.png", 5, 10, 1, UILoc + vector{ 0, 37 }, true, false);
+	menuButton = std::make_unique<Ubutton>(this, "autoFisher/UI/menu.png", 5, 10, 1, UILoc + vector{ 0, 37 }, true, false);
 	menuButton->addCallback(this, &autoFisherUI::openMenu);
 
 	// level
 	level = std::make_unique<Image>("./images/autoFisher/UI/level1.png", UILoc, true);
 
-	levelText = std::make_unique<text>(std::to_string(*autoFisher->level), "tall", UILoc + vector{31, 66}, true, true, textAlign::right);
-	maxText = std::make_unique<text>(" ", "tall", UILoc + vector{31, 66}, true, true);
+	levelText = std::make_unique<text>(this, std::to_string(*autoFisher->level), "tall", UILoc + vector{31, 66}, true, true, textAlign::right);
+	maxText = std::make_unique<text>(this, " ", "tall", UILoc + vector{31, 66}, true, true);
 	maxText->setTextColor(124, 127, 85);
 	buttonTextLoc = UILoc + vector{ 34, 23 };
-	buttonText = std::make_unique<text>(shortNumbers::convert2Short(autoFisher->getUpgradeCost()[1]), "normal", buttonTextLoc, true, true, textAlign::right);
+	buttonText = std::make_unique<text>(this, shortNumbers::convert2Short(autoFisher->getUpgradeCost()[1]), "normal", buttonTextLoc, true, true, textAlign::right);
 
 	std::string levelBarPath = "./images/autoFisher/UI/level";
 	for (int i = 0; i < 21; i++)

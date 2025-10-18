@@ -8,7 +8,7 @@ class UhoverBox;
 
 class UequippedWidget : public widget {
 public:
-	UequippedWidget();
+	UequippedWidget(widget* parent);
 	~UequippedWidget();
 	void draw(Shader* shaderProgram) override;
 	vector getSize() override;

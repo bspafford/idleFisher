@@ -1,7 +1,7 @@
 #include "horizontalBox.h"
 
 #include <iostream>
-horizontalBox::horizontalBox() {
+horizontalBox::horizontalBox(widget* parent) : widget(parent) {
 
 }
 
@@ -21,7 +21,7 @@ void horizontalBox::draw(Shader* shaderProgram) {
 void horizontalBox::addChild(widget* child, float widgetWidth) {
 	horizChildComp comp = { child, widgetWidth };
 	if (comp.child) {
-		comp.child->parent = this;
+		comp.child->setParent(this);
 		comp.child->ogLoc = ogLoc;
 	}
 	childList.push_back(comp);

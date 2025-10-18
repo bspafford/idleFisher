@@ -1,7 +1,7 @@
 #include "verticalBox.h"
 
 #include <iostream>
-verticalBox::verticalBox() {
+verticalBox::verticalBox(widget* parent) : widget(parent) {
 
 }
 
@@ -20,7 +20,7 @@ void verticalBox::draw(Shader* shaderProgram) {
 void verticalBox::addChild(widget* child, float widgetHeight) {
 	vertChildComp comp = { child, widgetHeight };
 	if (comp.child)
-		comp.child->parent = this;
+		comp.child->setParent(this);
 	childList.push_back(comp);
 }
 

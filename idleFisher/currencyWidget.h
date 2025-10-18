@@ -5,6 +5,7 @@
 
 class UcurrencyWidget : public widget {
 public:
+	UcurrencyWidget(widget* parent);
 	~UcurrencyWidget();
 
 	void updateList();

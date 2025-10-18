@@ -8,8 +8,8 @@
 #include "sailorWidget.h"
 #include "animation.h"
 
-Umap::Umap(UsailorWidget* parent) {
-	this->parent = parent;
+Umap::Umap(UsailorWidget* parent) : widget(parent) {
+	this->sailorWidgetParent = parent;
 
 	mapImg = std::make_unique<Image>("./images/sailorMap.png", vector{ 0, 0 }, false); // -1073, -739
 
@@ -18,14 +18,14 @@ Umap::Umap(UsailorWidget* parent) {
 	hereBoat = std::make_unique<animation>("widget/hereBoat.png", 22, 22, animData, false, vector{ 0, 0 });
 	hereBoat->setAnimation("anim");
 	hereBoat->start();
-	hereText = std::make_unique<text>("Here", "straight", vector{ 0, 0 }, false, false, textAlign::center);
+	hereText = std::make_unique<text>(this, "Here", "straight", vector{ 0, 0 }, false, false, textAlign::center);
 
 	for (int i = 0; i < worldButtonLoc.size(); i++) {
 		worldButtonLoc[i] = worldButtonLoc[i] + vector{ 308, 196 };
 	}
 
 	for (int i = 0; i < worldButtonLoc.size(); i++) {
-		std::unique_ptr<Ubutton> button = std::make_unique<Ubutton>(parent, "x.png", 21, 22, 1, worldButtonLoc[i] * stuff::pixelSize, false, false);
+		std::unique_ptr<Ubutton> button = std::make_unique<Ubutton>(this, "x.png", 21, 22, 1, worldButtonLoc[i] * stuff::pixelSize, false, false);
 		button->setParent(this);
 		worldButtons.push_back(std::move(button));
 		
@@ -36,7 +36,7 @@ Umap::Umap(UsailorWidget* parent) {
 		else
 			textString = shortNumbers::convert2Short(SaveData::data.worldData[i].currencyNum);
 		if (worldButtons.size() > i)
-			worldNames.push_back(std::make_unique<text>(textString, "straight", worldButtonLoc[i] * stuff::pixelSize + vector{ worldButtons[i]->getSize().x / 2, 25 * stuff::pixelSize }, false, false, textAlign::center));
+			worldNames.push_back(std::make_unique<text>(this, textString, "straight", worldButtonLoc[i] * stuff::pixelSize + vector{ worldButtons[i]->getSize().x / 2, 25 * stuff::pixelSize }, false, false, textAlign::center));
 	}
 
 	for (int i = 0; i < worldButtonLoc.size() - 1; i++) {
@@ -113,7 +113,7 @@ void Umap::moveMap() {
 }
 
 void Umap::setLocs(vector loc) {
-	this->ogLoc = parent->mapBackground->getLoc() + vector{35, 35} *stuff::pixelSize;
+	this->ogLoc = sailorWidgetParent->mapBackground->getLoc() + vector{35, 35} *stuff::pixelSize;
 	mapImg->setLoc(loc);
 
 	for (int i = 0; i < worldButtons.size(); i++) {

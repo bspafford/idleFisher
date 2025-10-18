@@ -7,8 +7,8 @@
 #include "text.h"
 #include "button.h"
 
-UmerchantWidget::UmerchantWidget(npc* parent) {
-	this->parent = parent;
+UmerchantWidget::UmerchantWidget(widget* parent, npc* NPCParent) : widget(parent) {
+	this->NPCParent = NPCParent;
 
 	closeButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	if (closeButton)
@@ -17,9 +17,9 @@ UmerchantWidget::UmerchantWidget(npc* parent) {
 	npcImg->w *= 1;
 	npcImg->h *= 1;
 
-	name = std::make_unique<text>(" ", "biggerStraight", vector{ 0,0 });
-	description = std::make_unique<text>(" ", "straight", vector{ 0,0 });
-	nameHolder = std::make_unique<verticalBox>();
+	name = std::make_unique<text>(this, " ", "biggerStraight", vector{ 0,0 });
+	description = std::make_unique<text>(this, " ", "straight", vector{ 0,0 });
+	nameHolder = std::make_unique<verticalBox>(this);
 	if (nameHolder) {
 		nameHolder->addChild(name.get(), 8 * stuff::pixelSize);
 		nameHolder->addChild(description.get(), 4 * stuff::pixelSize);
@@ -56,7 +56,7 @@ void UmerchantWidget::setup() {
 			std::unique_ptr<Ubutton> button = std::make_unique<Ubutton>(this, "currency/coin" + std::to_string(worldIndex) + ".png", 12, 12, 1, vector{ 0, 0 }, false, false);
 			worldButtonList.push_back(std::move(button));
 
-			std::unique_ptr<UscrollBox> scrollBox = std::make_unique<UscrollBox>();
+			std::unique_ptr<UscrollBox> scrollBox = std::make_unique<UscrollBox>(this);
 			scrollBox->setVisibility(false);
 			upgradeHolderList.push_back(std::move(scrollBox));
 			lastWorldName = currData->levelName;

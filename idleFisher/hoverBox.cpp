@@ -5,12 +5,12 @@
 
 #include "text.h"
 
-UhoverBox::UhoverBox() {
+UhoverBox::UhoverBox(widget* parent) : widget(parent) {
 	img = std::make_unique<Image>("./images/widget/hoverImg.png", Main::mousePos, false);
-	name = std::make_unique<text>(" ", "straight", vector{0, 0});
-	description = std::make_unique<text>(" ", "straight", vector{ 0, 0 });
+	name = std::make_unique<text>(this, " ", "straight", vector{0, 0});
+	description = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 });
 	description->setLineLength(250);
-	other = std::make_unique<text>(" ", "straight", vector{ 0, 0 }, false, false, textAlign::right);
+	other = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 }, false, false, textAlign::right);
 	size = img->getSize();
 }
 

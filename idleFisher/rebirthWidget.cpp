@@ -8,7 +8,7 @@
 #include "hoverBox.h"
 #include "Rectangle.h"
 
-UrebirthWidget::UrebirthWidget() {
+UrebirthWidget::UrebirthWidget(widget* parent) : widget(parent) {
 	for (int i = 0; i < SaveData::data.rebirthData.size(); i++) {
 		FrebirthStruct curr = SaveData::data.rebirthData[i];
 		std::unique_ptr<UrebirthUnlock> unlock = std::make_unique<UrebirthUnlock>(this, i);
@@ -19,11 +19,11 @@ UrebirthWidget::UrebirthWidget() {
 	xButton->addCallback<widget>(this, &UrebirthWidget::removeFromViewport);
 
 	rebirthButton = std::make_unique<Ubutton>(this, "widget/button.png", 27, 13, 1, vector{ 0, 0 }, false, false);
-	rebirthText = std::make_unique<text>("Rebirth", "straight", vector{ 0, 0 }, false, false, textAlign::center);
+	rebirthText = std::make_unique<text>(this, "Rebirth", "straight", vector{ 0, 0 }, false, false, textAlign::center);
 	rebirthButton->addCallback(this, &UrebirthWidget::openRebirthWorld);
-	rebirthNum = std::make_unique<text>(" ", "straight", vector{ 0, 0 });
+	rebirthNum = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 });
 
-	hoverBox = std::make_unique<UhoverBox>();
+	hoverBox = std::make_unique<UhoverBox>(this);
 
 	setupLocs();
 }

@@ -11,7 +11,7 @@ struct horizChildComp {
 
 class horizontalBox : public widget {
 public:
-	horizontalBox();
+	horizontalBox(widget* parent);
 
 	virtual void draw(Shader* shaderProgram) override;
 

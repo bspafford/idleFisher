@@ -5,8 +5,7 @@
 #include "button.h"
 #include "rebirthWidget.h"
 
-UrebirthUnlock::UrebirthUnlock(widget* parent, int id) {
-	this->parent = parent;
+UrebirthUnlock::UrebirthUnlock(widget* parent, int id) : widget(parent) {
 	rebirthInfo = &SaveData::data.rebirthData[id];
 	saveRebirthInfo = &SaveData::saveData.rebirthList[id];
 
@@ -16,10 +15,10 @@ UrebirthUnlock::UrebirthUnlock(widget* parent, int id) {
 	std::string thumbnailPath = rebirthInfo->thumbnailPath;
 	thumbnailPath.erase(0, 9);
 
-	button = std::make_unique<Ubutton>(parent, thumbnailPath, 16, 16, 1, vector{ 0, 0 }, false, false);
+	button = std::make_unique<Ubutton>(this, thumbnailPath, 16, 16, 1, vector{ 0, 0 }, false, false);
 	button->addCallback(this, &UrebirthUnlock::onClick);
 
-	upgradeCost = std::make_unique<text>(shortNumbers::convert2Short(rebirthInfo->currencyNum), "straight", vector{ 0, 0 }, false, false, textAlign::center);
+	upgradeCost = std::make_unique<text>(this, shortNumbers::convert2Short(rebirthInfo->currencyNum), "straight", vector{ 0, 0 }, false, false, textAlign::center);
 	if (!saveRebirthInfo->unlocked) {
 		if (background)
 			background->setColorMod(glm::vec4(75.f/255.f, 75.f/255.f, 75.f/255.f, 1.f));
@@ -43,7 +42,7 @@ void UrebirthUnlock::draw(Shader* shaderProgram) {
 void UrebirthUnlock::onClick() {
 	if (!saveRebirthInfo->unlocked && prerequisitesMet() && SaveData::saveData.rebirthCurrency >= rebirthInfo->currencyNum) {
 		SaveData::saveData.rebirthCurrency -= rebirthInfo->currencyNum;
-		static_cast<UrebirthWidget*>(parent)->update();
+		static_cast<UrebirthWidget*>(getParent())->update();
 		unlock();
 	}
 }

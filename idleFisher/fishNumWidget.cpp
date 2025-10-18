@@ -8,6 +8,10 @@
 #include "image.h"
 #include "text.h"
 
+UfishNumWidget::UfishNumWidget(widget* parent) : widget(parent) {
+
+}
+
 // setup / update
 void UfishNumWidget::setup(FfishData* fish, FsaveFishData* saveFish, int fishQuality) {
 	this->fish = fish;
@@ -39,9 +43,9 @@ UfishNumWidget::~UfishNumWidget() {
 
 void UfishNumWidget::setupText() {
 	if (saveFish)
-		numText = std::make_unique<text>(shortNumbers::convert2Short(saveFish->numOwned[fishQuality]), "straight", vector{ 0, 0 });
+		numText = std::make_unique<text>(this, shortNumbers::convert2Short(saveFish->numOwned[fishQuality]), "straight", vector{ 0, 0 });
 	else
-		numText = std::make_unique<text>(shortNumbers::convert2Short(currencyNum), "straight", vector{ 0, 0 });
+		numText = std::make_unique<text>(this, shortNumbers::convert2Short(currencyNum), "straight", vector{ 0, 0 });
 
 	if (thumbnail)
 		size = thumbnail->getSize() + vector{ 30, 1 } * stuff::pixelSize;

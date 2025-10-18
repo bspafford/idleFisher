@@ -2,6 +2,7 @@
 
 #include "widget.h"
 
+class Ujournal;
 class text;
 class Ubutton;
 struct FfishData;
@@ -9,7 +10,7 @@ struct FsaveFishData;
 
 class UfishBox : public widget {
 public:
-	UfishBox(class Ujournal* ref, FfishData* fishData, FsaveFishData* saveFishData);
+	UfishBox(Ujournal* parent, FfishData* fishData, FsaveFishData* saveFishData);
 	~UfishBox();
 
 	void draw(Shader* shaderProgram);

@@ -8,7 +8,7 @@ struct FsaveAchievementStruct;
 
 class UhoverBox : public widget {
 public:
-	UhoverBox();
+	UhoverBox(widget* parent);
 	~UhoverBox();
 
 	void draw(Shader* shaderProgram) override;

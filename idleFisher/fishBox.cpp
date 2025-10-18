@@ -7,17 +7,17 @@
 #include "text.h"
 #include "button.h"
 
-UfishBox::UfishBox(Ujournal* ref, FfishData* fishData, FsaveFishData* saveFishData) {
-	this->ref = ref;
+UfishBox::UfishBox(Ujournal* parent, FfishData* fishData, FsaveFishData* saveFishData) : widget(parent) {
+	this->ref = parent;
 
 	this->fishData = fishData;
 	this->saveFishData = saveFishData;
 	
 	std::string fishThumbnail = fishData->thumbnail;
 	fishThumbnail.erase(0, 9);
-	fishButton = std::make_unique<Ubutton>(ref, fishThumbnail, 16, 16, 1, vector{ 0, 0 }, false, false);
+	fishButton = std::make_unique<Ubutton>(this, fishThumbnail, 16, 16, 1, vector{ 0, 0 }, false, false);
 	fishButton->addCallback(this, &UfishBox::openFishPage);
-	name = std::make_unique<text>(fishData->name, "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
+	name = std::make_unique<text>(this, fishData->name, "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
 	checkMark = std::make_unique<Image>("./images/widget/check.png", vector{ 0, 0 }, false);
 
 	if (name && fishButton && !saveFishData->unlocked) {

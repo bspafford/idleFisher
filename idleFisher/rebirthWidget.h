@@ -9,7 +9,7 @@ class UhoverBox;
 
 class UrebirthWidget : public widget {
 public:
-	UrebirthWidget();
+	UrebirthWidget(widget* parent);
 	~UrebirthWidget();
 
 	void draw(Shader* shaderProgram) override;

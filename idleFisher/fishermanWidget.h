@@ -6,12 +6,13 @@
 #include "upgradeBox.h"
 #include "button.h"
 
+class npc;
 class text;
 class verticalBox;
 
 class UfishermanWidget : public widget {
 public:
-	UfishermanWidget(class npc* parent);
+	UfishermanWidget(widget* parent, npc* NPCParent);
 	~UfishermanWidget();
 
 	void draw(Shader* shaderProgram) override;
@@ -26,7 +27,7 @@ public:
 	void upgradeSpeed();
 	void upgradeCatchChance();
 
-	class npc* parent;
+	class npc* NPCParent;
 
 	// fishing rod page
 	std::unique_ptr<Image> fishingRodThumbnail;

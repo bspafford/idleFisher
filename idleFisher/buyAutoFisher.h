@@ -1,13 +1,14 @@
 #pragma once
 
 #include "math.h"
+#include "Hoverable.h"
 
 class Shader;
 class text;
 class animation;
 struct Fcollision;
 
-class buyAutoFisher {
+class buyAutoFisher : public IHoverable {
 public:
 	buyAutoFisher(vector loc);
 	~buyAutoFisher();

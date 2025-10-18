@@ -20,7 +20,7 @@ struct FtextInfo {
 
 class text : public widget {
 public:
-	text(std::string text, std::string font, vector loc, bool useWorldPos = false, bool isometric = false, int alignment = textAlign::left);
+	text(widget* parent, std::string text, std::string font, vector loc, bool useWorldPos = false, bool isometric = false, int alignment = textAlign::left);
 	~text();
 	void setText(std::string text);
 	void draw(Shader* shaderProgram);

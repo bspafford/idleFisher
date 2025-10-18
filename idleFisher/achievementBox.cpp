@@ -4,7 +4,7 @@
 #include "saveData.h"
 #include "timer.h"
 
-UachievementBox::UachievementBox(int id) {
+UachievementBox::UachievementBox(widget* parent, int id) : widget(parent) {
 	this->id = id;
 
 	if (!rotateTimer) {
@@ -95,11 +95,11 @@ bool UachievementBox::mouseOver() {
 bool UachievementBox::mouseOver() {
 	vector mousePos = Main::mousePos;
 
-	if (!parent && mousePos.x >= loc.x && mousePos.x <= loc.x + startSize.x && mousePos.y >= loc.y && mousePos.y <= loc.y + startSize.y)
+	if (!getParent() && mousePos.x >= loc.x && mousePos.x <= loc.x + startSize.x && mousePos.y >= loc.y && mousePos.y <= loc.y + startSize.y)
 		return true;
-	else if (parent) {
-		vector parentLoc = parent->getLoc();
-		vector parentSize = parent->getSize();
+	else if (getParent()) {
+		vector parentLoc = getParent()->getLoc();
+		vector parentSize = getParent()->getSize();
 		if (mousePos.x >= loc.x && mousePos.x <= loc.x + startSize.x && mousePos.y >= loc.y && mousePos.y <= loc.y + startSize.y)
 			// test if inside the rect too
 			if (mousePos.x >= parentLoc.x && mousePos.x <= parentLoc.x + parentSize.x && mousePos.y >= parentLoc.y && mousePos.y <= parentLoc.y + parentSize.y)

@@ -53,10 +53,10 @@ AautoFisher::AautoFisher(int id) {
 	autoFisherData.insert({ "10", {{0, 9}, {39, 9}, .1, true} });
 	autoFisherData.insert({ "11", {{0, 10}, {39, 10}, .1, true} });
 
-	autoFisher = std::make_unique<animation>(autoFisherSpriteSheet, 42, 58, autoFisherData, true, loc);
-	autoFisher->addAnimEvent(40, this, &AautoFisher::catchFish);
-	autoFisher->setAnimation("1");
-	autoFisher->start();
+	anim = std::make_unique<animation>(autoFisherSpriteSheet, 42, 58, autoFisherData, true, loc);
+	anim->addAnimEvent(40, this, &AautoFisher::catchFish);
+	anim->setAnimation("1");
+	anim->start();
 
 	// outline animation
 	std::unordered_map<std::string, animDataStruct> outlineData;
@@ -76,9 +76,9 @@ AautoFisher::AautoFisher(int id) {
 
 	autoFisherNum = world::currWorld->autoFisherList.size();
 
-	UI = std::make_unique<autoFisherUI>(this, loc);
+	UI = std::make_unique<autoFisherUI>(nullptr, this, loc);
 
-	afMoreInfoUI = std::make_unique<AFmoreInfoUI>(this);
+	afMoreInfoUI = std::make_unique<AFmoreInfoUI>(nullptr, this);
 }
 
 AautoFisher::~AautoFisher() {
@@ -88,8 +88,9 @@ AautoFisher::~AautoFisher() {
 void AautoFisher::Update(float deltaTime) {
 	calcIfPlayerInfront();
 
-	if (autoFisher)
-		calcMouseOver(bMouseOver, autoFisher->spriteSheet->isMouseOver(true));
+	bMouseOver = anim->spriteSheet->isMouseOver(true);
+	if (anim && bMouseOver)
+		Main::setHoveredItem(this);
 
 	if (Main::bLeftClick)
 		leftClick();
@@ -102,8 +103,8 @@ void AautoFisher::draw(Shader* shaderProgram) {
 	if (UI && UI->visible)
 		UI->draw(shaderProgram);
 
-	if (autoFisher)
-		autoFisher->draw(shaderProgram);
+	if (anim)
+		anim->draw(shaderProgram);
 	if (fishingLine)
 		fishingLine->draw(shaderProgram);
 	if (bMouseOver && outline)
@@ -138,12 +139,6 @@ void AautoFisher::rightClick() {
 // also updates the objects bool
 // only updates is theres a change in the variables
 void AautoFisher::calcMouseOver(bool& mouseOverPrev, bool mouseOver) {
-	if (mouseOverPrev && !mouseOver) {
-		Main::leaveHoverObject(NULL);
-	} else if (!mouseOverPrev && mouseOver)
-		Main::hoverObject(NULL);
-
-	mouseOverPrev = mouseOver;
 }
 
 void AautoFisher::collectFish() {
@@ -157,8 +152,8 @@ void AautoFisher::collectFish() {
 	Main::heldFishWidget->updateList();
 
 	// only start if full
-	if (autoFisher && autoFisher->bStopped) {
-		autoFisher->start();
+	if (anim && anim->bStopped) {
+		anim->start();
 		//outlineAnim->start();
 	}
 
@@ -194,11 +189,11 @@ void AautoFisher::catchFish() {
 			heldFish.push_back(saveFish);
 		}
 
-		if (autoFisher && calcCurrencyHeld() >= maxCurrency) {
-			autoFisher->stop();
+		if (anim && calcCurrencyHeld() >= maxCurrency) {
+			anim->stop();
 		}
-	} else if (autoFisher) {
-		autoFisher->stop();
+	} else if (anim) {
+		anim->stop();
 	}
 
 	if (afMoreInfoUI && afMoreInfoUI->isVisible())
@@ -279,8 +274,8 @@ void AautoFisher::setStats() {
 	// updates the animation speed // temp values
 	float y = -(1.f / 1100.f) * *level + 0.100909f;
 
-	if (autoFisher)
-		autoFisher->animData[autoFisher->currAnim].duration = y;
+	if (anim)
+		anim->animData[anim->currAnim].duration = y;
 	outline->animData[outline->currAnim].duration = y;
 	fishingLine->animData[fishingLine->currAnim].duration = y;
 
@@ -323,8 +318,8 @@ void AautoFisher::upgrade() {
 	setStats();
 
 	// see if can fish again
-	if (autoFisher && calcCurrencyHeld() < maxCurrency && autoFisher->bStopped)
-		autoFisher->start();
+	if (anim && calcCurrencyHeld() < maxCurrency && anim->bStopped)
+		anim->start();
 
 	if (afMoreInfoUI && afMoreInfoUI->isVisible())
 		afMoreInfoUI->updateUI();
@@ -386,9 +381,9 @@ float AautoFisher::getCatchTime() {
 	// temp
 	// should calculate a max catch time, then set the fps based on catch time
 	//return (float)NormalAnim[0].size() * autoFisherAnim->fps;
-	if (autoFisher) {
+	if (anim) {
 		// std::cout << autoFisher->cellWidthNum << " * " << autoFisher->animData[autoFisher->currAnim].duration << std::endl;
-		return autoFisher->cellWidthNum * autoFisher->animData[autoFisher->currAnim].duration;
+		return anim->cellWidthNum * anim->animData[anim->currAnim].duration;
 	} else
 		return 40; // temp
 }
@@ -551,8 +546,8 @@ std::vector<float> AautoFisher::calcIdleFishChance(std::vector<FfishData> fishLi
 }
 
 void AautoFisher::startFishing() {
-	if (autoFisher && calcCurrencyHeld() < maxCurrency && autoFisher->bStopped)
-		autoFisher->start();
+	if (anim && calcCurrencyHeld() < maxCurrency && anim->bStopped)
+		anim->start();
 }
 
 // fish per second

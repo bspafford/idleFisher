@@ -10,7 +10,7 @@ struct FsaveVaultUnlocksStruct;
 
 class UdecorationBox : public widget {
 public:
-	UdecorationBox(UdecoratorWidget* parentRef, widget* buttonParent, FvaultUnlocksStruct* vaultUnlock, FsaveVaultUnlocksStruct* saveVaultUnlock);
+	UdecorationBox(widget* parent, UdecoratorWidget* parentRef, widget* buttonParent, FvaultUnlocksStruct* vaultUnlock, FsaveVaultUnlocksStruct* saveVaultUnlock);
 	~UdecorationBox();
 	void draw(Shader* shaderProgram);
 	void setLoc(vector loc) override;

@@ -9,8 +9,9 @@
 #include "worlds.h"
 #include "scuba.h"
 
-widget::widget() {
+widget::widget(widget* parent) {
 	instances.insert(this);
+	this->parent = parent;
 }
 
 widget::~widget() {
@@ -27,15 +28,12 @@ void widget::addToViewport(bool override) {
 		Main::currWidget = this;
 		
 		Main::character->setCanMove(false);
-
-		Main::hoverNum = 0;
 	}
 
 	visible = true;
 }
 
 void widget::removeFromViewport() {
-	Main::hoverNum = 0;
 	Main::setMouseImg("cursor");
 
 	if (Main::currWidget == this) {
@@ -109,4 +107,12 @@ void widget::setLocAndSize(vector loc, vector size) {
 
 void widget::addedToViewport() {
 
+}
+
+widget* widget::getParent() {
+	return parent;
+}
+
+void widget::setParent(widget* parent) {
+	this->parent = parent;
 }

@@ -3,8 +3,8 @@
 #include "timer.h"
 #include "main.h"
 
-UnewRecordWidget::UnewRecordWidget() {
-	recordText = std::make_unique<text>("New Record!", "straight", vector{ 0, 0 }, false, false, textAlign::center);
+UnewRecordWidget::UnewRecordWidget(widget* parent) : widget(parent) {
+	recordText = std::make_unique<text>(this, "New Record!", "straight", vector{ 0, 0 }, false, false, textAlign::center);
 	startTimer = std::make_unique<timer>();
 	startTimer->addCallback(this, &UnewRecordWidget::finished);
 	setVisibility(false);

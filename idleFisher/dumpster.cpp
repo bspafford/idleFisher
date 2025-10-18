@@ -20,12 +20,12 @@ dumpster::dumpster(vector loc) {
 void dumpster::onHover() {
 	bool prevMouseOver = bMouseOver;
 	bMouseOver = img->isMouseOver(true);
+	if (bMouseOver)
+		Main::setHoveredItem(this);
 	if (!prevMouseOver && bMouseOver) {
 		img->setImage("./images/dumpsterHovered.png");
-		Main::hoverObject(NULL);
 	} else if (prevMouseOver && !bMouseOver) {
 		img->setImage("./images/dumpster.png");
-		Main::leaveHoverObject(NULL);
 	}
 
 	if (bMouseOver && Main::bLeftClick && !Main::currWidget)

@@ -14,7 +14,7 @@ struct FsaveFishData;
 
 class Ujournal : public widget {
 public:
-	Ujournal();
+	Ujournal(widget* parent);
 	~Ujournal();
 
 	void draw(Shader* shaderProgram);

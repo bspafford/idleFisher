@@ -394,28 +394,20 @@ void Main::updateShaders(float deltaTime) {
 	twoDWaterShader->setVec2("playerPos", glm::vec2(newPos.x * 10, newPos.y * 5));
 }
 
+void Main::setHoveredItem(IHoverable* item) {
+	hoveredItem = item;
+}
+
 void Main::calcMouseImg() {
-	// if widget over screen, then don't test mouse collision for water
-	if (currWidget) {
-		if (hoverNum == 0 && currCursor != "cursor") {
-			setMouseImg("cursor");
-		} else if (hoverNum != 0 && currCursor != "cursor1") {
-			setMouseImg("cursor1");
-		}
-		return;
-	}
+	std::cout << "hoveredItem: " << hoveredItem << std::endl;
 
-	if (hoverNum != 0 && currCursor != "cursor1") {
-		hoverWater = false;
+	if (hoveredItem && currCursor != "cursor1")
 		setMouseImg("cursor1");
-	} else if (mouseOverWater && hoverNum == 0 && currCursor != "hook") {
-		hoverWater = true;
-		setMouseImg("hook");
-	} else if (hoverNum == 0 && !mouseOverWater && currCursor != "cursor") {
-		hoverWater = false;
+	else if (!hoveredItem && currCursor != "cursor")
 		setMouseImg("cursor");
-	}
 
+	// resets hoveredItem
+	hoveredItem = nullptr;
 }
 
 void Main::setMouseImg(std::string cursorName) {
@@ -438,28 +430,28 @@ void Main::setMouseImg(std::string cursorName) {
 }
 
 void Main::setupWidgets() {
-	pauseMenu = new UpauseMenu();
-	settingsWidget = new Usettings();
+	pauseMenu = new UpauseMenu(nullptr);
+	settingsWidget = new Usettings(nullptr);
 
-	fishComboWidget = new UfishComboWidget();
+	fishComboWidget = new UfishComboWidget(nullptr);
 
-	heldFishWidget = new UheldFishWidget();
+	heldFishWidget = new UheldFishWidget(nullptr);
 	heldFishWidget->updateList();
-	currencyWidget = new UcurrencyWidget();
+	currencyWidget = new UcurrencyWidget(nullptr);
 	currencyWidget->updateList();
 
-	comboWidget = new UcomboWidget();
-	achievementWidget = new UachievementWidget();
-	journal = new Ujournal();
-	fishUnlocked = new UfishUnlocked();
+	comboWidget = new UcomboWidget(nullptr);
+	achievementWidget = new UachievementWidget(nullptr);
+	journal = new Ujournal(nullptr);
+	fishUnlocked = new UfishUnlocked(nullptr);
 
-	UIWidget = new UUIWidget();
+	UIWidget = new UUIWidget(nullptr);
 
-	idleProfitWidget = new UidleProfitWidget();
+	idleProfitWidget = new UidleProfitWidget(nullptr);
 
-	comboOvertimeWiget = new UcomboOvertimeWidget();
+	comboOvertimeWiget = new UcomboOvertimeWidget(nullptr);
 
-	newRecordWidget = new UnewRecordWidget();
+	newRecordWidget = new UnewRecordWidget(nullptr);
 }
 
 void Main::setupImages() {
@@ -514,8 +506,8 @@ void Main::keyCallback(GLFWwindow* window, int key, int scancode, int action, in
 		if (key == GLFW_KEY_ESCAPE && currWorldName != "titleScreen") {
 			//glfwSetWindowShouldClose(window, true);
 			if (currWidget) {
-				if (currWidget->parent)
-					currWidget->parent->addToViewport(true);
+				if (currWidget->getParent())
+					currWidget->getParent()->addToViewport(true);
 				else
 					currWidget->removeFromViewport();
 			} else
@@ -593,7 +585,6 @@ void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfI
 		prevWorld = currWorldName;
 	currWorldName = worldName;
 	SaveData::saveData.currWorld = currWorldName;
-	hoverNum = 0;
 	
 	if (currWidget)
 		currWidget->removeFromViewport();
@@ -742,34 +733,6 @@ void Main::loadIdleProfits() {
 		world::currWorld->fishTransporter->calcIdleProfits(timeDiff);
 	if (world::currWorld && world::currWorld->atm)
 		world::currWorld->atm->calcIdleProfits(timeDiff);
-}
-
-// if object then doesn't work with ui
-// if not object then works with ui
-void Main::hoverObject(widget* widget1) {
-	// if (currWidget && hoverobject is apart of curr object)
-
-	// could does hoverObject(widget* widget)
-	// then in each of hte button instantiators just have it specify the widget, can be NULL, if not on widget
-	// then check to see if currWidget and button->widget are equal
-	// if they are then hover
-	// else don't
-
-	if ((widget1 && widget1 == currWidget) || (!widget1 && !currWidget)) {
-		if (hoverNum == 0) {
-			hoverWater = false;
-		}
-		// then hover
-		hoverNum++;
-	}
-}
-
-void Main::leaveHoverObject(widget* widget) {
-	if ((widget && widget == currWidget) || (!widget && !currWidget))
-		hoverNum--;
-
-	if (hoverNum < 0)
-		hoverNum = 0;
 }
 
 void Main::addLeftClick(void (*callback) ()) {

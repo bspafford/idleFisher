@@ -4,7 +4,7 @@
 
 class UscrollBox : public verticalBox {
 public:
-	UscrollBox();
+	UscrollBox(widget* parent);
 
 	void draw(Shader* shaderProgram) override;
 

@@ -8,7 +8,7 @@
 
 #include "camera.h"
 
-text::text(std::string text, std::string font, vector loc, bool useWorldPos, bool isometric, int alignment) {
+text::text(widget* parent, std::string text, std::string font, vector loc, bool useWorldPos, bool isometric, int alignment) : widget(parent) {
 	instances.insert(this);
 
 	this->textString = text;

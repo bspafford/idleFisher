@@ -12,9 +12,7 @@
 #include "currencyConverterWidget.h"
 #include "atm.h"
 
-UcurrencyConverterBox::UcurrencyConverterBox(UcurrencyConverterWidget* parent, FcurrencyStruct* currencyStruct, FsaveCurrencyStruct* saveCurrencyStruct) {
-	this->widgetParent = parent;
-
+UcurrencyConverterBox::UcurrencyConverterBox(widget* parent, FcurrencyStruct* currencyStruct, FsaveCurrencyStruct* saveCurrencyStruct) : widget(parent) {
 	this->currencyStruct = currencyStruct;
 	this->saveCurrencyStruct = saveCurrencyStruct;
 
@@ -34,15 +32,15 @@ void UcurrencyConverterBox::setup() {
 	//thumbnailBackground = std::make_unique<Image("./images/widget/thumbnailBackground.png");
 	//name = std::make_unique<text(nameString, "straight", { 0, 0 });
 	currency1 = std::make_unique<Image>(currencyStruct->thumbnail, vector{ 0, 0 }, false);
-	currency1Num = std::make_unique<text>(" ", "straight", vector{0, 0}, false, false, textAlign::center);
+	currency1Num = std::make_unique<text>(this, " ", "straight", vector{0, 0}, false, false, textAlign::center);
 	currency2 = std::make_unique<Image>(SaveData::data.currencyData[currencyStruct->id+1].thumbnail, vector{ 0, 0 }, false);
-	currency2Num = std::make_unique<text>(" ", "straight", vector{0, 0}, false, false, textAlign::center);
+	currency2Num = std::make_unique<text>(this, " ", "straight", vector{0, 0}, false, false, textAlign::center);
 	arrow = std::make_unique<Image>("./images/widget/arrow.png", vector{ 0, 0 }, false);
 
 	buyButton = std::make_unique<Ubutton>(widgetParent, "./images/widget/upgradeButton.png", 35, 13, 2, vector{ 0, 0 }, false, false);
 	buyButton->addCallback(this, &UcurrencyConverterBox::buyUpgrade);
 
-	buttonPriceText = std::make_unique<text>("Start", "straightDark", vector{0, 0}, false, false, textAlign::center);
+	buttonPriceText = std::make_unique<text>(this, "Start", "straightDark", vector{0, 0}, false, false, textAlign::center);
 	buttonPriceText->setTextColor(255, 0, 0);
 
 	// if going
@@ -114,11 +112,11 @@ void UcurrencyConverterBox::setupLocs() {
 bool UcurrencyConverterBox::mouseOver() {
 	vector mousePos = Main::mousePos;
 
-	if (!parent && mousePos.x >= loc.x && mousePos.x <= loc.x + size.x && mousePos.y >= loc.y && mousePos.y <= loc.y + size.y)
+	if (!getParent() && mousePos.x >= loc.x && mousePos.x <= loc.x + size.x && mousePos.y >= loc.y && mousePos.y <= loc.y + size.y)
 		return true;
-	else if (parent) {
-		vector parentLoc = parent->getLoc();
-		vector parentSize = parent->getSize();
+	else if (getParent()) {
+		vector parentLoc = getParent()->getLoc();
+		vector parentSize = getParent()->getSize();
 		if (mousePos.x >= loc.x + parentLoc.x && mousePos.x <= loc.x + size.x + parentLoc.x && mousePos.y >= loc.y + parentLoc.y && mousePos.y <= loc.y + size.y + parentLoc.y)
 			// test if inside the rect too
 			if (mousePos.x >= parentLoc.x && mousePos.x <= parentLoc.x + parentSize.x && mousePos.y >= parentLoc.y && mousePos.y <= parentLoc.y + parentSize.y)

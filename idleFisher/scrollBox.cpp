@@ -2,7 +2,7 @@
 
 #include "main.h"
 
-UscrollBox::UscrollBox() {
+UscrollBox::UscrollBox(widget* parent) : verticalBox(parent) {
 }
 
 void UscrollBox::draw(Shader* shaderProgram) {

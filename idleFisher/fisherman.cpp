@@ -4,7 +4,7 @@
 
 Afisherman::Afisherman(vector loc) : npc(loc) {
 	setup("fisherman");
-	fishermanWidget = std::make_unique<UfishermanWidget>(this);
+	fishermanWidget = std::make_unique<UfishermanWidget>(nullptr, this);
 
 	int worldId = math::getWorldIndexFromName(Main::currWorldName);
 	discovered = &SaveData::saveData.npcSave[worldId].fishermanDiscovered;

@@ -7,7 +7,7 @@
 #include "math.h"
 #include "hoverBox.h"
 
-UpremiumBuffWidget::UpremiumBuffWidget(FgoldenFishStruct goldenFish) {
+UpremiumBuffWidget::UpremiumBuffWidget(widget* parent, FgoldenFishStruct goldenFish) : widget(parent) {
 	this->goldenFish = goldenFish;
 
 	lifeTimer = std::make_unique<timer>();
@@ -15,12 +15,12 @@ UpremiumBuffWidget::UpremiumBuffWidget(FgoldenFishStruct goldenFish) {
 	lifeTimer->addUpdateCallback(this, &UpremiumBuffWidget::timerUpdate);
 	lifeTimer->start(goldenFish.time);
 
-	progressBar = std::make_unique<UprogressBar>(false, 15, 15, FprogressBarDir::up, true);
+	progressBar = std::make_unique<UprogressBar>(this, false, 15, 15, FprogressBarDir::up, true);
 	progressBar->setBackgroundColor({ 0, 0, 0, 0 });
 	progressBar->setForegroundColor({ 0, 0, 0, 50 });
 
 	img = std::make_unique<Image>("./images/fish/premium.png", vector{ 0, 0 }, false);
-	hoverBox = std::make_unique<UhoverBox>();
+	hoverBox = std::make_unique<UhoverBox>(this);
 	hoverBox->setInfo(goldenFish.name, goldenFish.description);
 }
 

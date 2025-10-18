@@ -2,20 +2,20 @@
 #include "main.h"
 #include "text.h"
 
-UjournalProgressWidget::UjournalProgressWidget(int fishNumTotal, int starsNumTotal, int sizeNumTotal) {
+UjournalProgressWidget::UjournalProgressWidget(widget* parent, int fishNumTotal, int starsNumTotal, int sizeNumTotal) : widget(parent){
 	this->fishNumTotal = fishNumTotal;
 	this->starsNumTotal = starsNumTotal;
 	this->sizeNumTotal = sizeNumTotal;
 
 	background = std::make_unique<Image>("./images/widget/journalTiny.png", vector{ 0, 0 }, false);
 
-	fishNumText = std::make_unique<text>("Unlocked", "straightDark", vector{ 0, 0 });
-	starsNumText = std::make_unique<text>("Stars", "straightDark", vector{ 0, 0 });
-	sizeNumText = std::make_unique<text>("Size", "straightDark", vector{ 0, 0 });
+	fishNumText = std::make_unique<text>(this, "Unlocked", "straightDark", vector{ 0, 0 });
+	starsNumText = std::make_unique<text>(this, "Stars", "straightDark", vector{ 0, 0 });
+	sizeNumText = std::make_unique<text>(this, "Size", "straightDark", vector{ 0, 0 });
 
-	fishNumTextNum = std::make_unique<text>("0/5", "straightDark", vector{ 0, 0 });
-	starsNumTextNum = std::make_unique<text>("0/15", "straightDark", vector{ 0, 0 });
-	sizeNumTextNum = std::make_unique<text>("0/5", "straightDark", vector{ 0, 0 });
+	fishNumTextNum = std::make_unique<text>(this, "0/5", "straightDark", vector{ 0, 0 });
+	starsNumTextNum = std::make_unique<text>(this, "0/15", "straightDark", vector{ 0, 0 });
+	sizeNumTextNum = std::make_unique<text>(this, "0/5", "straightDark", vector{ 0, 0 });
 }
 
 void UjournalProgressWidget::draw(Shader* shaderProgram) {

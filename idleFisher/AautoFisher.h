@@ -2,6 +2,7 @@
 
 #include "math.h"
 #include "saveData.h"
+#include "Hoverable.h"
 
 #include <string>
 #include <vector>
@@ -16,7 +17,7 @@ class Ubutton;
 class animation;
 class Fcollision;
 
-class AautoFisher {
+class AautoFisher : IHoverable {
 public:
 	AautoFisher(int id);
 	~AautoFisher();
@@ -55,7 +56,7 @@ public:
 
 	bool bMouseOver = false;
 
-	std::unique_ptr<animation> autoFisher;
+	std::unique_ptr<animation> anim;
 	std::unique_ptr<animation> outline;
 	std::unique_ptr<animation> fishingLine;
 

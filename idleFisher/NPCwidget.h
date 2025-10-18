@@ -6,6 +6,7 @@
 #include "upgradeBox.h"
 #include "button.h"
 
+class npc;
 class text;
 class verticalBox;
 class Shader;
@@ -13,7 +14,7 @@ class Image;
 
 class NPCwidget : public widget {
 public:
-	NPCwidget(class npc* parent, std::string npcName);
+	NPCwidget(widget* parent, npc* NPCParent, std::string npcName);
 	~NPCwidget();
 
 	void draw(Shader* shaderProgram) override;
@@ -21,7 +22,7 @@ public:
 
 	void setNameDescription(std::string name, std::string description);
 
-	class npc* parent;
+	npc* NPCParent;
 
 	// upgrades
 	std::unique_ptr<UscrollBox> upgradeHolder;

@@ -4,7 +4,7 @@
 
 Amerchant::Amerchant(vector loc) : npc(loc) {
 	setup("merchant");
-	merchantWidget = std::make_unique<UmerchantWidget>(this);
+	merchantWidget = std::make_unique<UmerchantWidget>(nullptr, this);
 
 	int worldId = math::getWorldIndexFromName(Main::currWorldName);
 	discovered = &SaveData::saveData.npcSave[worldId].merchantDiscovered;

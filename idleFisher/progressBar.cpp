@@ -1,6 +1,6 @@
 #include "progressBar.h"
 
-UprogressBar::UprogressBar(bool useCharLoc, float width, float height, int dir, bool reverse) {
+UprogressBar::UprogressBar(widget* parent, bool useCharLoc, float width, float height, int dir, bool reverse) : widget(parent) {
 	this->useCharLoc = useCharLoc;
 
 	size = vector{ width, height } * stuff::pixelSize;

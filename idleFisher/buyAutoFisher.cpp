@@ -22,7 +22,7 @@ buyAutoFisher::buyAutoFisher(vector loc) {
 	plusAnim->start();
 
 	price = calcPrice();
-	priceText = std::make_unique<text>(shortNumbers::convert2Short(price), "bold", loc, true, true);
+	priceText = std::make_unique<text>(nullptr, shortNumbers::convert2Short(price), "bold", loc, true, true);
 
 	updateLoc();
 	setupCollision();
@@ -39,12 +39,12 @@ void buyAutoFisher::draw(Shader* shaderProgram) {
 
 	bool prevMouseOver = bMouseOver;
 	bMouseOver = plusAnim->spriteSheet->isMouseOver();
+	if (bMouseOver)
+		Main::setHoveredItem(this);
 	if (!prevMouseOver && bMouseOver) {
 		plusAnim->setAnimation("hover");
-		Main::hoverObject(NULL);
 	} else if (prevMouseOver && !bMouseOver) {
 		plusAnim->setAnimation("normal");
-		Main::leaveHoverObject(NULL);
 	}
 
 	if (bMouseOver && Main::bLeftClick && !Main::currWidget)
@@ -115,7 +115,6 @@ bool buyAutoFisher::hasCurrency() {
 
 void buyAutoFisher::updateLoc() {
 	if (calcMaxAutoFishers()) {
-		Main::leaveHoverObject(NULL);
 		return;
 	}
 

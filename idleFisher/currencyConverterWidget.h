@@ -6,12 +6,13 @@
 #include "currencyConverterBox.h"
 #include "button.h"
 
+class npc;
 class text;
 class verticalBox;
 
 class UcurrencyConverterWidget : public widget {
 public:
-	UcurrencyConverterWidget(class npc* parent);
+	UcurrencyConverterWidget(widget* parent, npc* NPCParent);
 	~UcurrencyConverterWidget();
 
 	void draw(Shader* shaderProgram) override;

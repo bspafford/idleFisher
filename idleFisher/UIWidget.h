@@ -10,7 +10,7 @@ class timer;
 
 class UUIWidget : public widget {
 public:
-	UUIWidget();
+	UUIWidget(widget* parent);
 	~UUIWidget();
 	void draw(Shader* shaderProgram) override;
 	void updateProgressBar(double points, double progress, double needed);

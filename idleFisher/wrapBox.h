@@ -4,7 +4,7 @@
 
 class UwrapBox : public widget {
 public:
-	UwrapBox(vector loc, vector size);
+	UwrapBox(widget* parent, vector loc, vector size);
 
 	void draw(Shader* shaderProgram);
 	void addChild(widget* child);

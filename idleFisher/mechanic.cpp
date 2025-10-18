@@ -4,7 +4,7 @@
 
 Amechanic::Amechanic(vector loc) : npc(loc) {
 	setup("mechanic");
-	mechanicWidget = std::make_unique<UmechanicWidget>(this);
+	mechanicWidget = std::make_unique<UmechanicWidget>(nullptr, this);
 
 	int worldId = math::getWorldIndexFromName(Main::currWorldName);
 	discovered = &SaveData::saveData.npcSave[worldId].mechanicDiscovered;

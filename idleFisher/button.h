@@ -8,14 +8,15 @@
 #include <glm/glm.hpp>
 
 #include "widget.h"
+#include "Hoverable.h"
 #include "math.h"
 
 class animation;
 
-class Ubutton : public widget{
+class Ubutton : public widget, public IHoverable {
 public:
 	// only give NON NULL values to overriding widgets ONLY
-	Ubutton(widget* widget, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha);
+	Ubutton(widget* parent, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha);
 	~Ubutton();
 
 	// non static
@@ -43,8 +44,6 @@ public:
 
 	void enable(bool enabled);
 
-	void setParent(widget* parent);
-
 	//void setColorMod(int r, int g, int b);
 	std::weak_ptr<Image> getButtonImg();
 
@@ -54,7 +53,8 @@ public:
 private:
 	std::function<void()> callback_;
 
-	bool bIsHovered = false;
+	bool mouseOver = false;
+	bool prevMouseOver = false;
 
 	bool useWorldLoc = false;
 

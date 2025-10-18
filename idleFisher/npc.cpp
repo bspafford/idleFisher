@@ -36,7 +36,7 @@ void npc::setup(std::string npcName) {
 
 	// calc frame num
 	if (npcName != "fishTransporter") {
-		widget = std::make_unique<NPCwidget>(this, npcName);
+		widget = std::make_unique<NPCwidget>(nullptr, this, npcName);
 
 		int fameNum = textureManager::getTexture("./images/npc/" + npcName + ".png")->w / npcCellSizes[npcName].x - 1;
 
@@ -69,10 +69,8 @@ void npc::draw(Shader* shaderProgram) {
 	bool bMouseOver = npcAnim->spriteSheet->isMouseOver(true); // mouseOver(npcAnim->spriteSheet);
 	if (bMouseOver && Main::bLeftClick)
 		Main::addLeftClick(this, &npc::click);
-	if (!prevMouseOver && bMouseOver)
-		mouseEnter();
-	else if (prevMouseOver && !bMouseOver)
-		mouseExit();
+	if (bMouseOver)
+		Main::setHoveredItem(this);
 
 	npcAnim->draw(shaderProgram);
 
@@ -98,18 +96,6 @@ bool npc::isDiscovered() {
 	if (discovered)
 		return discovered;
 	return false;
-}
-
-void npc::mouseEnter() {
-	bMouseOver = true;
-
-	Main::hoverObject(NULL);
-}
-
-void npc::mouseExit() {
-	bMouseOver = false;
-
-	Main::leaveHoverObject(NULL);
 }
 
 bool npc::calcIfPlayerInfront() {

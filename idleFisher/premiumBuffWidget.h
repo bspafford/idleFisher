@@ -10,7 +10,7 @@ class Image;
 
 class UpremiumBuffWidget : public widget {
 public:
-	UpremiumBuffWidget(FgoldenFishStruct goldenFish);
+	UpremiumBuffWidget(widget* parent, FgoldenFishStruct goldenFish);
 	void draw(Shader* shaderProgram);
 	void setLoc(vector loc) override;
 	vector getSize() override;

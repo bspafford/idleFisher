@@ -7,7 +7,7 @@
 #include "text.h"
 #include "verticalBox.h"
 
-UpauseMenu::UpauseMenu() {
+UpauseMenu::UpauseMenu(widget* parent) : widget(parent) {
 	pauseText = std::make_unique<Image>("./images/widget/pauseMenu/pause.png", vector{ 3, 3 } * stuff::pixelSize, false);
 	pauseText->setAnchor(anchor::left, anchor::top);
  	resumeButton = std::make_unique<Ubutton>(this, "widget/pauseMenu/continue.png", 67, 19, 1, vector{ 0, 0 }, false, false);
@@ -16,7 +16,7 @@ UpauseMenu::UpauseMenu() {
 	exitToMenuButton = std::make_unique<Ubutton>(this, "widget/pauseMenu/exitToMenu.png", 91, 19, 1, vector{ 0, 0 }, false, false);
 	exitToDesktopButton = std::make_unique<Ubutton>(this, "widget/pauseMenu/exitGame.png", 72, 19, 1, vector{ 0, 0 }, false, false);
 	
-	vertBox = std::make_unique<verticalBox>();
+	vertBox = std::make_unique<verticalBox>(this);
 	if (vertBox) {
 		float padding = 10 * stuff::pixelSize;
 		if (resumeButton) {
@@ -68,7 +68,7 @@ void UpauseMenu::saveGame() {
 
 void UpauseMenu::settings() {
 	Main::settingsWidget->addToViewport(true);
-	Main::settingsWidget->parent = this;
+	Main::settingsWidget->setParent(this);
 }
 
 void UpauseMenu::exitToMenu() {

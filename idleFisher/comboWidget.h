@@ -6,7 +6,7 @@ class text;
 
 class UcomboWidget : public widget {
 public:
-	UcomboWidget();
+	UcomboWidget(widget* parent);
 	~UcomboWidget();
 
 	void setupLocs() override;

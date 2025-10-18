@@ -2,6 +2,7 @@
 
 #include "widget.h"
 
+class AautoFisher;
 class AFmoreInfoUI;
 class animation;
 class Ubutton;
@@ -10,7 +11,7 @@ struct Image;
 
 class autoFisherUI : public widget {
 public:
-	autoFisherUI(class AautoFisher* autoFisherRef, vector loc);
+	autoFisherUI(widget* parent, AautoFisher* autoFisherRef, vector loc);
 	~autoFisherUI();
 
 	void draw(Shader* shaderProgram);

@@ -11,7 +11,7 @@ struct vertChildComp {
 
 class verticalBox : public widget {
 public:
-	verticalBox();
+	verticalBox(widget* parent);
 
 	virtual void draw(Shader* shaderProgram) override;
 

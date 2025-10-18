@@ -1,11 +1,12 @@
 #pragma once
 
 #include "math.h"
+#include "Hoverable.h"
 
 class Shader;
 class Image;
 
-class dumpster {
+class dumpster : public IHoverable {
 public:
 	dumpster(vector loc);
 
@@ -19,5 +20,4 @@ private:
 	std::unique_ptr<Image> img;
 
 	vector loc;
-
 };

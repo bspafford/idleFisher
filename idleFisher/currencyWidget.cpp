@@ -3,6 +3,10 @@
 #include "main.h"
 #include "saveData.h"
 
+UcurrencyWidget::UcurrencyWidget(widget* parent) : widget(parent) {
+
+}
+
 UcurrencyWidget::~UcurrencyWidget() {
 	currencyList.clear();
 }
@@ -18,7 +22,7 @@ void UcurrencyWidget::updateList() {
 		if (saveCurrency.numOwned != 0) {
 			yOffset += stuff::pixelSize;
 
-			std::unique_ptr<UfishNumWidget> widget = std::make_unique<UfishNumWidget>();
+			std::unique_ptr<UfishNumWidget> widget = std::make_unique<UfishNumWidget>(this);
 			
 			FcurrencyStruct* currencyStruct = &SaveData::data.currencyData[saveCurrency.id];
 

@@ -3,15 +3,15 @@
 #include "text.h"
 #include "Rectangle.h"
 
-Uslider::Uslider(bool useCharLoc, vector size, float minVal, float maxVal, bool showValueText) {
+Uslider::Uslider(widget* parent, bool useCharLoc, vector size, float minVal, float maxVal, bool showValueText) : widget(parent) {
 	this->size = size * stuff::pixelSize;
 	this->useCharLoc = useCharLoc;
 	this->minVal = minVal;
 	this->maxVal = maxVal;
 	value = &minVal;
 
-	sliderTitle = std::make_unique<text>(" ", "straight", vector{ 0, 0 });
-	sliderValueText = std::make_unique<text>(std::to_string(int(*value)), "straight", vector{0, 0}, false, false, textAlign::right);
+	sliderTitle = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 });
+	sliderValueText = std::make_unique<text>(this, std::to_string(int(*value)), "straight", vector{0, 0}, false, false, textAlign::right);
 
 	background = std::make_unique<URectangle>(vector{ 0, 0 }, size, useCharLoc);
 	foreground = std::make_unique<URectangle>(vector{ 0, 0 }, size, useCharLoc);
@@ -50,7 +50,7 @@ void Uslider::draw(Shader* shaderProgram) {
 		// clamp value
 		float min = backgroundLoc.x - handleSize / 2;
 		float max = backgroundLoc.x + backgroundSize.x - handleSize / 2;
-		handleRect.x = math::clamp(Main::mousePos.x - parent->getLoc().x, min, max);
+		handleRect.x = math::clamp(Main::mousePos.x - getParent()->getLoc().x, min, max);
 
 		// update value
 		float percent =  (handleRect.x - min) / (max - min);

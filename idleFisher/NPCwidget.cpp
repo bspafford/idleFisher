@@ -9,10 +9,10 @@
 
 #include "image.h"
 
-NPCwidget::NPCwidget(npc* parent, std::string npcName) {
-	this->parent = parent;
+NPCwidget::NPCwidget(widget* parent, npc* NPCParent, std::string npcName) : widget(parent) {
+	this->NPCParent = NPCParent;
 
-	upgradeHolder = std::make_unique<UscrollBox>();
+	upgradeHolder = std::make_unique<UscrollBox>(this);
 	
 	closeButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	closeButton->addCallback<widget>(this, &NPCwidget::removeFromViewport);
@@ -20,9 +20,9 @@ NPCwidget::NPCwidget(npc* parent, std::string npcName) {
 	if (npcName != "fishGod")
 		npcImg = std::make_unique<Image>("./images/widget/npcButtons/" + npcName + ".png", vector{ 0, 0 }, false);
 
-	name = std::make_unique<text>(" ", "biggerStraightDark", vector{ 0,0 });
-	description = std::make_unique<text>(" ", "straightDark", vector{ 0,0 });
-	nameHolder = std::make_unique<verticalBox>();
+	name = std::make_unique<text>(this, " ", "biggerStraightDark", vector{ 0,0 });
+	description = std::make_unique<text>(this, " ", "straightDark", vector{ 0,0 });
+	nameHolder = std::make_unique<verticalBox>(this);
 	nameHolder->addChild(name.get(), 8 * stuff::pixelSize);
 	nameHolder->addChild(description.get(), 4 * stuff::pixelSize);
 

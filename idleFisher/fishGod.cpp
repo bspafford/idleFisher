@@ -5,7 +5,7 @@
 AfishGod::AfishGod(vector loc) : npc(loc) {
 	setup("fishGod");
 	
-	rebirthWidget = std::make_unique<UrebirthWidget>();
+	rebirthWidget = std::make_unique<UrebirthWidget>(nullptr);
 
 	int worldId = math::getWorldIndexFromName(Main::currWorldName);
 	discovered = &discoveredFallback;

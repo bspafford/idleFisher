@@ -11,23 +11,23 @@
 #include "text.h"
 #include "button.h"
 
-AFmoreInfoUI::AFmoreInfoUI(AautoFisher* autoFisher) {
+AFmoreInfoUI::AFmoreInfoUI(widget* parent, AautoFisher* autoFisher) : widget(parent) {
 	this->autoFisher = autoFisher;
 
 	background = std::make_unique<Image>("./images/autoFisher/moreUI/UI.png", vector{ 0, 0 }, false);
 
-	fisherNum = std::make_unique<text>("#" + std::to_string(autoFisher->autoFisherNum + 1), "afScreen", vector{ 0, 0 }, false, false, textAlign::right);
+	fisherNum = std::make_unique<text>(this, "#" + std::to_string(autoFisher->autoFisherNum + 1), "afScreen", vector{ 0, 0 }, false, false, textAlign::right);
 
-	levelText = std::make_unique<text>("123", "afScreen", vector{ 100, 0 }, false, false, textAlign::right);
+	levelText = std::make_unique<text>(this, "123", "afScreen", vector{ 100, 0 }, false, false, textAlign::right);
 
-	fullnessText = std::make_unique<text>("42/122", "afScreen", vector{ 0, 0 }, false, false, textAlign::center);
+	fullnessText = std::make_unique<text>(this, "42/122", "afScreen", vector{ 0, 0 }, false, false, textAlign::center);
 
 	closeButton = std::make_unique<Ubutton>(this, "autoFisher/moreUI/xButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	closeButton->addCallback(this, &AFmoreInfoUI::closeUI);
 
-	fpsText = std::make_unique<text>(shortNumbers::convert2Short(autoFisher->calcFPS()), "afScreen", vector{ 0, 0 });
+	fpsText = std::make_unique<text>(this, shortNumbers::convert2Short(autoFisher->calcFPS()), "afScreen", vector{ 0, 0 });
 
-	mpsText = std::make_unique<text>("123mps", "afScreen", vector{0, 0});
+	mpsText = std::make_unique<text>(this, "123mps", "afScreen", vector{0, 0});
 
 	levelBar = std::make_unique<Image>("./images/autoFisher/moreUI/level/level1.png", vector{ 0, 0 }, false);
 	fullnessBar = std::make_unique<Image>("./images/autoFisher/moreUI/fullness/fullness1.png", vector{ 0, 0 }, false);
@@ -96,6 +96,5 @@ void AFmoreInfoUI::addToViewport(bool override) {
 
 void AFmoreInfoUI::closeUI() {
 	// because when the button disapears it doesn't remove hover num
-	Main::hoverNum = 0;
 	removeFromViewport();
 }

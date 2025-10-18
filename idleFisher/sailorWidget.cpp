@@ -9,7 +9,7 @@
 #include "animation.h"
 #include "timer.h"
 
-UsailorWidget::UsailorWidget() {
+UsailorWidget::UsailorWidget(widget* parent) : widget(parent) {
 	mapBackground = std::make_unique<Image>("./images/widget/map.png", vector{ 0, 0 }, false);
 	setupLocs(); // setup so map can get loc of map background
 	map = std::make_unique<Umap>(this);

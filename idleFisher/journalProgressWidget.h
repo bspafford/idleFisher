@@ -6,7 +6,7 @@ class text;
 
 class UjournalProgressWidget : public widget {
 public:
-	UjournalProgressWidget(int fishNumTotal, int starsNumTotal, int sizeNumTotal);
+	UjournalProgressWidget(widget* parent, int fishNumTotal, int starsNumTotal, int sizeNumTotal);
 	void draw(Shader* shaderProgram);
 	void updateNumbers(int fishNum, int starsNum, int sizeNum);
 

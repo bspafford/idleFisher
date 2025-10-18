@@ -3,15 +3,16 @@
 #include <string>
 
 #include "saveData.h"
+#include "widget.h"
 
 class Shader;
 class Image;
 class URectangle;
 class Eshake;
 
-class UfishComboWidget {
+class UfishComboWidget : public widget {
 public:
-	UfishComboWidget();
+	UfishComboWidget(widget* parent);
 	~UfishComboWidget();
 
 	int click(bool fishing);
