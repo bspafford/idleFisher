@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "main.h"
+#include "Input.h"
 #include "worlds.h"
 #include "stuff.h"
 #include "animation.h"
@@ -90,12 +91,12 @@ void AautoFisher::Update(float deltaTime) {
 
 	bMouseOver = anim->spriteSheet->isMouseOver(true);
 	if (anim && bMouseOver)
-		Main::setHoveredItem(this);
+		IHoverable::setHoveredItem(this);
 
-	if (Main::bLeftClick)
+	if (Input::getMouseButtonDown(MouseButton::left))
 		leftClick();
 
-	if (Main::bRightClick)
+	if (Input::getMouseButtonDown(MouseButton::right))
 		rightClick();
 }
 

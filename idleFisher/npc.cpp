@@ -1,5 +1,5 @@
 #include "npc.h"
-#include "main.h"
+#include "Input.h"
 #include "character.h"
 #include "animation.h"
 #include "textureManager.h"
@@ -66,19 +66,16 @@ void npc::setupCollision() {
 
 void npc::draw(Shader* shaderProgram) {
 	bool prevMouseOver = bMouseOver;
-	bool bMouseOver = npcAnim->spriteSheet->isMouseOver(true); // mouseOver(npcAnim->spriteSheet);
-	if (bMouseOver && Main::bLeftClick)
-		Main::setLeftClick(this, &npc::click);
+	bool bMouseOver = npcAnim->spriteSheet->isMouseOver(true);
+	if (bMouseOver && Input::getMouseButtonDown(MouseButton::left))
+		Input::setLeftClick(this, &npc::click);
 	if (bMouseOver)
-		Main::setHoveredItem(this);
+		IHoverable::setHoveredItem(this);
 
 	npcAnim->draw(shaderProgram);
 
 	if (!isDiscovered())
 		exclamationPointAnim->draw(shaderProgram);
-
-	//if (npcAnim && npcAnim->spriteSheet && Main::character && npcAnim->spriteSheet->path.find("mechanic") != std::string::npos)
-	//	std::cout << "npc offset: " << getOffset() << ", charLoc: " << Acharacter::getCharLoc() << std::endl;
 }
 
 void npc::setLoc(vector loc) {

@@ -1,6 +1,7 @@
 #include "dumpster.h"
 
 #include "main.h"
+#include "Input.h"
 #include "worlds.h"
 #include "saveData.h"
 #include "AautoFisher.h"
@@ -21,15 +22,15 @@ void dumpster::onHover() {
 	bool prevMouseOver = bMouseOver;
 	bMouseOver = img->isMouseOver(true);
 	if (bMouseOver)
-		Main::setHoveredItem(this);
+		IHoverable::setHoveredItem(this);
 	if (!prevMouseOver && bMouseOver) {
 		img->setImage("./images/dumpsterHovered.png");
 	} else if (prevMouseOver && !bMouseOver) {
 		img->setImage("./images/dumpster.png");
 	}
 
-	if (bMouseOver && Main::bLeftClick && !Main::currWidget)
-		Main::setLeftClick(this, &dumpster::sellFish);
+	if (bMouseOver && Input::getMouseButtonDown(MouseButton::left) && !widget::getCurrWidget())
+		Input::setLeftClick(this, &dumpster::sellFish);
 }
 
 void dumpster::draw(Shader* shaderProgram) {

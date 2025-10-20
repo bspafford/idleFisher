@@ -1,5 +1,5 @@
 #include "slider.h"
-#include "main.h"
+#include "Input.h"
 #include "text.h"
 #include "Rectangle.h"
 
@@ -37,20 +37,20 @@ void Uslider::draw(Shader* shaderProgram) {
 	int handleSize = newSize.y + stuff::pixelSize;
 	Rect handleRect = { int(newLoc.x + newSize.x * percentVal - handleSize / 2), int(newLoc.y + newSize.y / 2 - handleSize / 2), handleSize, handleSize };
 
-	if (!prevMouseDown && Main::bLeftMouseButtonDown && mouseOver()) {
-		mouseDown = true;
-	} else if (!Main::bLeftMouseButtonDown) {
-		mouseDown = false;
+	if (Input::getMouseButtonDown(MouseButton::left) && mouseOver()) {
+		sliding = true;
+	} else if (!Input::getMouseButtonDown(MouseButton::left)) {
+		sliding = false;
 	}
 
 	vector backgroundSize = background->getSize();
 	vector backgroundLoc = background->getLoc();
 
-	if (mouseDown) {
+	if (sliding) {
 		// clamp value
 		float min = backgroundLoc.x - handleSize / 2;
 		float max = backgroundLoc.x + backgroundSize.x - handleSize / 2;
-		handleRect.x = math::clamp(Main::mousePos.x - getParent()->getLoc().x, min, max);
+		handleRect.x = math::clamp(Input::getMousePos().x - getParent()->getLoc().x, min, max);
 
 		// update value
 		float percent =  (handleRect.x - min) / (max - min);
@@ -67,8 +67,6 @@ void Uslider::draw(Shader* shaderProgram) {
 
 	sliderValueText->setLoc({ float(size.x + 20 * stuff::pixelSize), float(backgroundLoc.y + backgroundSize.y / 2 - sliderValueText->getSize().y / 2) });
 	sliderValueText->draw(shaderProgram);
-
-	prevMouseDown = Main::bLeftMouseButtonDown;
 }
 
 void Uslider::setSliderTitle(std::string title) {

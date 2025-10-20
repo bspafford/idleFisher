@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <cassert>
 #include <functional>
-#include <glm/glm.hpp>
 
 #include "widget.h"
 #include "Hoverable.h"

@@ -50,6 +50,9 @@ public:
 	vector ogLoc = { 0, 0 };
 	vector size = { 0, 0 };
 
+	// returns the override widget if there is one
+	static widget* getCurrWidget();
+
 	widget* getParent();
 	void setParent(widget* newParent);
 	// returns root parent variable
@@ -62,4 +65,8 @@ private:
 	widget* recalcRootParent();
 	void setRootParent(widget* rootParent);
 	std::vector<widget*> children;
+
+	// is the overriding widget that is open on screen
+	// something like the journal, NPC menus, settings, etc
+	static inline widget* currWidget;
 };

@@ -1,5 +1,6 @@
 #include "map.h"
 #include "main.h"
+#include "Input.h"
 #include "button.h"
 #include "text.h"
 #include "saveData.h"
@@ -66,12 +67,13 @@ void Umap::draw(Shader* shaderProgram) {
 	glScissor(ogLoc.x, ogLoc.y, getSize().x, getSize().y);
 
 
-	mouseDown = Main::bLeftMouseButtonDown;
-	bool mouseStartX = Main::mousePos.x >= ogLoc.x && Main::mousePos.x <= ogLoc.x + size.x;
-	bool mouseStartY = Main::mousePos.y >= ogLoc.y && Main::mousePos.y <= ogLoc.y + size.y;
+	mouseDown = Input::getMouseButtonHeld(MouseButton::left);
+	vector mousePos = Input::getMousePos();
+	bool mouseStartX = mousePos.x >= ogLoc.x && mousePos.x <= ogLoc.x + size.x;
+	bool mouseStartY = mousePos.y >= ogLoc.y && mousePos.y <= ogLoc.y + size.y;
 	if ((mouseStartX && mouseStartY) || movingMap) {
 		setMouseHoverIcon(mouseDown ? "cursor3" : "cursor2");
-		Main::setHoveredItem(this);
+		IHoverable::setHoveredItem(this);
 	}
 
 	// first frame mouse button goes down
@@ -80,7 +82,7 @@ void Umap::draw(Shader* shaderProgram) {
 		if (mouseStartX && mouseStartY) {
 			movingMap = true;
 			imgStartPos = mapImg->getLoc();
-			mouseStartPos = Main::mousePos;
+			mouseStartPos = mousePos;
 		}
 		// first frame mouse button was released
 	} else if (!mouseDown && prevMouseDown)
@@ -130,7 +132,7 @@ void Umap::moveMap() {
 		return;
 
 	vector diff = mouseStartPos - imgStartPos;
-	vector newLoc = Main::mousePos - diff;
+	vector newLoc = Input::getMousePos() - diff;
 
 	float x = math::clamp(newLoc.x, stuff::screenSize.x - mapImg->w * stuff::pixelSize, 0);
 	float y = math::clamp(newLoc.y, stuff::screenSize.y - mapImg->h * stuff::pixelSize, 0);

@@ -1,5 +1,6 @@
 #include "rebirthWidget.h"
 #include "main.h"
+#include "Input.h"
 #include "saveData.h"
 #include "button.h"
 #include "text.h"
@@ -36,20 +37,19 @@ void UrebirthWidget::draw(Shader* shaderProgram) {
 	// tests if the mouse is over a button, if it is then don't scroll
 	bool mouseOverUnlock = isMouseOverUnlock();
 
-	if (!Main::bLeftMouseButtonDown)
+	bool mouseButtonHeld = Input::getMouseButtonHeld(MouseButton::left);
+	if (!mouseButtonHeld)
 		wasOverButton = false;
 	else if (mouseOverUnlock)
 		wasOverButton = true;
 
 	if (!mouseOverUnlock && !wasOverButton) {
-		if (Main::bLeftMouseButtonDown) {
-			if (!mouseDownPrev) {
-				startLoc = scrollLoc;
-				mouseStartPos = Main::mousePos;
-			}
-			scrolling();
+		if (Input::getMouseButtonDown(MouseButton::left)) {
+			startLoc = scrollLoc;
+			mouseStartPos = Input::getMousePos();
 		}
-		mouseDownPrev = Main::bLeftMouseButtonDown;
+		if (mouseButtonHeld)
+			scrolling();
 	}
 
 	// draw background
@@ -195,14 +195,15 @@ void UrebirthWidget::drawLine(Shader* shaderProgram, vector loc1, vector loc2) {
 }
 
 void UrebirthWidget::scrolling() {
+	vector mousePos = Input::getMousePos();
 	if (justOpened) {
 		startLoc = { 0, 0 };
-		mouseStartPos = Main::mousePos;
+		mouseStartPos = mousePos;
 		justOpened = false;
 	}
 	vector diff = mouseStartPos - startLoc;
-	scrollLoc.x = math::clamp(Main::mousePos.x - diff.x, -100 * stuff::pixelSize, stuff::screenSize.x);
-	scrollLoc.y = math::clamp(Main::mousePos.y - diff.y, -100 * stuff::pixelSize, stuff::screenSize.y);
+	scrollLoc.x = math::clamp(mousePos.x - diff.x, -100 * stuff::pixelSize, stuff::screenSize.x);
+	scrollLoc.y = math::clamp(mousePos.y - diff.y, -100 * stuff::pixelSize, stuff::screenSize.y);
 	
 	// need to set location of all the children
 	for (int i = 0; i < rebirthButtonList.size(); i++) {

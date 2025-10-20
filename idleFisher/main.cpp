@@ -17,6 +17,7 @@
 #include "upgrades.h"
 #include "achievement.h"
 #include "achievementBuffs.h"
+#include "Input.h"
 
 // npc
 #include "fishTransporter.h"
@@ -160,19 +161,14 @@ int Main::createWindow() {
 		lastTime = currentTime;
 		//std::cout << "fps: " << 1.f / deltaTime << std::endl;
 		
-		bLeftClick = false;
-		bRightClick = false;
-		mouseWheelDir = 0;
-
 		int cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
 		if (cursorMode != GLFW_CURSOR_NORMAL) {
 			std::cout << "Cursor mode changed: " << cursorMode << std::endl;
 		}
 
 		// process input
-		glfwPollEvents();
+		Input::pollEvents();
 
-		leftClickCallback = nullptr;
 		Update(deltaTime);
 		updateShaders(deltaTime);
 		switchingWorld = false;
@@ -232,10 +228,7 @@ int Main::createWindow() {
 			draw3D(shaderProgram);
 		}
 
-		// make sure its the same item thats being hovered and clicked
-		if (checkValidInteract() && leftClickCallback)
-			leftClickCallback();
-
+		Input::fireHeldInputs();
 		glfwSwapBuffers(window);
 
 		// checks for errors
@@ -275,8 +268,9 @@ void Main::Start() {
 	// setup callbacks for input
 	glfwSetFramebufferSizeCallback(window, windowSizeCallback);
 	glfwSetKeyCallback(window, keyCallback);
-	glfwSetMouseButtonCallback(window, mouseButtonCallback);
-	glfwSetScrollCallback(window, scrollCallback);
+	glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
+	glfwSetScrollCallback(window, Input::scrollCallback);
+	glfwSetCursorPosCallback(window, Input::cursorPosCallback);
 
 	SaveData::saveData.playerLoc = vector{ 1800, 1300 } / 3.f;
 	SaveData::saveData.playerLoc = vector{ 663, 552 };
@@ -323,12 +317,6 @@ void Main::Start() {
 }
 
 void Main::Update(float deltaTime) {
-	// mouse pos
-	double mouseX, mouseY;
-	glfwGetCursorPos(window, &mouseX, &mouseY);
-	mousePos.x = mouseX;
-	mousePos.y = mouseY;
-
 	timer::callUpdate(deltaTime);
 
 	vector move = { 0, 0 };
@@ -347,7 +335,7 @@ void Main::Update(float deltaTime) {
 	//std::cout << "playerPos: " << SaveData::saveData.playerLoc << std::endl;
 	collision::testCCD(character->col.get(), move, deltaTime);
 	//collision::testCollisions(character->col, allCollision); // old
-	collision::testMouse(mousePos);
+	collision::testMouse(Input::getMousePos());
 	calcMouseImg();
 
 	character->setPlayerColPoints();
@@ -399,19 +387,16 @@ void Main::updateShaders(float deltaTime) {
 	twoDWaterShader->setVec2("playerPos", glm::vec2(newPos.x * 10, newPos.y * 5));
 }
 
-void Main::setHoveredItem(IHoverable* item) {
-	hoveredItem = item;
-}
-
 void Main::calcMouseImg() {
-	bool canHover = checkValidInteract();
+	bool canHover = IHoverable::checkValidInteract();
+	IHoverable* hoveredItem = IHoverable::getHoveredItem();
 	if (hoveredItem && canHover && currCursor != hoveredItem->getMouseHoverIcon())
 		setMouseImg(hoveredItem->getMouseHoverIcon());
 	else if ((!hoveredItem || !canHover) && currCursor != "cursor")
 		setMouseImg("cursor");
 
 	// resets hoveredItem
-	hoveredItem = nullptr;
+	IHoverable::setHoveredItem(nullptr);
 }
 
 void Main::setMouseImg(std::string cursorName) {
@@ -478,8 +463,8 @@ void Main::draw(Shader* shaderProgram) {
 	} else if (currWorldName.find("world") != std::string::npos)
 		world::currWorld->draw(shaderProgram);
 
-	if (currWidget)
-		currWidget->draw(shaderProgram);
+	if (widget::getCurrWidget())
+		widget::getCurrWidget()->draw(shaderProgram);
 
 	fishUnlocked->draw(shaderProgram);
 
@@ -496,11 +481,11 @@ void Main::keyCallback(GLFWwindow* window, int key, int scancode, int action, in
 	if (action == GLFW_PRESS && key != -1) {
 		if (key == GLFW_KEY_ESCAPE && currWorldName != "titleScreen") {
 			//glfwSetWindowShouldClose(window, true);
-			if (currWidget) {
-				if (currWidget->getParent())
-					currWidget->getParent()->addToViewport(true);
+			if (widget::getCurrWidget()) {
+				if (widget::getCurrWidget()->getParent())
+					widget::getCurrWidget()->getParent()->addToViewport(true);
 				else
-					currWidget->removeFromViewport();
+					widget::getCurrWidget()->removeFromViewport();
 			} else
 				pauseMenu->addToViewport(true);
 		}
@@ -537,30 +522,6 @@ void Main::keyCallback(GLFWwindow* window, int key, int scancode, int action, in
 	}
 }
 
-void Main::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-	if (action == GLFW_PRESS) {
-		if (button == GLFW_MOUSE_BUTTON_LEFT) {
-			bLeftMouseButtonDown = true;
-			character->leftClick();
-		} else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-			bRightMouseButtonDown = true;
-			character->stopFishing();
-		}
-	} else if (action == GLFW_RELEASE) {
-		if (button == GLFW_MOUSE_BUTTON_LEFT) {
-			bLeftMouseButtonDown = false;
-			bLeftClick = true;
-		} else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-			bRightMouseButtonDown = false;
-			bRightClick = true;
-		}
-	}
-}
-
-void Main::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-	mouseWheelDir = yoffset;
-}
-
 vector Main::getCamPos() {
 	return vector{ camera->Position.x, camera->Position.y };
 }
@@ -577,8 +538,8 @@ void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfI
 	currWorldName = worldName;
 	SaveData::saveData.currWorld = currWorldName;
 	
-	if (currWidget)
-		currWidget->removeFromViewport();
+	if (widget::getCurrWidget())
+		widget::getCurrWidget()->removeFromViewport();
 
 	collision::getCollisionObjects();
 
@@ -640,7 +601,7 @@ void Main::checkAchievements() {
 }
 
 void Main::drawWidgets(Shader* shaderProgram) {
-	if (currWidget == pauseMenu)
+	if (widget::getCurrWidget() == pauseMenu)
 		return;
 
 	fishComboWidget->draw(shaderProgram, stuff::screenSize.x, stuff::screenSize.y);
@@ -687,8 +648,8 @@ void Main::rebirth() {
 
 	SaveData::recalcLists();
 
-	if (currWidget)
-		currWidget->removeFromViewport();
+	if (widget::getCurrWidget())
+		widget::getCurrWidget()->removeFromViewport();
 	if (world::currWorld)
 		world::currWorld->autoFisherList.clear();
 	heldFishWidget->updateList();
@@ -724,15 +685,4 @@ void Main::loadIdleProfits() {
 		world::currWorld->fishTransporter->calcIdleProfits(timeDiff);
 	if (world::currWorld && world::currWorld->atm)
 		world::currWorld->atm->calcIdleProfits(timeDiff);
-}
-
-bool Main::checkValidInteract() {
-	if (!hoveredItem)
-		return false;
-	// if object is widget, then check if its part of the override widget
-	// if no overriding widget left click
-	widget* _widget = dynamic_cast<widget*>(hoveredItem);
-	if (!currWidget || (currWidget && _widget && _widget->getRootParent() == currWidget))
-		return true;
-	return false;
 }

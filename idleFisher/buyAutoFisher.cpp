@@ -1,6 +1,7 @@
 #include "buyAutoFisher.h"
 
 #include "main.h"
+#include "Input.h"
 #include "worlds.h"
 #include "shortNumbers.h"
 #include "character.h"
@@ -40,15 +41,15 @@ void buyAutoFisher::draw(Shader* shaderProgram) {
 	bool prevMouseOver = bMouseOver;
 	bMouseOver = plusAnim->spriteSheet->isMouseOver();
 	if (bMouseOver)
-		Main::setHoveredItem(this);
+		IHoverable::setHoveredItem(this);
 	if (!prevMouseOver && bMouseOver) {
 		plusAnim->setAnimation("hover");
 	} else if (prevMouseOver && !bMouseOver) {
 		plusAnim->setAnimation("normal");
 	}
 
-	if (bMouseOver && Main::bLeftClick && !Main::currWidget)
-		Main::setLeftClick(this, &buyAutoFisher::spawnAutoFisher);
+	if (bMouseOver && Input::getMouseButtonDown(MouseButton::left) && !widget::getCurrWidget())
+		Input::setLeftClick(this, &buyAutoFisher::spawnAutoFisher);
 
 	calcIfPlayerInFront();
 	plusAnim->draw(shaderProgram);

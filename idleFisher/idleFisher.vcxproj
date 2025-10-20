@@ -231,6 +231,7 @@
     <ClCompile Include="hoverBox.cpp" />
     <ClCompile Include="idleProfitWidget.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="journal.cpp" />
     <ClCompile Include="journalProgressWidget.cpp" />
     <ClCompile Include="line.cpp" />
@@ -341,6 +342,7 @@
     <ClInclude Include="hoverBox.h" />
     <ClInclude Include="idleProfitWidget.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="journal.h" />
     <ClInclude Include="journalProgressWidget.h" />
     <ClInclude Include="line.h" />

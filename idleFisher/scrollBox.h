@@ -1,8 +1,9 @@
 #pragma once
 
 #include "verticalBox.h"
+#include "Hoverable.h"
 
-class UscrollBox : public verticalBox {
+class UscrollBox : public verticalBox, public IHoverable {
 public:
 	UscrollBox(widget* parent);
 
@@ -15,8 +16,6 @@ public:
 	vector getLoc() override;
 	void setLocAndSize(vector loc, vector size) override;
 	void setLoc(vector loc) override;
-
-	bool mouseDownPrev = false;
 
 	vector mouseStartPos;
 	vector startLoc;

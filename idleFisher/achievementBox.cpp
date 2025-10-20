@@ -1,6 +1,6 @@
 #include "achievementBox.h"
 
-#include "main.h"
+#include "Input.h"
 #include "saveData.h"
 #include "timer.h"
 
@@ -51,7 +51,6 @@ void UachievementBox::draw(Shader* shaderProgram) {
 	if (icon) {
 		if (mouseOver()) {
 			isMouseOver = true;
-			// icon->loc = loc - vector{ 0, stuff::pixelSize };
 
 			float scale = 1.3;
 			icon->w = startSize.x / stuff::pixelSize * scale;
@@ -73,27 +72,12 @@ void UachievementBox::draw(Shader* shaderProgram) {
 
 vector UachievementBox::getSize() {
 	if (icon)
-		//return { float(icon->w * stuff::pixelSize), float(icon->h * stuff::pixelSize) };
 		return startSize;
 	return { 0, 0 };
 }
 
-/*
 bool UachievementBox::mouseOver() {
-	vector mousePos = Main::mousePos;
-	vector ogLoc = parent->ogLoc;
-	vector newLoc = ogLoc + icon->getLoc();
-
-	// if mouse in parent
-	if (mousePos.x >= ogLoc.x && mousePos.x <= ogLoc.x && mousePos.y >= ogLoc.y && mousePos.y <= ogLoc.y)
-		if (mousePos.x >= newLoc.x && mousePos.x <= newLoc.x + icon->w * stuff::pixelSize && mousePos.y >= newLoc.y && mousePos.y <= newLoc.y + icon->h * stuff::pixelSize)
-			return true;
-	return false;
-}
-*/
-
-bool UachievementBox::mouseOver() {
-	vector mousePos = Main::mousePos;
+	vector mousePos = Input::getMousePos();
 
 	if (!getParent() && mousePos.x >= loc.x && mousePos.x <= loc.x + startSize.x && mousePos.y >= loc.y && mousePos.y <= loc.y + startSize.y)
 		return true;

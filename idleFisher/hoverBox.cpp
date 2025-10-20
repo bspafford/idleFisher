@@ -1,12 +1,12 @@
 #include "hoverBox.h"
 
-#include "main.h"
+#include "Input.h"
 #include "saveData.h"
 
 #include "text.h"
 
 UhoverBox::UhoverBox(widget* parent) : widget(parent) {
-	img = std::make_unique<Image>("./images/widget/hoverImg.png", Main::mousePos, false);
+	img = std::make_unique<Image>("./images/widget/hoverImg.png", Input::getMousePos(), false);
 	name = std::make_unique<text>(this, " ", "straight", vector{0, 0});
 	description = std::make_unique<text>(this, " ", "straight", vector{ 0, 0 });
 	description->setLineLength(250);
@@ -24,15 +24,16 @@ void UhoverBox::draw(Shader* shaderProgram) {
 	// if right is off screen, add offset
 	// same for bottom
 
-	if (Main::mousePos.x + size.x + 7 * stuff::pixelSize >= stuff::screenSize.x) // out of range on right
-		img->setLoc({ Main::mousePos.x - size.x - 7 * stuff::pixelSize, img->getLoc().y });
+	vector mousePos = Input::getMousePos();
+	if (mousePos.x + size.x + 7 * stuff::pixelSize >= stuff::screenSize.x) // out of range on right
+		img->setLoc({ mousePos.x - size.x - 7 * stuff::pixelSize, img->getLoc().y });
 	else
-		img->setLoc({ Main::mousePos.x + 7 * stuff::pixelSize, img->getLoc().y });
+		img->setLoc({ mousePos.x + 7 * stuff::pixelSize, img->getLoc().y });
 
-	if (Main::mousePos.y + size.y + 7 * stuff::pixelSize >= stuff::screenSize.y) // out of range on bottom
-		img->setLoc({ img->getLoc().x, Main::mousePos.y - size.y - 7 * stuff::pixelSize });
+	if (mousePos.y + size.y + 7 * stuff::pixelSize >= stuff::screenSize.y) // out of range on bottom
+		img->setLoc({ img->getLoc().x, mousePos.y - size.y - 7 * stuff::pixelSize });
 	else
-		img->setLoc({ img->getLoc().x, Main::mousePos.y + 7 * stuff::pixelSize });
+		img->setLoc({ img->getLoc().x, mousePos.y + 7 * stuff::pixelSize });
 
 	name->setLoc(img->getLoc() + 5 * stuff::pixelSize);
 	description->setLoc({ img->getLoc() + vector{5, 11} *stuff::pixelSize});

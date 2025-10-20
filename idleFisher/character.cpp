@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "main.h"
+#include "Input.h"
 #include "shaderClass.h"
 #include "Image.h"
 #include "worlds.h"
@@ -206,6 +207,11 @@ vector Acharacter::getCharLoc() {
 }
 
 void Acharacter::Update(float deltaTime) {
+	if (Input::getMouseButtonDown(MouseButton::left))
+		leftClick();
+	else if (Input::getMouseButtonDown(MouseButton::right))
+		stopFishing();
+
 	// animate character depending on move direction
 	if (!isFishing) {
 		std::vector<std::string> walkAnimList = { "walkSW", "walkS", "walkSE", "walkE", "walkNE", "walkN", "walkNW", "walkW" };
@@ -227,7 +233,7 @@ void Acharacter::Update(float deltaTime) {
 }
 
 void Acharacter::leftClick() {
-	if (Main::currWidget)
+	if (widget::getCurrWidget())
 		return;
 
 
@@ -240,7 +246,7 @@ void Acharacter::leftClick() {
 
 		isFishing = true;
 		canMove = false;
-		bobberLoc = Main::mousePos;
+		bobberLoc = Input::getMousePos();
 		tempBobberLoc = bobberLoc;
 
 		bobberBobTimer->start(bobTime);
@@ -527,7 +533,7 @@ void Acharacter::premiumFishBuff() {
 
 // tries to set canmove but will not work if something like a widget is active
 void Acharacter::setCanMove(bool move) {
-	if (move && Main::currWidget == NULL) {
+	if (move && widget::getCurrWidget() == NULL) {
 		canMove = true;
 	} else if (!move)
 		canMove = false;

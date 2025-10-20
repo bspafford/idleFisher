@@ -1,6 +1,7 @@
 #include "widget.h"
 #include <iostream>
 #include "main.h"
+#include "Input.h"
 #include "character.h"
 #include "Image.h"
 #include "shaderClass.h"
@@ -28,12 +29,12 @@ widget::~widget() {
 
 void widget::addToViewport(bool override) {
 	if (override) {
-		if (Main::currWidget && Main::currWidget != this)
-			Main::currWidget->removeFromViewport();
+		if (currWidget && currWidget != this)
+			currWidget->removeFromViewport();
 		
 		addedToViewport();
 
-		Main::currWidget = this;
+		currWidget = this;
 		
 		Main::character->setCanMove(false);
 	}
@@ -44,11 +45,11 @@ void widget::addToViewport(bool override) {
 void widget::removeFromViewport() {
 	Main::setMouseImg("cursor");
 
-	if (Main::currWidget == this) {
+	if (currWidget == this) {
 		// keep widget in memory until change the world
 		// then once change the world load all the widgets of that world back into memory during the loading
 		//delete Main::currWidget; // removes widget from memory
-		Main::currWidget = nullptr;
+		currWidget = nullptr;
 	}
 
 	Main::character->setCanMove(true);
@@ -69,7 +70,7 @@ void widget::setVisibility(bool visible) {
 }
 
 bool widget::mouseOver() {
-	vector mousePos = Main::mousePos;
+	vector mousePos = Input::getMousePos();
 	vector loc = getLoc();
 	vector size = getSize();
 	if (mousePos.x >= loc.x && mousePos.x <= loc.x + size.x && mousePos.y >= loc.y && mousePos.y <= loc.y + size.y)
@@ -115,6 +116,10 @@ void widget::setLocAndSize(vector loc, vector size) {
 
 void widget::addedToViewport() {
 
+}
+
+widget* widget::getCurrWidget() {
+	return currWidget;
 }
 
 widget* widget::getParent() {

@@ -59,7 +59,7 @@ void UpauseMenu::setupLocs() {
 }
 
 void UpauseMenu::resume() {
-	Main::currWidget->removeFromViewport();
+	widget::getCurrWidget()->removeFromViewport();
 }
 
 void UpauseMenu::saveGame() {

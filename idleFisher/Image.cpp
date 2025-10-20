@@ -1,5 +1,6 @@
 #include "Image.h"
-#include "main.h"
+#include "Input.h"
+#include "stuff.h"
 #include "textureManager.h"
 #include <glm/gtx/rotate_vector.hpp>
 
@@ -347,7 +348,7 @@ std::vector<float> Image::getPositionsList() {
 bool Image::isMouseOver(bool ignoreTransparent) {
 	vector screenLoc = loc;
 	if (useWorldPos) {
-		vector mousePos = Main::mousePos;
+		vector mousePos = Input::getMousePos();
 		screenLoc = math::worldToScreen(loc, "topleft");
 
 		vector size = getSize();
@@ -364,8 +365,9 @@ bool Image::isMouseOver(bool ignoreTransparent) {
 				return true;
 		}
 	} else {
-		bool inX = Main::mousePos.x >= screenLoc.x && Main::mousePos.x <= screenLoc.x + w * stuff::pixelSize;
-		bool inY = Main::mousePos.y >= screenLoc.y && Main::mousePos.y <= screenLoc.y + h * stuff::pixelSize;
+		vector mousePos = Input::getMousePos();
+		bool inX = mousePos.x >= screenLoc.x && mousePos.x <= screenLoc.x + w * stuff::pixelSize;
+		bool inY = mousePos.y >= screenLoc.y && mousePos.y <= screenLoc.y + h * stuff::pixelSize;
 		if (inX && inY)
 			return true;
 	}

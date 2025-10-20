@@ -404,6 +404,9 @@
     <ClCompile Include="upgrades.cpp">
       <Filter>Source Files\buffs</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h">
@@ -731,6 +734,9 @@
       <Filter>Header Files\buffs</Filter>
     </ClInclude>
     <ClInclude Include="Hoverable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,6 +28,5 @@ private:
 	std::unique_ptr<URectangle> handle;
 
 
-	bool prevMouseDown;
-	bool mouseDown = false;
+	bool sliding = false;
 };

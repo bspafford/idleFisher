@@ -24,7 +24,6 @@ private:
 
 	void openRebirthWorld();
 
-	bool mouseDownPrev = false;
 	vector scrollLoc;
 	vector startLoc;
 	vector mouseStartPos;

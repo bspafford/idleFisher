@@ -1,5 +1,5 @@
 #include "journalProgressWidget.h"
-#include "main.h"
+#include "Input.h"
 #include "text.h"
 
 UjournalProgressWidget::UjournalProgressWidget(widget* parent, int fishNumTotal, int starsNumTotal, int sizeNumTotal) : widget(parent){
@@ -19,22 +19,23 @@ UjournalProgressWidget::UjournalProgressWidget(widget* parent, int fishNumTotal,
 }
 
 void UjournalProgressWidget::draw(Shader* shaderProgram) {
-	background->setLoc(Main::mousePos - vector{ 0, background->getSize().y });
+	vector mousePos = Input::getMousePos();
+	background->setLoc(mousePos - vector{ 0, background->getSize().y });
 	background->draw(shaderProgram);
 
 	float offset = -9;
-	fishNumTextNum->setLoc(Main::mousePos + vector{ 6, -20 + offset } *stuff::pixelSize);
-	starsNumTextNum->setLoc(Main::mousePos + vector{ 6, -13 + offset } *stuff::pixelSize);
-	sizeNumTextNum->setLoc(Main::mousePos + vector{ 6, -6 + offset } *stuff::pixelSize);
+	fishNumTextNum->setLoc(mousePos + vector{ 6, -20 + offset } *stuff::pixelSize);
+	starsNumTextNum->setLoc(mousePos + vector{ 6, -13 + offset } *stuff::pixelSize);
+	sizeNumTextNum->setLoc(mousePos + vector{ 6, -6 + offset } *stuff::pixelSize);
 
 	// gets the biggest text to push back the text by
 	float max = math::max(fishNumTextNum->getSize().x, starsNumTextNum->getSize().x);
 	max = math::max(max, sizeNumTextNum->getSize().x);
 	//std::cout << fishNumTextNum->getSize().x << ", " << starsNumTextNum->getSize().x << ", " << sizeNumTextNum->getSize().x << ", max: " << max << std::endl;
 
-	fishNumText->setLoc(Main::mousePos + vector{ max + 7 * stuff::pixelSize, (-20 + offset) * stuff::pixelSize});
-	starsNumText->setLoc(Main::mousePos + vector{ max + 7 * stuff::pixelSize, (-13 + offset) * stuff::pixelSize});
-	sizeNumText->setLoc(Main::mousePos + vector{ max + 7 * stuff::pixelSize, (-6 + offset) * stuff::pixelSize});
+	fishNumText->setLoc(mousePos + vector{ max + 7 * stuff::pixelSize, (-20 + offset) * stuff::pixelSize});
+	starsNumText->setLoc(mousePos + vector{ max + 7 * stuff::pixelSize, (-13 + offset) * stuff::pixelSize});
+	sizeNumText->setLoc(mousePos + vector{ max + 7 * stuff::pixelSize, (-6 + offset) * stuff::pixelSize});
 	
 	
 

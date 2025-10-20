@@ -64,8 +64,6 @@ public:
 
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	static inline bool KEYS[348];
 
 	void renderShadowMap(Shader& depthShader, glm::mat4 lightSpaceMatrix);
@@ -97,7 +95,6 @@ public:
 
 	// widgets
 	void setupWidgets();
-	static inline widget* currWidget = NULL;
 	static inline UpauseMenu* pauseMenu;
 	static inline Usettings* settingsWidget;
 	static inline UfishComboWidget* fishComboWidget;
@@ -119,41 +116,13 @@ public:
 	static inline bool switchingWorld = false;
 	static inline std::string prevWorld = "world1"; // the previous world before entering the vault
 
-private:
-	// mouse input
-
-	// which items were clicked that frame
-	// 
-	static inline std::function<void()> leftClickCallback;
-	// prevents players from clicking through UIs
-	static inline bool checkValidInteract();
 public:
-	template <class T> static void setLeftClick(T* const object, void (T::* const callback) ()) {
-		leftClickCallback = std::bind_front(callback, object);
-	}
-	static inline bool bLeftClick = false;
-	static inline bool bRightClick = false;
-	static inline bool bLeftMouseButtonDown = false;
-	static inline bool bRightMouseButtonDown = false;
-	static inline int mouseWheelDir = 0;
-
-private:
-	static inline IHoverable* hoveredItem;
-public:
-	static void setHoveredItem(IHoverable* item);
-
-	static inline vector mousePos;
 	static void calcMouseImg();
 	static void setMouseImg(std::string cursorName);
 
 	static inline Acharacter* character;
 
 	static inline std::unique_ptr<Apet> pet;
-
-	void renderCube();
-	unsigned int cubeVAO = 0, cubeVBO;
-	void renderQuad();
-	unsigned int quadVAO = 0, quadVBO;
 
 	// if mouse is over water
 	static inline bool hoverWater = false;

@@ -1,6 +1,6 @@
 #include "currencyConverterBox.h"
 
-#include "main.h"
+#include "Input.h"
 #include "character.h"
 #include "saveData.h"
 #include "upgrades.h"
@@ -110,7 +110,7 @@ void UcurrencyConverterBox::setupLocs() {
 }
 
 bool UcurrencyConverterBox::mouseOver() {
-	vector mousePos = Main::mousePos;
+	vector mousePos = Input::getMousePos();
 
 	if (!getParent() && mousePos.x >= loc.x && mousePos.x <= loc.x + size.x && mousePos.y >= loc.y && mousePos.y <= loc.y + size.y)
 		return true;

@@ -1,8 +1,7 @@
 #include "button.h"
-#include "main.h"
+#include "Input.h"
 #include "sounds.h"
 #include "animation.h"
-#include "widget.h"
 
 // only give NON NULL values to overriding widgets ONLY
 Ubutton::Ubutton(widget* parent, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha) : widget(parent) {
@@ -49,18 +48,14 @@ void Ubutton::onHover(Shader* shaderProgra) {
 	prevMouseOver = mouseOver;
 	mouseOver = isMouseOver();
 
-	if (mouseOver) {
-		if (isEnabled) {
-			Main::setHoveredItem(this);
-			if (!prevMouseOver && hasHover && buttonAnim)
-				buttonAnim->setAnimation("hover");
-			if (Main::bLeftClick)
-				Main::setLeftClick(this, &Ubutton::onClick);
-		}
-	} else if (buttonAnim && prevMouseOver) {
-		if (buttonAnim)
-			buttonAnim->setAnimation("click");
-	}
+	if (mouseOver && isEnabled) {
+		IHoverable::setHoveredItem(this);
+		if (!prevMouseOver && hasHover && buttonAnim)
+			buttonAnim->setAnimation("hover");
+		if (Input::getMouseButtonDown(MouseButton::left))
+			Input::setLeftClick(this, &Ubutton::onClick);
+	} else if (!mouseOver && buttonAnim && prevMouseOver)
+		buttonAnim->setAnimation("click");
 }
 
 bool Ubutton::isMouseOver() {

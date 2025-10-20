@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "main.h"
+#include "Input.h"
 #include "saveData.h"
 #include "character.h"
 #include "shaderClass.h"
@@ -490,7 +491,7 @@ void collision::showCollisionBoxes(Shader* shaderProgram) {
 	// draw mouse collision
 	std::vector<std::vector<float>> mousePosList;
 	float mouseRadius = .5;
-	vector mousePos = math::screenToWorld(Main::mousePos);
+	vector mousePos = math::screenToWorld(Input::getMousePos());
 	mousePosList.push_back({ mousePos.x + mouseRadius, mousePos.y + mouseRadius, mousePos.x + mouseRadius, mousePos.y - mouseRadius });
 	mousePosList.push_back({ mousePos.x + mouseRadius, mousePos.y - mouseRadius, mousePos.x - mouseRadius, mousePos.y - mouseRadius });
 	mousePosList.push_back({ mousePos.x - mouseRadius, mousePos.y - mouseRadius, mousePos.x - mouseRadius, mousePos.y + mouseRadius });
@@ -528,7 +529,7 @@ void collision::testCollisions(Fcollision* playerCol, std::vector<Fcollision*> a
 	temp.clear();
 
 	// mousePos
-	vector mousePos = math::screenToWorld(Main::mousePos);
+	vector mousePos = math::screenToWorld(Input::getMousePos());
 	std::unique_ptr<Fcollision> aCol = std::make_unique<Fcollision>(mousePos, 1, "");
 	Main::mouseOverWater = false;
 
@@ -767,7 +768,7 @@ bool collision::circleVsCircle(Fcollision* playerCol, vector v, Fcollision* circ
 }
 
 bool collision::testMouse(vector mousePos) {
-	vector worldPos = math::screenToWorld(Main::mousePos);
+	vector worldPos = math::screenToWorld(mousePos);
 	Main::mouseOverWater = false;
 
 	for (int i = 0; i < allCollision.size(); i++) {

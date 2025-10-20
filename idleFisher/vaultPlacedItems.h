@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "math.h"
 
 class Shader;

@@ -1,6 +1,5 @@
 #include "scrollBox.h"
-
-#include "main.h"
+#include "Input.h"
 
 UscrollBox::UscrollBox(widget* parent) : verticalBox(parent) {
 }
@@ -8,6 +7,21 @@ UscrollBox::UscrollBox(widget* parent) : verticalBox(parent) {
 void UscrollBox::draw(Shader* shaderProgram) {
 	if (!visible)
 		return;
+
+	if (mouseOver()) {
+		IHoverable::setHoveredItem(this);
+		if (Input::getMouseButtonDown(MouseButton::right)) {
+			startLoc = loc;
+			mouseStartPos = Input::getMousePos();
+		}
+		if (Input::getMouseButtonHeld(MouseButton::right)) {
+			setMouseHoverIcon("cursor3");
+			scrolling();
+		} else {
+			scrolling(Input::getMouseScrollDir());
+			setMouseHoverIcon("cursor");
+		}
+	}
 
 	vector scrollLoc = ogLoc;
 	glEnable(GL_SCISSOR_TEST);
@@ -18,18 +32,6 @@ void UscrollBox::draw(Shader* shaderProgram) {
 	__super::draw(shaderProgram);
 
 	glDisable(GL_SCISSOR_TEST);
-
-	if (mouseOver() && Main::bRightMouseButtonDown) {
-		if (!mouseDownPrev) {
-			startLoc = loc;
-			mouseStartPos = Main::mousePos;
-		}
-		scrolling();
-	} else if (mouseOver() && Main::mouseWheelDir != 0) {
-		scrolling(Main::mouseWheelDir);
-	}
-
-	mouseDownPrev = Main::bRightMouseButtonDown;
 }
 
 // mouse right click scrolling
@@ -40,7 +42,7 @@ void UscrollBox::scrolling() {
 	}
 
 	vector diff = mouseStartPos - startLoc;
-	loc.y = math::clamp(Main::mousePos.y - diff.y, -overflowSizeY + size.y, 0);
+	loc.y = math::clamp(Input::getMousePos().y - diff.y, -overflowSizeY + size.y, 0);
 
 	// need to set location of all the children
 	float yOffset = 0;
@@ -52,6 +54,9 @@ void UscrollBox::scrolling() {
 }
 
 void UscrollBox::scrolling(int mouseWheelDir) {
+	if (mouseWheelDir == 0)
+		return;
+
 	if (overflowSizeY < size.y) {
 		loc.y = -overflowSizeY + size.y;
 		return;
@@ -69,7 +74,7 @@ void UscrollBox::scrolling(int mouseWheelDir) {
 }
 
 bool UscrollBox::mouseOver() {
-	vector mousePos = Main::mousePos;
+	vector mousePos = Input::getMousePos();
 	if (mousePos.x >= ogLoc.x && mousePos.x <= ogLoc.x + size.x && mousePos.y >= ogLoc.y && mousePos.y <= ogLoc.y + size.y)
 		return true;
 	return false;

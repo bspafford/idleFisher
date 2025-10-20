@@ -1,7 +1,7 @@
 #include "vaultPlacedItems.h"
-#include "main.h"
 #include "saveData.h"
 #include "button.h"
+#include "Input.h"
 
 AvaultPlacedItems::AvaultPlacedItems() {
 	// load all the vault stuff
@@ -26,8 +26,7 @@ void AvaultPlacedItems::draw(Shader* shaderProgram) {
 	for (const FvaultStuff vaultStuff : itemList) {
 		if (inPlacingMode && selectedItem && selectedItem->vaultUnlocks->id == vaultStuff.vaultUnlocks->id) {
 			vector temp = vaultStuff.offset;
-			std::cout << "offset1: " << temp << std::endl;
-			vaultStuff.saveVaultUnlocks->loc = selectedItem->offset + math::screenToWorld(Main::mousePos);
+			vaultStuff.saveVaultUnlocks->loc = selectedItem->offset + math::screenToWorld(Input::getMousePos());
 			vaultStuff.button->setLoc(vaultStuff.saveVaultUnlocks->loc);
 		}
 		//if (vaultStuff.saveVaultUnlocks->placed || (selectedItem && selectedItem->vaultUnlocks->id == vaultStuff.vaultUnlocks->id))
@@ -36,9 +35,9 @@ void AvaultPlacedItems::draw(Shader* shaderProgram) {
 
 	sortDraw(shaderProgram);
 
-	if (inPlacingMode && Main::bRightClick && !selectedItem)
+	if (inPlacingMode && Input::getMouseButtonDown(MouseButton::right) && !selectedItem)
 		putItemInStorage();
-	if (inPlacingMode && Main::bLeftClick) {
+	if (inPlacingMode && Input::getMouseButtonDown(MouseButton::left)) {
 		if (!selectedItem)
 			selectItem();
 		else {
@@ -49,14 +48,6 @@ void AvaultPlacedItems::draw(Shader* shaderProgram) {
 }
 
 void AvaultPlacedItems::sortDraw(Shader* shaderProgram) {
-	// loop through itemList
-	// if first them place in list
-	// then loop through the list again
-	// if base of item is less than the other base
-		// put item there in list
-	// else
-		// move to the next item
-	// sort list
 	sortedItemList.clear();
 	for (int i = 0; i < itemList.size(); i++) {
 		if (sortedItemList.size() == 0) {
@@ -128,7 +119,7 @@ void AvaultPlacedItems::selectItem() {
 		if (vaultStuff.button->isMouseOver()) {
 			// don't return to get last item in the last, therefore grabbing item infront
 			selectedItem = &vaultStuff;
-			selectedItem->offset = vaultStuff.button->getLoc() - math::screenToWorld(Main::mousePos);
+			selectedItem->offset = vaultStuff.button->getLoc() - math::screenToWorld(Input::getMousePos());
 		}
 	}
 }
