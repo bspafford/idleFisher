@@ -125,7 +125,6 @@ public:
 	static inline std::unique_ptr<Apet> pet;
 
 	// if mouse is over water
-	static inline bool hoverWater = false;
 	static inline bool mouseOverWater = false;
 
 	static vector getCamPos();

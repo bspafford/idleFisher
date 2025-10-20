@@ -236,9 +236,8 @@ void Acharacter::leftClick() {
 	if (widget::getCurrWidget())
 		return;
 
-
 	// puts bobber in water
-	if (Main::hoverWater && SaveData::saveData.fishingRod.powerLevel > 0 && !isFishing) {
+	if (Main::mouseOverWater && SaveData::saveData.fishingRod.powerLevel > 0 && !isFishing) {
 		fishingStop = true;
 
 		comboOvertimer->stop();

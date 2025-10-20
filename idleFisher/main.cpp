@@ -390,9 +390,11 @@ void Main::updateShaders(float deltaTime) {
 void Main::calcMouseImg() {
 	bool canHover = IHoverable::checkValidInteract();
 	IHoverable* hoveredItem = IHoverable::getHoveredItem();
-	if (hoveredItem && canHover && currCursor != hoveredItem->getMouseHoverIcon())
+	if (hoveredItem && canHover)
 		setMouseImg(hoveredItem->getMouseHoverIcon());
-	else if ((!hoveredItem || !canHover) && currCursor != "cursor")
+	else if (!hoveredItem && mouseOverWater)
+		setMouseImg("hook");
+	else if (!hoveredItem || !canHover)
 		setMouseImg("cursor");
 
 	// resets hoveredItem
@@ -400,6 +402,10 @@ void Main::calcMouseImg() {
 }
 
 void Main::setMouseImg(std::string cursorName) {
+	// return if same cursor
+	if (currCursor == cursorName)
+		return;
+
 	currCursor = cursorName;
 
 	int width, height, channels;
