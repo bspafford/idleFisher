@@ -46,8 +46,6 @@ class UcomboOvertimeWidget;
 class UnewRecordWidget;
 class achievement;
 
-class text;
-
 struct Fcollision;
 
 class Main {

@@ -382,7 +382,6 @@ void text::setLoc(vector loc) {
 		} else if (alignment == textAlign::center) {
 			absoluteLoc = loc - vector{ getSize().x / 2.f, 0.f };
 		}
-		absoluteLoc = absoluteLoc.round();
 
 		updatePositionsList();
 	} else {
@@ -399,7 +398,6 @@ void text::setLoc(vector loc) {
 		} else if (alignment == textAlign::center) {
 			absoluteLoc = loc - vector{ (getSize().x / 2.f), 0.f };
 		}
-		absoluteLoc.round();
 
 		updatePositionsList();
 	}
