@@ -405,8 +405,8 @@ void Main::setHoveredItem(IHoverable* item) {
 
 void Main::calcMouseImg() {
 	bool canHover = checkValidInteract();
-	if (hoveredItem && canHover && currCursor != "cursor1")
-		setMouseImg("cursor1");
+	if (hoveredItem && canHover && currCursor != hoveredItem->getMouseHoverIcon())
+		setMouseImg(hoveredItem->getMouseHoverIcon());
 	else if ((!hoveredItem || !canHover) && currCursor != "cursor")
 		setMouseImg("cursor");
 

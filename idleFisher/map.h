@@ -1,15 +1,16 @@
 #pragma once
 
 #include "widget.h"
+#include "hoverable.h"
 
 class Ubutton;
 class text;
 class UsailorWidget;
 class animation;
 
-class Umap : public widget {
+class Umap : public widget, public IHoverable {
 public:
-	Umap(UsailorWidget* parent);
+	Umap(UsailorWidget* parent, vector mapSize);
 	void draw(Shader* shaderProgram) override;
 
 	void setLoc(vector loc) override;
@@ -22,6 +23,8 @@ private:
 	UsailorWidget* sailorWidgetParent;
 
 	bool mouseDown = false;
+	bool prevMouseDown = false;
+	bool movingMap = false;
 	vector mouseStartPos;
 	vector imgStartPos;
 

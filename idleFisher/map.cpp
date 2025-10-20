@@ -8,8 +8,9 @@
 #include "sailorWidget.h"
 #include "animation.h"
 
-Umap::Umap(UsailorWidget* parent) : widget(parent) {
+Umap::Umap(UsailorWidget* parent, vector mapSize) : widget(parent) {
 	this->sailorWidgetParent = parent;
+	setSize(mapSize);
 
 	mapImg = std::make_unique<Image>("./images/sailorMap.png", vector{ 0, 0 }, false); // -1073, -739
 
@@ -61,6 +62,35 @@ Umap::Umap(UsailorWidget* parent) : widget(parent) {
 }
 
 void Umap::draw(Shader* shaderProgram) {
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(ogLoc.x, ogLoc.y, getSize().x, getSize().y);
+
+
+	mouseDown = Main::bLeftMouseButtonDown;
+	bool mouseStartX = Main::mousePos.x >= ogLoc.x && Main::mousePos.x <= ogLoc.x + size.x;
+	bool mouseStartY = Main::mousePos.y >= ogLoc.y && Main::mousePos.y <= ogLoc.y + size.y;
+	if ((mouseStartX && mouseStartY) || movingMap) {
+		setMouseHoverIcon(mouseDown ? "cursor3" : "cursor2");
+		Main::setHoveredItem(this);
+	}
+
+	// first frame mouse button goes down
+	if (mouseDown && !prevMouseDown) {
+		// make sure mouse starts inside of the map view
+		if (mouseStartX && mouseStartY) {
+			movingMap = true;
+			imgStartPos = mapImg->getLoc();
+			mouseStartPos = Main::mousePos;
+		}
+		// first frame mouse button was released
+	} else if (!mouseDown && prevMouseDown)
+		movingMap = false;
+
+	if (mouseDown)
+		moveMap();
+
+	prevMouseDown = mouseDown;
+
 	if (mapImg)
 		mapImg->draw(shaderProgram);
 
@@ -92,17 +122,12 @@ void Umap::draw(Shader* shaderProgram) {
 		}
 	}
 
-	if (Main::bLeftMouseButtonDown) {
-		moveMap();
-	}
-	mouseDown = Main::bLeftMouseButtonDown;
+	glDisable(GL_SCISSOR_TEST);
 }
 
 void Umap::moveMap() {
-	if (!mouseDown) { // first frame down
-		imgStartPos = mapImg->getLoc();
-		mouseStartPos = Main::mousePos;
-	}
+	if (!movingMap)
+		return;
 
 	vector diff = mouseStartPos - imgStartPos;
 	vector newLoc = Main::mousePos - diff;
@@ -113,7 +138,7 @@ void Umap::moveMap() {
 }
 
 void Umap::setLocs(vector loc) {
-	this->ogLoc = sailorWidgetParent->mapBackground->getLoc() + vector{35, 35} *stuff::pixelSize;
+	this->ogLoc = sailorWidgetParent->mapBackground->getLoc() + vector{35, 35} * stuff::pixelSize;
 	mapImg->setLoc(loc);
 
 	for (int i = 0; i < worldButtons.size(); i++) {

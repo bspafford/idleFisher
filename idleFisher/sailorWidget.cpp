@@ -11,8 +11,11 @@
 
 UsailorWidget::UsailorWidget(widget* parent) : widget(parent) {
 	mapBackground = std::make_unique<Image>("./images/widget/map.png", vector{ 0, 0 }, false);
+
 	setupLocs(); // setup so map can get loc of map background
-	map = std::make_unique<Umap>(this);
+
+	vector mapSize = mapBackground->getSize() - vector{ 70, 70 } * stuff::pixelSize;
+	map = std::make_unique<Umap>(this, mapSize);
 
 	xButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);
 	xButton->addCallback(this, &UsailorWidget::closeWidget);
@@ -53,10 +56,7 @@ void UsailorWidget::draw(Shader* shaderProgram) {
 	// draw only inside specified area
 	vector mapSize = mapBackground->getSize() - vector{ 70, 70 } * stuff::pixelSize;
 
-	glEnable(GL_SCISSOR_TEST);
-	glScissor(mapBackground->getLoc().x + 35 * stuff::pixelSize, mapBackground->getLoc().y + 35 * stuff::pixelSize, mapSize.x, mapSize.y);
 	map->draw(shaderProgram);
-	glDisable(GL_SCISSOR_TEST);
 
 	if (xButton) {
 		xButton->draw(shaderProgram);
