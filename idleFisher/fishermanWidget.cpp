@@ -10,7 +10,6 @@
 #include "shortNumbers.h"
 
 UfishermanWidget::UfishermanWidget(widget* parent, npc* NPCParent) : widget(parent) {
-	std::cout << "this fishermanwidget: " << this << "\n";
 	this->NPCParent = NPCParent;
 
 	closeButton = std::make_unique<Ubutton>(this, "widget/npcXButton.png", 11, 11, 1, vector{ 0, 0 }, false, false);

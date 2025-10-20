@@ -47,7 +47,7 @@ public:
 
 private:
 	// keeps track of all instances to call update function on
-	static inline std::set<timer*> instances;
+	static inline std::vector<timer*> instances;
 
 	float time = 0;
 	float maxTime;

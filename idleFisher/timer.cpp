@@ -7,12 +7,14 @@
 
 timer::timer() {
 	// adds timer obj to instances list
-	instances.insert(this);
+	instances.push_back(this);
 }
 
 timer::~timer() {
 	// removes timer obj to instances list on destruct
-	instances.erase(this);
+	auto it = std::find(instances.begin(), instances.end(), this);
+	if (it != instances.end())
+		instances.erase(it);
 }
 
 // calls update function to all instances of object

@@ -64,13 +64,6 @@ public:
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static inline bool KEYS[348];
 
-	void renderShadowMap(Shader& depthShader, glm::mat4 lightSpaceMatrix);
-	void renderSceneWithShadows(Shader & shader, glm::mat4 lightSpaceMatrix);
-	glm::mat4 computeLightSpaceMatrix(glm::vec3 lightPos);
-	void renderScene(Shader& shader);
-	int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-	GLuint depthTexture;
-
 	// shaders
 	static inline Shader* shaderProgram;
 	static inline Shader* shadowMapProgram;
@@ -85,10 +78,6 @@ public:
 	static inline Camera* camera;
 	
 	// 2d
-	Image* fishermanHut;
-
-	void setupImages();
-
 	static void loadIdleProfits();
 
 	// widgets
@@ -124,8 +113,6 @@ public:
 
 	// if mouse is over water
 	static inline bool mouseOverWater = false;
-
-	static vector getCamPos();
 
 	// water stuff
 	static inline float waveSpeed = 0.03f;

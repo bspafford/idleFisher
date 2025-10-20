@@ -150,8 +150,6 @@ int Main::createWindow() {
 
 	characterModel->setScale(glm::vec3(3.f));
 
-	fishermanHut = new Image("./images/fishermanHut.png", { 665, 671 }, true);
-
 	auto lastTime = std::chrono::steady_clock::now();
 
 	// Main while loop
@@ -301,9 +299,6 @@ void Main::Start() {
 	if (SaveData::saveData.equippedPet.id != -1)
 		Main::pet = std::make_unique<Apet>(&SaveData::saveData.equippedPet, vector{ 400, -200 });
 
-	// load images
-	setupImages();
-
 	// initiate keys list
 	for (int i = 0; i < 322; i++) {
 		KEYS[i] = false;
@@ -449,10 +444,6 @@ void Main::setupWidgets() {
 	newRecordWidget = new UnewRecordWidget(nullptr);
 }
 
-void Main::setupImages() {
-
-}
-
 void Main::draw3D(Shader* shaderProgram) {
 	house->Draw(shaderProgram, *camera);
 }
@@ -526,10 +517,6 @@ void Main::keyCallback(GLFWwindow* window, int key, int scancode, int action, in
 	} else if (action == GLFW_RELEASE && key != -1) {
 		KEYS[key] = false;
 	}
-}
-
-vector Main::getCamPos() {
-	return vector{ camera->Position.x, camera->Position.y };
 }
 
 void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
@@ -685,7 +672,6 @@ void Main::loadIdleProfits() {
 	float timeDiffNano = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - SaveData::lastPlayed).count();
 	// in seconds
 	float timeDiff = timeDiffNano / 1000000000;
-	std::cout << "timeDiff: " << timeDiff << std::endl;
 
 	if (world::currWorld && world::currWorld->fishTransporter)
 		world::currWorld->fishTransporter->calcIdleProfits(timeDiff);

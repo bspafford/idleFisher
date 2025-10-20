@@ -173,8 +173,6 @@ void SaveData::saveSettings() {
 }
 
 void SaveData::loadSettings() {
-	std::cout << "loading settings" << std::endl;
-
 	const auto filename = "./data/saves/settings.save";
 
 	std::ifstream is;
