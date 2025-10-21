@@ -15,12 +15,11 @@ static struct MouseButton {
 
 class Input {
 public:
-	Input();
-
 	// callback functions
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	static void cursorPosCallback(GLFWwindow* window, double xPos, double yPos);
+	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 	// sets all Up and Down buttons to false, and calles glfwPollEvents()
 	static void pollEvents();
@@ -29,13 +28,10 @@ public:
 	static void fireHeldInputs();
 
 	// returns true if user pressess mouse button down that frame
-	// 0 = left, 1 = right, 2 = middle, 3 = back side button, 4 = front side button
 	static bool getMouseButtonDown(int mouseButton);
 	// returns true if user releases mouse button that frame
-	// 0 = left, 1 = right, 2 = middle, 3 = back side button, 4 = front side button
 	static bool getMouseButtonUp(int mouseButton);
 	// returns true for every frame the mouse button is held down for
-	// 0 = left, 1 = right, 2 = middle, 3 = back side button, 4 = front side button
 	static bool getMouseButtonHeld(int mouseButton);
 	// returns mouse scroll direction that frame
 	// 1 = scroll up, -1 = scroll down
@@ -45,6 +41,13 @@ public:
 	template <class T> static void setLeftClick(T* const object, void (T::* const callback) ()) {
 		leftClickCallback = std::bind_front(callback, object);
 	}
+
+	// returns true for the frame the key went down
+	static bool getKeyDown(int key);
+	// returns true for the frame they key went up
+	static bool getKeyUp(int key);
+	// returns true every frame the key is held down
+	static bool getKeyHeld(int key);
 
 private:
 	// if mouse button was pressed that frame
@@ -58,6 +61,8 @@ private:
 
 	// front most items that was clicked that frame
 	static inline std::function<void()> leftClickCallback;
-	// prevents players from clicking through UIs
-	static inline bool checkValidInteract();
+
+	static inline bool keysDown[348];
+	static inline bool keysUp[348];
+	static inline bool keysHeld[348];
 };

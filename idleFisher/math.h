@@ -115,6 +115,14 @@ struct vector {
 		return *this;
 	}
 
+	bool operator== (vector other) {
+		return this->x == other.x && this->y == other.y;
+	}
+
+	bool operator!= (vector other) {
+		return this->x != other.x || this->y != other.y;
+	}
+
 	friend std::ostream& operator<<(std::ostream& os, const vector& v) {
 		os << "(" << v.x << ", " << v.y << ")";
 		return os;

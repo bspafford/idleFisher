@@ -1,8 +1,9 @@
 #include"Camera.h"
-#include "main.h"
+#include "Input.h"
 #include "saveData.h"
 #include "character.h"
 #include "animation.h"
+#include "image.h"
 
 Camera::Camera(int width, int height, glm::vec3 position) {
 	// Define a starting orientation vector (pointing forward)
@@ -30,7 +31,6 @@ Camera::Camera(int width, int height, glm::vec3 position) {
 }
 
 void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane) {
-
 	// Initialize matrices
 	glm::mat4 view = glm::mat4(1.0f);
 
@@ -79,12 +79,15 @@ glm::vec3 scaleIsometricMovement3D(const glm::vec3& inputXZ) {
 	return scaledMovement;
 }
 
-void Camera::Update() {
+void Camera::Update(GLFWwindow* window, float deltaTime) {
 	glm::vec2 animCenter = glm::vec2(Acharacter::anim->cellWidth / 2.f / stuff::pixelSize, Acharacter::anim->cellHeight / stuff::pixelSize);
 	glm::vec2 relLoc = glm::vec2(SaveData::saveData.playerLoc.x / 10.f * stuff::pixelSize, SaveData::saveData.playerLoc.y / 5.f * stuff::pixelSize) + animCenter;
 	glm::vec3 camLoc = math::convertFromRelativeCoords(relLoc);
 	camLoc.y = 50;
 	Position = camLoc;
+
+	Inputs(window, deltaTime);
+	updateMatrix(45.0f, 0.001f, 5000.0f);
 }
 
 void Camera::Inputs(GLFWwindow* window, float deltaTime) {
@@ -95,28 +98,28 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime) {
 	float sqrt2over2 = 0.707106781187;
 
 	// Handles key inputs
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	if (Input::getKeyHeld(GLFW_KEY_W)) {
 		//move += glm::vec3(-0.353, .866, -0.353);
 		//move += glm::vec3(-sqrt2over2, 0.f, -sqrt2over2);
 		move += glm::vec3(0, 0, -1);
 	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	if (Input::getKeyHeld(GLFW_KEY_A) == GLFW_PRESS) {
 		//move += glm::normalize(glm::cross(Orientation, Up));
 		move += glm::vec3(-1, 0, 0);
 	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	if (Input::getKeyHeld(GLFW_KEY_S) == GLFW_PRESS) {
 		//move += glm::vec3(0.353, -.866, 0.353);
 		//move += glm::vec3(sqrt2over2, 0.f, sqrt2over2);
 		move += glm::vec3(0, 0, 1);
 	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+	if (Input::getKeyHeld(GLFW_KEY_D) == GLFW_PRESS) {
 		//move += -glm::normalize(glm::cross(Orientation, Up));
 		move += glm::vec3(1, 0, 0);
 	}
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+	if (Input::getKeyHeld(GLFW_KEY_SPACE) == GLFW_PRESS) {
 		move += -Up;
 	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
+	if (Input::getKeyHeld(GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
 		move += Up;
 	}
 
@@ -130,7 +133,7 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime) {
 
 	if (false) {
 		// Handles mouse inputs
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		if (Input::getMouseButtonHeld(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 			// Hides mouse cursor
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
@@ -165,7 +168,7 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime) {
 
 			// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
 			glfwSetCursorPos(window, (width / 2), (height / 2));
-		} else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+		} else if (Input::getMouseButtonUp(GLFW_MOUSE_BUTTON_LEFT)) {
 			// Unhides cursor since camera is not looking around anymore
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			// Makes sure the next time the camera looks around it doesn't jump

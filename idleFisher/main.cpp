@@ -167,6 +167,7 @@ int Main::createWindow() {
 		// process input
 		Input::pollEvents();
 
+		checkInputs();
 		Update(deltaTime);
 		updateShaders(deltaTime);
 		switchingWorld = false;
@@ -265,7 +266,7 @@ void Main::Start() {
 
 	// setup callbacks for input
 	glfwSetFramebufferSizeCallback(window, windowSizeCallback);
-	glfwSetKeyCallback(window, keyCallback);
+	glfwSetKeyCallback(window, Input::keyCallback);
 	glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
 	glfwSetScrollCallback(window, Input::scrollCallback);
 	glfwSetCursorPosCallback(window, Input::cursorPosCallback);
@@ -299,11 +300,6 @@ void Main::Start() {
 	if (SaveData::saveData.equippedPet.id != -1)
 		Main::pet = std::make_unique<Apet>(&SaveData::saveData.equippedPet, vector{ 400, -200 });
 
-	// initiate keys list
-	for (int i = 0; i < 322; i++) {
-		KEYS[i] = false;
-	}
-
 	fps::fps();
 
 	achievements = achievement::createAchievementList();
@@ -314,38 +310,17 @@ void Main::Start() {
 void Main::Update(float deltaTime) {
 	timer::callUpdate(deltaTime);
 
-	vector move = { 0, 0 };
-	// Handles key inputs
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		move = move + vector{ 0, 1 };
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		move = move + vector{ -1, 0 };
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		move = move + vector{ 0, -1 };
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		move = move + vector{1, 0};
+	character->Update(deltaTime);
+	camera->Update(window, deltaTime);
 
-	character->move(move, deltaTime);
-
-	//std::cout << "playerPos: " << SaveData::saveData.playerLoc << std::endl;
-	collision::testCCD(character->col.get(), move, deltaTime);
-	//collision::testCollisions(character->col, allCollision); // old
 	collision::testMouse(Input::getMousePos());
 	calcMouseImg();
 
-	character->setPlayerColPoints();
-
-
-	camera->Update();
-	camera->Inputs(window, deltaTime);
-	camera->updateMatrix(45.0f, 0.001f, 5000.0f);
-	character->Update(deltaTime);
 	if (world::currWorld) {
 		for (int i = 0; i < world::currWorld->autoFisherList.size(); i++)
 			world::currWorld->autoFisherList[i]->Update(deltaTime);
 		if (fishComboWidget)
 			fishComboWidget->Update(deltaTime);
-
 		if (world::currWorld->fishTransporter)
 			world::currWorld->fishTransporter->update(deltaTime);
 		if (pet)
@@ -474,49 +449,42 @@ void Main::windowSizeCallback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void Main::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (action == GLFW_PRESS && key != -1) {
-		if (key == GLFW_KEY_ESCAPE && currWorldName != "titleScreen") {
-			//glfwSetWindowShouldClose(window, true);
-			if (widget::getCurrWidget()) {
-				if (widget::getCurrWidget()->getParent())
-					widget::getCurrWidget()->getParent()->addToViewport(true);
-				else
-					widget::getCurrWidget()->removeFromViewport();
-			} else
-				pauseMenu->addToViewport(true);
-		}
-
-		// temp
-		if (key == GLFW_KEY_K)
-			SaveData::save();
-		// temp
-		if (key == GLFW_KEY_J) {
-			SaveData::saveData.currencyList[1].numOwned += 9000;
-			SaveData::saveData.currencyList[1].totalNumOwned += 9000;
-			//SaveData::saveData.currencyList[2].numOwned += 150;
-
-			for (int i = 0; i < 0; i++) {
-				SaveData::saveData.currencyList[i + 1].numOwned += 1000;
-				SaveData::saveData.currencyList[i + 1].totalNumOwned += 1000;
-				SaveData::saveData.currencyList[i + 1].unlocked = true;
-			}
-			currencyWidget->updateList();
-		}
-
-		if (key == GLFW_KEY_C && currWorldName != "titleScreen")
-			achievementWidget->addToViewport(true);
-		if (key == GLFW_KEY_V && currWorldName != "titleScreen")
-			journal->addToViewport(true);
-
-		if (key == GLFW_KEY_O) // temp
-			openLevel("rebirth", worldLoc::changeWorlds, false);
-
-		//std::cout << "pressed key: " << key << std::endl;
-		KEYS[key] = true;
-	} else if (action == GLFW_RELEASE && key != -1) {
-		KEYS[key] = false;
+void Main::checkInputs() {
+	if (Input::getKeyDown(GLFW_KEY_ESCAPE) && currWorldName != "titleScreen") {
+		//glfwSetWindowShouldClose(window, true);
+		if (widget::getCurrWidget()) {
+			if (widget::getCurrWidget()->getParent())
+				widget::getCurrWidget()->getParent()->addToViewport(true);
+			else
+				widget::getCurrWidget()->removeFromViewport();
+		} else
+			pauseMenu->addToViewport(true);
 	}
+
+	// temp
+	if (Input::getKeyDown(GLFW_KEY_K))
+		SaveData::save();
+	// temp
+	if (Input::getKeyDown(GLFW_KEY_J)) {
+		SaveData::saveData.currencyList[1].numOwned += 9000;
+		SaveData::saveData.currencyList[1].totalNumOwned += 9000;
+		//SaveData::saveData.currencyList[2].numOwned += 150;
+
+		for (int i = 0; i < 0; i++) {
+			SaveData::saveData.currencyList[i + 1].numOwned += 1000;
+			SaveData::saveData.currencyList[i + 1].totalNumOwned += 1000;
+			SaveData::saveData.currencyList[i + 1].unlocked = true;
+		}
+		currencyWidget->updateList();
+	}
+
+	if (Input::getKeyDown(GLFW_KEY_C) && currWorldName != "titleScreen")
+		achievementWidget->addToViewport(true);
+	if (Input::getKeyDown(GLFW_KEY_V) && currWorldName != "titleScreen")
+		journal->addToViewport(true);
+
+	if (Input::getKeyDown(GLFW_KEY_O)) // temp
+		openLevel("rebirth", worldLoc::changeWorlds, false);
 }
 
 void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {

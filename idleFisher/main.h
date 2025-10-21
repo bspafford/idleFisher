@@ -61,8 +61,7 @@ public:
 	static void drawFishingLine(Shader* shaderProgram);
 
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
-	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static inline bool KEYS[348];
+	static void checkInputs();
 
 	// shaders
 	static inline Shader* shaderProgram;

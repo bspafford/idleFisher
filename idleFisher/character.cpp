@@ -153,29 +153,39 @@ void Acharacter::setFishingTipLoc(int frame) {
 	}
 }
 
-void Acharacter::move(vector dir, float deltaTime) {
-	moveDir = dir;
+void Acharacter::move(float deltaTime) {
+	// Handles key inputs
+	moveDir = { 0 , 0 };
+	if (Input::getKeyHeld(GLFW_KEY_W))
+		moveDir += vector{ 0, 1 };
+	if (Input::getKeyHeld(GLFW_KEY_A))
+		moveDir += vector{ -1, 0 };
+	if (Input::getKeyHeld(GLFW_KEY_S))
+		moveDir += vector{ 0, -1 };
+	if (Input::getKeyHeld(GLFW_KEY_D))
+		moveDir += vector{ 1, 0 };
 
-	if (fishingStop && dir.x == 0 && dir.y == 0)
+	if (fishingStop && moveDir.x == 0 && moveDir.y == 0)
 		fishingStop = false;
 
 	if (fishingStop)
 		return;
 
-	if (isFishing && (dir.x != 0 || dir.y != 0))
+	if (isFishing && (moveDir.x != 0 || moveDir.y != 0))
 		stopFishing();
 
-	if (!canMove || (dir.x == 0 && dir.y == 0))
+	if (!canMove || (moveDir.x == 0 && moveDir.y == 0))
 		return;
 
-	// need to normalize vector, so you don't move faster going diagnal
-	/*
-	vector normDir = math::normalize(moveDir);
-	SaveData::saveData.playerLoc.x += normDir.x * speed * deltaTime;
-	SaveData::saveData.playerLoc.y += normDir.y * speed * deltaTime;
-	//*/
-
-	//setPlayerColPoints();
+	// if should use collision // debugging
+	if (true)
+		collision::testCCD(col.get(), moveDir, deltaTime);
+	else {
+		vector normDir = math::normalize(moveDir);
+		SaveData::saveData.playerLoc.x += normDir.x * speed * deltaTime;
+		SaveData::saveData.playerLoc.y += normDir.y * speed * deltaTime;
+	}
+	setPlayerColPoints();
 }
 
 void Acharacter::setPlayerColPoints() {
@@ -207,6 +217,8 @@ vector Acharacter::getCharLoc() {
 }
 
 void Acharacter::Update(float deltaTime) {
+	move(deltaTime);
+
 	if (Input::getMouseButtonDown(MouseButton::left))
 		leftClick();
 	else if (Input::getMouseButtonDown(MouseButton::right))

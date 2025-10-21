@@ -71,7 +71,7 @@ public:
 
 	float speed = 425.f / 5.f;
 
-	void move(vector dir, float deltaTime);
+	void move(float deltaTime);
 
 	vector moveDir;
 

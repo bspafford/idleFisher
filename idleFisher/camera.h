@@ -50,6 +50,6 @@ public:
 
 	void printCamRot();
 
-	void Update();
+	void Update(GLFWwindow* window, float deltaTime);
 };
 #endif
