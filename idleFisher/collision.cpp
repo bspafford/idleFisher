@@ -9,6 +9,7 @@
 #include "character.h"
 #include "shaderClass.h"
 #include "camera.h"
+#include "Cursor.h"
 
 collision::collision() {
 
@@ -72,7 +73,7 @@ void collision::getCollisionObjects() {
 
 				// then set the world name parameter
 				line.erase(line.begin());
-				if (line == Main::currWorldName)
+				if (line == Scene::getCurrWorldName())
 					currWorldName = line;
 
 				// only puts collision in the list if its part of that world
@@ -531,7 +532,7 @@ void collision::testCollisions(Fcollision* playerCol, std::vector<Fcollision*> a
 	// mousePos
 	vector mousePos = math::screenToWorld(Input::getMousePos());
 	std::unique_ptr<Fcollision> aCol = std::make_unique<Fcollision>(mousePos, 1, "");
-	Main::mouseOverWater = false;
+	Cursor::setMouseOverWater(false);
 
 	for (int i = 0; i < allCollision.size(); i++) {
 		// player col shouldn't exist any more, can replace it by converting the cirlce to a square
@@ -549,8 +550,8 @@ void collision::testCollisions(Fcollision* playerCol, std::vector<Fcollision*> a
 			}
 		}
 
-		if (!Main::mouseOverWater && allCollision[i]->identifier == "w" && isCloseEnough(aCol.get(), allCollision[i]) && intersectCirclePolygon(mousePos, 1, allCollision[i]->points, normal, depth))
-			Main::mouseOverWater = true;
+		if (!Cursor::getMouseOverWater() && allCollision[i]->identifier == "w" && isCloseEnough(aCol.get(), allCollision[i]) && intersectCirclePolygon(mousePos, 1, allCollision[i]->points, normal, depth))
+			Cursor::setMouseOverWater(true);
 	}
 }
 
@@ -769,14 +770,14 @@ bool collision::circleVsCircle(Fcollision* playerCol, vector v, Fcollision* circ
 
 bool collision::testMouse(vector mousePos) {
 	vector worldPos = math::screenToWorld(mousePos);
-	Main::mouseOverWater = false;
+	Cursor::setMouseOverWater(false);
 
 	for (int i = 0; i < allCollision.size(); i++) {
 		vector normal;
 		float depth;
-		if (!Main::mouseOverWater && allCollision[i]->identifier == "w") {
+		if (!Cursor::getMouseOverWater() && allCollision[i]->identifier == "w") {
 			if (pointInQuad(worldPos, allCollision[i])) {
-				Main::mouseOverWater = true;
+				Cursor::setMouseOverWater(true);
 				return true;
 			}
 		}

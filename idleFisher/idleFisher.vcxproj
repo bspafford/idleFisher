@@ -208,6 +208,7 @@
     <ClCompile Include="currencyConverterBox.cpp" />
     <ClCompile Include="currencyConverterWidget.cpp" />
     <ClCompile Include="currencyWidget.cpp" />
+    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="decorationBox.cpp" />
     <ClCompile Include="decorator.cpp" />
     <ClCompile Include="decoratorWidget.cpp" />
@@ -269,6 +270,7 @@
     <ClCompile Include="sailor.cpp" />
     <ClCompile Include="sailorWidget.cpp" />
     <ClCompile Include="saveData.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="scrollBox.cpp" />
     <ClCompile Include="scuba.cpp" />
     <ClCompile Include="settings.cpp" />
@@ -318,6 +320,7 @@
     <ClInclude Include="currencyConverterBox.h" />
     <ClInclude Include="currencyConverterWidget.h" />
     <ClInclude Include="currencyWidget.h" />
+    <ClInclude Include="Cursor.h" />
     <ClInclude Include="decorationBox.h" />
     <ClInclude Include="decorator.h" />
     <ClInclude Include="decoratorWidget.h" />
@@ -380,6 +383,7 @@
     <ClInclude Include="sailor.h" />
     <ClInclude Include="sailorWidget.h" />
     <ClInclude Include="saveData.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="scrollBox.h" />
     <ClInclude Include="scuba.h" />
     <ClInclude Include="settings.h" />
@@ -401,6 +405,7 @@
     <ClInclude Include="VAO.h" />
     <ClInclude Include="vaultPlacedItems.h" />
     <ClInclude Include="VBO.h" />
+    <ClInclude Include="vector.h" />
     <ClInclude Include="verticalBox.h" />
     <ClInclude Include="widget.h" />
     <ClInclude Include="worlds.h" />

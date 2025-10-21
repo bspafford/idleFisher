@@ -88,7 +88,7 @@ void UUIWidget::draw(Shader* shaderProgram) {
 	currRunRebirthPoints->draw(shaderProgram);
 	rebirthPointNum->draw(shaderProgram);
 
-	int worldId = math::getWorldIndexFromName(Main::currWorldName);
+	int worldId = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 	if (worldId != -1) {
 		if (atmButton && SaveData::saveData.npcSave[worldId].atmDiscovered)
 			atmButton->draw(shaderProgram);
@@ -168,7 +168,7 @@ void UUIWidget::showNPCButtons() {
 
 void UUIWidget::updateButtonsLoc() {
 	// temp
-	int worldId = math::getWorldIndexFromName(Main::currWorldName);
+	int worldId = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 	if (worldId == -1)
 		return;
 	

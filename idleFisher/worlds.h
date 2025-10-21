@@ -2,6 +2,7 @@
 
 #include "stuff.h"
 #include "math.h"
+#include "Scene.h"
 
 #include <string>
 #include <stdio.h>
@@ -44,17 +45,6 @@ class AmerchantShop;
 class AmechanicHouse;
 class ApetShop;
 class Arock;
-
-struct worldLoc {
-	// don't set the position of that character when opening level
-	static inline int None = 0;
-	// change the position of the character to the sailor when changing worlds
-	static inline int changeWorlds = 1;
-	// change the position of the character to the vault enterance when changing worlds
-	static inline int leaveVault = 2;
-	// set the character to position { 0, 0 }
-	static inline int zero = 3;
-};
 
 class titleScreen {
 public:

@@ -1,5 +1,5 @@
 #include "rebirthWidget.h"
-#include "main.h"
+#include "Scene.h"
 #include "Input.h"
 #include "saveData.h"
 #include "button.h"
@@ -242,5 +242,5 @@ bool UrebirthWidget::isMouseOverUnlock() {
 }
 
 void UrebirthWidget::openRebirthWorld() {
-	Main::openLevel("rebirth", worldLoc::zero);
+	Scene::openLevel("rebirth", worldLoc::zero);
 }

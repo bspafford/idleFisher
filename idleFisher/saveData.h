@@ -4,7 +4,6 @@
 #include <chrono>
 #include <string>
 #include <fstream>
-#include <alpaca/alpaca.h>
 
 struct FfishData {
     int id;
@@ -515,8 +514,6 @@ struct FsettingsData {
 
 class SaveData {
 public:
-    SaveData();
-
     static void save();
     static void load();
 

@@ -72,7 +72,7 @@ void UpauseMenu::settings() {
 }
 
 void UpauseMenu::exitToMenu() {
-	Main::openLevel("titleScreen");
+	Scene::openLevel("titleScreen");
 }
 
 void UpauseMenu::exitToDesktop() {

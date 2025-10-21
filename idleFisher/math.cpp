@@ -155,38 +155,12 @@ vector math::screenToWorld(vector mousePos, bool round) {
 }
 
 vector math::worldToScreen(vector pos, std::string origin) {
-	/*
-	vector playerPos = SaveData::saveData.playerLoc;
-	playerPos.x *= -1;
-	pos.y *= -1.f;
-	pos -= vector{ 35, -81 };
-	pos += stuff::screenSize / 2.f;
-	pos += playerPos * stuff::pixelSize;
-	return pos;
-	*/
-
-	/*
-	vector playerPos = SaveData::saveData.playerLoc;
-	playerPos.x *= -1.f;
-	return playerPos * stuff::pixelSize - pos + vector{ stuff::screenSize.x + stuff::screenSize.x / 2.f, -stuff::screenSize.y / 2.f } + vector{ 43.5, 14 };
-	*/
-
-	/*
-	vector center = screenToWorld({ 1920.f / 2.f, 1080.f / 2.f }) / stuff::pixelSize;
-	//std::cout << "center: " << center << std::endl;
-	return ((center - pos + (stuff::screenSize / stuff::pixelSize / 2.f * vector{ -1.f, 1.f })) * stuff::pixelSize) * vector { -1.f, 1.f };
-	*/
-
-
-	//vector center = screenToWorld({ 1920.f / 2.f, 1080.f / 2.f }) / stuff::pixelSize;
-	//return ((center - pos + (stuff::screenSize / stuff::pixelSize / 2.f * vector{ -1.f, 1.f })) * stuff::pixelSize) * vector { -1.f, 1.f };
-
 	vector center = screenToWorld({ 1920.f / 2.f, 1080.f / 2.f }) / stuff::pixelSize;
 	vector screenCoords = (center - pos) * stuff::pixelSize;
 
 	if (origin == "topleft")
 		screenCoords = (screenCoords + stuff::screenSize / 2.f * vector{ -1.f, 1.f }) * vector{ -1.f, 1.f };
-	return screenCoords;// ((center - pos + (stuff::screenSize / stuff::pixelSize / 2.f * vector{ -1.f, 1.f })) * stuff::pixelSize)* vector { -1.f, 1.f };
+	return screenCoords;
 	
 }
 
@@ -211,13 +185,6 @@ glm::vec3 math::convertFromRelativeCoords(glm::vec2 relative) {
 	glm::vec3 forward = glm::vec3(-0.707f, 0.0f, -0.707f);
 
 	return relative.x * right + relative.y * forward;
-}
-
-int math::getWorldIndexFromName(std::string worldName) {
-	for (int i = 0; i < SaveData::data.worldData.size(); i++)
-		if (SaveData::data.worldData[i].worldName == worldName)
-			return i;
-	return -1;
 }
 
 std::string math::toLower(std::string str) {

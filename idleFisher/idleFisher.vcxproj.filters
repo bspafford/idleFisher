@@ -43,6 +43,12 @@
     <Filter Include="Header Files\pathfinding">
       <UniqueIdentifier>{cf9ee7f9-7dc0-42f6-a9e0-30fb4d680a38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scenes">
+      <UniqueIdentifier>{cfc8e319-c4bd-468e-872e-2ffb80279069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scenes">
+      <UniqueIdentifier>{fdcf2f61-1078-4f94-b8e1-17353277f6af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="waterShader.vert">
@@ -154,9 +160,6 @@
     </ClCompile>
     <ClCompile Include="NPCwidget.cpp">
       <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="worlds.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="text.cpp">
       <Filter>Source Files</Filter>
@@ -407,6 +410,15 @@
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="worlds.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h">
@@ -474,9 +486,6 @@
     </ClInclude>
     <ClInclude Include="NPCwidget.h">
       <Filter>Header Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="worlds.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="text.h">
       <Filter>Header Files</Filter>
@@ -737,6 +746,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="worlds.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

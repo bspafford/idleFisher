@@ -361,7 +361,7 @@ void UupgradeBox::update() {
 }
 
 void UupgradeBox::openWorld() {
-	Main::openLevel(worldStruct->worldName);
+	Scene::openLevel(worldStruct->worldName);
 }
 
 void UupgradeBox::spawnPet() {

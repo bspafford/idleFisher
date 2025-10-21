@@ -3,19 +3,7 @@
 #include <iostream>
 
 #include "main.h"
-//#include "worlds.h"
-//#include "AautoFisher.h"
-
-//#include "merchant.h"
-//#include "sailor.h"
-//#include "fisherman.h"
-//#include "mechanic.h"
-//#include "petSeller.h"
-//#include "atm.h"
-
-SaveData::SaveData() {
-
-}
+#include <alpaca/alpaca.h>
 
 void SaveData::save() {
 	const auto filename = "./data/saves/save.save";
@@ -157,7 +145,7 @@ void SaveData::saveSettings() {
 	os.open(filename, std::ios::out | std::ios::binary);
 
 	std::vector<uint8_t> bytes;
-	alpaca::serialize(settingsData, bytes);
+	//alpaca::serialize(settingsData, bytes);
 
 	// byte to string
 	std::string text;

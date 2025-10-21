@@ -235,7 +235,7 @@ std::vector<std::vector<float>> AautoFisher::calcFishProbability(std::vector<Ffi
 	// starts at 1 to skip premium
 	for (int i = 1; i < fishData.size(); i++) {
 		// see if autofisher has enough fishing power, see if theres enough room for the fish
-		if (fishData[i].fishingPower <= fishingPower && (fishData[i].levelName == Main::currWorldName || fishData[i].levelName == "premium")) {
+		if (fishData[i].fishingPower <= fishingPower && (fishData[i].levelName == Scene::getCurrWorldName() || fishData[i].levelName == "premium")) {
 			if ((isCurrencyAFactor && heldCurrency + upgrades::getFishSellPrice(fishData[i], 0) <= maxCurrency) || !isCurrencyAFactor)
 				totalProb += float(fishData[i].probability);
 		}
@@ -245,7 +245,7 @@ std::vector<std::vector<float>> AautoFisher::calcFishProbability(std::vector<Ffi
 
 	// starts at 1 to skip premium
 	for (int i = 1; i < fishData.size(); i++) {
-		if (fishData[i].fishingPower <= fishingPower && (fishData[i].levelName == Main::currWorldName || fishData[i].levelName == "premium")) {
+		if (fishData[i].fishingPower <= fishingPower && (fishData[i].levelName == Scene::getCurrWorldName() || fishData[i].levelName == "premium")) {
 			if ((isCurrencyAFactor && heldCurrency + upgrades::getFishSellPrice(fishData[i], 0) <= maxCurrency) || !isCurrencyAFactor) {
 				test += fishData[i].probability / totalProb;
 					probList.push_back(std::vector<float>{(float)fishData[i].id, test});
@@ -514,7 +514,7 @@ std::vector<vector> AautoFisher::calcAutoFishList(int fishNum) {
 
 	// calc all fish in world
 	for (int i = 0; i < SaveData::saveData.fishData.size(); i++) {
-		if (SaveData::data.fishData[i].levelName == Main::currWorldName && fishingPower >= SaveData::data.fishData[i].fishingPower) {
+		if (SaveData::data.fishData[i].levelName == Scene::getCurrWorldName() && fishingPower >= SaveData::data.fishData[i].fishingPower) {
 			fishList.push_back(SaveData::data.fishData[i]);
 		}
 	}

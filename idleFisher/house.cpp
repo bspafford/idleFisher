@@ -1,5 +1,5 @@
 #include "house.h"
-#include "main.h"
+#include "Scene.h"
 #include "button.h"
 
 Ahouse::Ahouse(vector loc) : Abuilding(loc) {
@@ -26,5 +26,5 @@ void Ahouse::setLoc(vector loc) {
 }
 
 void Ahouse::enterVault() {
-	Main::openLevel("vault");
+	Scene::openLevel("vault");
 }

@@ -1,5 +1,4 @@
 #include "main.h"
-
 #include "Image.h"
 #include "model.h"
 #include "csvReader.h"
@@ -18,6 +17,8 @@
 #include "achievement.h"
 #include "achievementBuffs.h"
 #include "Input.h"
+#include "Scene.h"
+#include "Cursor.h"
 
 // npc
 #include "fishTransporter.h"
@@ -170,7 +171,6 @@ int Main::createWindow() {
 		checkInputs();
 		Update(deltaTime);
 		updateShaders(deltaTime);
-		switchingWorld = false;
 
 		glViewport(0, 0, stuff::screenSize.x, stuff::screenSize.y);
 		glClearColor(.25, .6, .6, 1.f);
@@ -288,7 +288,7 @@ void Main::Start() {
 	
 	setupWidgets();
 
-	openLevel("world1", worldLoc::None, true);
+	Scene::openLevel("world1", worldLoc::None, true);
 	
 	character = new Acharacter();
 	camera = new Camera(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));
@@ -302,9 +302,7 @@ void Main::Start() {
 
 	fps::fps();
 
-	achievements = achievement::createAchievementList();
-
-	setMouseImg("cursor");
+	achievement::createAchievementList();
 }
 
 void Main::Update(float deltaTime) {
@@ -314,7 +312,7 @@ void Main::Update(float deltaTime) {
 	camera->Update(window, deltaTime);
 
 	collision::testMouse(Input::getMousePos());
-	calcMouseImg();
+	Cursor::calcMouseImg();
 
 	if (world::currWorld) {
 		for (int i = 0; i < world::currWorld->autoFisherList.size(); i++)
@@ -357,43 +355,6 @@ void Main::updateShaders(float deltaTime) {
 	twoDWaterShader->setVec2("playerPos", glm::vec2(newPos.x * 10, newPos.y * 5));
 }
 
-void Main::calcMouseImg() {
-	bool canHover = IHoverable::checkValidInteract();
-	IHoverable* hoveredItem = IHoverable::getHoveredItem();
-	if (hoveredItem && canHover)
-		setMouseImg(hoveredItem->getMouseHoverIcon());
-	else if (!hoveredItem && mouseOverWater)
-		setMouseImg("hook");
-	else if (!hoveredItem || !canHover)
-		setMouseImg("cursor");
-
-	// resets hoveredItem
-	IHoverable::setHoveredItem(nullptr);
-}
-
-void Main::setMouseImg(std::string cursorName) {
-	// return if same cursor
-	if (currCursor == cursorName)
-		return;
-
-	currCursor = cursorName;
-
-	int width, height, channels;
-
-	// should be getting texture from texture manager not loading them ever time i switch
-	textureStruct* mouseImg = textureManager::getTexture("./images/" + currCursor + ".png");
-	GLFWimage cursorImg;
-	cursorImg.width = mouseImg->w;
-	cursorImg.height = mouseImg->h;
-	cursorImg.pixels = mouseImg->texture;
-
-	cursor = glfwCreateCursor(&cursorImg, 0, 0);
-	if (cursor)
-		glfwSetCursor(window, cursor);
-	else
-		std::cout << "error or something" << std::endl;
-}
-
 void Main::setupWidgets() {
 	pauseMenu = new UpauseMenu(nullptr);
 	settingsWidget = new Usettings(nullptr);
@@ -426,6 +387,7 @@ void Main::draw3D(Shader* shaderProgram) {
 void Main::draw(Shader* shaderProgram) {
 	shaderProgram->Activate();
 	
+	std::string currWorldName = Scene::getCurrWorldName();
 	if (titleScreen::currTitleScreen && currWorldName == "titleScreen")
 		titleScreen::currTitleScreen->draw(shaderProgram);
 	else if (currWorldName == "vault") {
@@ -450,7 +412,7 @@ void Main::windowSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 void Main::checkInputs() {
-	if (Input::getKeyDown(GLFW_KEY_ESCAPE) && currWorldName != "titleScreen") {
+	if (Input::getKeyDown(GLFW_KEY_ESCAPE) && Scene::getCurrWorldName() != "titleScreen") {
 		//glfwSetWindowShouldClose(window, true);
 		if (widget::getCurrWidget()) {
 			if (widget::getCurrWidget()->getParent())
@@ -478,87 +440,14 @@ void Main::checkInputs() {
 		currencyWidget->updateList();
 	}
 
+	std::string currWorldName = Scene::getCurrWorldName();
 	if (Input::getKeyDown(GLFW_KEY_C) && currWorldName != "titleScreen")
 		achievementWidget->addToViewport(true);
 	if (Input::getKeyDown(GLFW_KEY_V) && currWorldName != "titleScreen")
 		journal->addToViewport(true);
 
 	if (Input::getKeyDown(GLFW_KEY_O)) // temp
-		openLevel("rebirth", worldLoc::changeWorlds, false);
-}
-
-void Main::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
-	// returns if the world is already open
-	if (!overrideIfInWorld && worldName == currWorldName)
-		return;
-
-	switchingWorld = true;
-
-	if (worldName == "vault" && currWorldName != "vault")
-		prevWorld = currWorldName;
-	currWorldName = worldName;
-	SaveData::saveData.currWorld = currWorldName;
-	
-	if (widget::getCurrWidget())
-		widget::getCurrWidget()->removeFromViewport();
-
-	collision::getCollisionObjects();
-
-	// deconstruct worlds
-	Texture::deleteCache();
-	AStar::Deconstructor();
-	if (titleScreen::currTitleScreen) {
-		delete titleScreen::currTitleScreen;
-		titleScreen::currTitleScreen = nullptr;
-	}
-	if (world::currWorld) {
-		delete world::currWorld;
-		world::currWorld = nullptr;
-	}
-	vaultWorld::deconstructor();
-	rebirthWorld::deconstructor();
-	
-	if (currWorldName == "titleScreen") {
-		titleScreen::currTitleScreen = new titleScreen();
-		titleScreen::currTitleScreen->start();
-	} else if (currWorldName == "vault") {
-		vaultWorld::vaultWorld();
-		vaultWorld::start();
-	} else if (currWorldName == "rebirth") {
-		rebirthWorld::rebirthWorld();
-		rebirthWorld::start();
-	} else if (currWorldName == "world1") {
-		world::currWorld = new world1(worldChangeLoc);
-	} else if (currWorldName == "world2") {
-		world::currWorld = new world2(worldChangeLoc);
-	} else if (currWorldName == "world3") {
-		world::currWorld = new world3(worldChangeLoc);
-	} else if (currWorldName == "world4") {
-		world::currWorld = new world4(worldChangeLoc);
-	} else if (currWorldName == "world5") {
-		world::currWorld = new world5(worldChangeLoc);
-	} else if (currWorldName == "world6") {
-		world::currWorld = new world6(worldChangeLoc);
-	} else if (currWorldName == "world7") {
-		world::currWorld = new world7(worldChangeLoc);
-	} else if (currWorldName == "world8") {
-		world::currWorld = new world8(worldChangeLoc);
-	} else if (currWorldName == "world9") {
-		world::currWorld = new world9(worldChangeLoc);
-	} else if (currWorldName == "world10") {
-		world::currWorld = new world10(worldChangeLoc);
-	}
-
-	if (world::currWorld)
-		world::currWorld->start();
-
-	AStar::init();
-}
-
-void Main::checkAchievements() {
-	for (auto& achievement : achievements) {
-		achievement->checkUnlock();
-	}
+		Scene::openLevel("rebirth", worldLoc::changeWorlds, false);
 }
 
 void Main::drawWidgets(Shader* shaderProgram) {
@@ -572,10 +461,6 @@ void Main::drawWidgets(Shader* shaderProgram) {
 	UIWidget->draw(shaderProgram);
 	comboOvertimeWiget->draw(shaderProgram);
 	newRecordWidget->draw(shaderProgram);
-}
-
-void Main::drawFishingLine(Shader* shaderProgram) {
-
 }
 
 void Main::rebirth() {
@@ -615,7 +500,7 @@ void Main::rebirth() {
 		world::currWorld->autoFisherList.clear();
 	heldFishWidget->updateList();
 	currencyWidget->updateList();
-	openLevel("world1", 1, true);
+	Scene::openLevel("world1", 1, true);
 }
 
 double Main::calcRebirthCurrency() {

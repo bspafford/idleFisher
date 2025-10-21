@@ -5,7 +5,7 @@ ApetSeller::ApetSeller(vector loc) : npc(loc) {
 	setup("petSeller");
 	widget->setup(SaveData::data.petData, SaveData::saveData.petList);
 
-	int worldId = math::getWorldIndexFromName(Main::currWorldName);
+	int worldId = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 	discovered = &SaveData::saveData.npcSave[worldId].petSellerDiscovered;
 }
 

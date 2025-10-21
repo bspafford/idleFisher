@@ -58,7 +58,6 @@ public:
 	void draw3D(Shader* shaderProgram);
 	void draw(Shader* shaderProgram);
 	static void drawWidgets(Shader* shaderProgram);
-	static void drawFishingLine(Shader* shaderProgram);
 
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 	static void checkInputs();
@@ -95,23 +94,10 @@ public:
 	static inline UcomboOvertimeWidget* comboOvertimeWiget;
 	static inline UnewRecordWidget* newRecordWidget;
 
-	// world
-	// if overrideIfInWorld true, then it will load the world even if the player is in the curr world
-	static void openLevel(std::string worldName, int worldChangeLoc = worldLoc::changeWorlds, bool overrideIfInWorld = false);
-	static inline std::string currWorldName = "";
-	static inline bool switchingWorld = false;
-	static inline std::string prevWorld = "world1"; // the previous world before entering the vault
-
 public:
-	static void calcMouseImg();
-	static void setMouseImg(std::string cursorName);
-
 	static inline Acharacter* character;
 
 	static inline std::unique_ptr<Apet> pet;
-
-	// if mouse is over water
-	static inline bool mouseOverWater = false;
 
 	// water stuff
 	static inline float waveSpeed = 0.03f;
@@ -126,9 +112,4 @@ public:
 	static double calcRebirthCurrency();
 
 	static inline std::vector<UpremiumBuffWidget*> premiumBuffList;
-	static inline std::vector<achievement*> achievements;
-	static void checkAchievements();
-
-	static inline GLFWcursor* cursor;
-	static inline std::string currCursor;
 };

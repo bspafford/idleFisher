@@ -107,7 +107,7 @@ void titleScreen::fadeToBlack() {
 
 void titleScreen::openWorld() {
 	fadeToBlack(); // makes sure it goes to alpha 100% instead of like 99%
-	Main::openLevel("world1");
+	Scene::openLevel("world1");
 	alpha = 0;
 }
 
@@ -138,7 +138,7 @@ void titleScreen::draw(Shader* shaderProgram) {
 		newGameButton->draw(shaderProgram);
 	if (continueButton)
 		continueButton->draw(shaderProgram);
-	if (Main::currWorldName != "titleScreen")
+	if (Scene::getCurrWorldName() != "titleScreen")
 		return;
 	if (exitButton)
 		exitButton->draw(shaderProgram);
@@ -171,12 +171,12 @@ void vaultWorld::start() {
 }
 
 void vaultWorld::leaveHouse() {
-	Main::openLevel(SaveData::saveData.prevWorld, worldLoc::leaveVault);
+	Scene::openLevel(SaveData::saveData.prevWorld, worldLoc::leaveVault);
 }
 
 void vaultWorld::draw(Shader* shaderProgram) {
 	map->draw(shaderProgram);
-	if (Main::currWorldName != "vault")
+	if (Scene::getCurrWorldName() != "vault")
 		return; // if clicked on vault to change worlds
 
 	AvaultPlacedItems::draw(shaderProgram);
@@ -432,7 +432,7 @@ void world::makeDrawLists() {
 void world::draw(Shader* shaderProgram) {
 	renderWater();
 
-	if (Main::currWorldName == "vault")
+	if (Scene::getCurrWorldName() == "vault")
 		return; // if clicked on vault
 
 	for (int i = 0; i < fishSchoolList.size(); i++)
@@ -595,7 +595,7 @@ void world::setupAutoFishers() {
 	autoFisherList.clear();
 	// load autoFisher
 	for (int i = 0; i < SaveData::saveData.autoFisherList.size(); i++) {
-		if (SaveData::saveData.autoFisherList[i].unlocked && SaveData::data.autoFisherData[i].worldName == Main::currWorldName) {
+		if (SaveData::saveData.autoFisherList[i].unlocked && SaveData::data.autoFisherData[i].worldName == Scene::getCurrWorldName()) {
 			std::unique_ptr<AautoFisher> autoFisher = std::make_unique<AautoFisher>(i);
 			autoFisherList.push_back(std::move(autoFisher));
 		}

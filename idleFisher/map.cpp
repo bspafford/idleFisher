@@ -66,13 +66,12 @@ void Umap::draw(Shader* shaderProgram) {
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(ogLoc.x, ogLoc.y, getSize().x, getSize().y);
 
-
 	mouseDown = Input::getMouseButtonHeld(MouseButton::left);
 	vector mousePos = Input::getMousePos();
 	bool mouseStartX = mousePos.x >= ogLoc.x && mousePos.x <= ogLoc.x + size.x;
 	bool mouseStartY = mousePos.y >= ogLoc.y && mousePos.y <= ogLoc.y + size.y;
 	if ((mouseStartX && mouseStartY) || movingMap) {
-		setMouseHoverIcon(mouseDown ? "cursor3" : "cursor2");
+		setMouseHoverIcon("cursor2");
 		IHoverable::setHoveredItem(this);
 	}
 
@@ -103,13 +102,14 @@ void Umap::draw(Shader* shaderProgram) {
 		worldLines[i]->draw(shaderProgram);
 	}
 
+	std::string currWorldName = Scene::getCurrWorldName();
 	for (int i = 0; i < worldButtons.size(); i++) {
-		std::string currWorld = Main::currWorldName;
+		std::string currWorld = currWorldName;
 
-		if (i != math::getWorldIndexFromName(Main::currWorldName)) {
+		if (i != Scene::getWorldIndexFromName(currWorldName)) {
 			worldButtons[i]->draw(shaderProgram);
 
-			if (currWorld != Main::currWorldName) // check if the worlds have changed because of worldButtons might change it
+			if (currWorld != currWorldName) // check if the worlds have changed because of worldButtons might change it
 				return;
 
 			worldNames[i]->draw(shaderProgram);
@@ -176,7 +176,7 @@ void Umap::openLevel(std::string levelName) {
 		return;
 
 	if (saveWorld->unlocked) { // already unlocked
-		Main::openLevel(levelName);
+		Scene::openLevel(levelName);
 	} else if (world->currencyNum <= SaveData::saveData.currencyList[world->currencyId].numOwned) { // can afford
 		SaveData::saveData.currencyList[world->currencyId].numOwned -= world->currencyNum;
 		saveWorld->unlocked = true;

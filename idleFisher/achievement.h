@@ -17,6 +17,7 @@ private:
     FachievementStruct* achievementData;
     FsaveAchievementStruct* saveAchievementData;
     std::function<bool()> condition; // Condition as a lambda function
+    static inline std::vector<achievement*> achievements;
 
 public:
     achievement(int id,
@@ -43,5 +44,6 @@ public:
 
     FachievementStruct* getAchievementData() const { return achievementData; }
 
-    static std::vector<achievement*> createAchievementList();
+    static void createAchievementList();
+    static void checkAchievements();
 };

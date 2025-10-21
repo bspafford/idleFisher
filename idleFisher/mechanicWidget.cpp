@@ -16,7 +16,7 @@
 UmechanicWidget::UmechanicWidget(widget* parent, npc* NPCParent) : widget(parent) {
 	this->NPCParent = NPCParent;
 
-	int id = math::getWorldIndexFromName(Main::currWorldName);
+	int id = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 	saveMechanicStruct = &SaveData::saveData.mechanicStruct[id];
 	mechanicStruct = &SaveData::data.mechanicStruct[id];
 
@@ -196,7 +196,7 @@ void UmechanicWidget::setupLocs() {
 }
 
 void UmechanicWidget::buyFishTransporter() {
-	int id = math::getWorldIndexFromName(Main::currWorldName);
+	int id = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 	if (SaveData::saveData.currencyList[id+1].numOwned >= mechanicStruct->currencyNum) {
 		SaveData::saveData.currencyList[id+1].numOwned -= mechanicStruct->currencyNum;
 		saveMechanicStruct->unlocked = true;
@@ -229,7 +229,7 @@ void UmechanicWidget::update() {
 }
 
 void UmechanicWidget::upgradeFishTransporter() {
-	FsaveCurrencyStruct& currencyStruct = SaveData::saveData.currencyList[math::getWorldIndexFromName(Main::currWorldName)+1];
+	FsaveCurrencyStruct& currencyStruct = SaveData::saveData.currencyList[Scene::getWorldIndexFromName(Scene::getCurrWorldName())+1];
 	double cost = calcUpgradeCost();
 	if (saveMechanicStruct->level < 100 && currencyStruct.numOwned >= cost) {
 		currencyStruct.numOwned -= cost;

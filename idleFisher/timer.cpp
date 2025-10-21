@@ -21,7 +21,6 @@ timer::~timer() {
 void timer::callUpdate(float deltaTime) {
 	for (timer* obj : timer::instances) {
 		obj->Update(deltaTime);
-		if (Main::switchingWorld) return;
 	}
 }
 

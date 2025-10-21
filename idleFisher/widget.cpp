@@ -43,8 +43,6 @@ void widget::addToViewport(bool override) {
 }
 
 void widget::removeFromViewport() {
-	Main::setMouseImg("cursor");
-
 	if (currWidget == this) {
 		// keep widget in memory until change the world
 		// then once change the world load all the widgets of that world back into memory during the loading

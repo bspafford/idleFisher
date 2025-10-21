@@ -2,8 +2,8 @@
 #include "main.h"
 #include "saveData.h"
 
-std::vector<achievement*> achievement::createAchievementList() {
-	std::vector<achievement*> achievements{
+void achievement::createAchievementList() {
+	achievements = {
 
 		// fish number achievements
 		new achievement(0,
@@ -25,6 +25,10 @@ std::vector<achievement*> achievement::createAchievementList() {
 		new achievement(7,
 			[]() { return SaveData::saveData.currencyList[1].totalNumOwned >= 1000000; })
 	};
+}
 
-	return achievements;
+void achievement::checkAchievements() {
+	for (auto& achievement : achievements) {
+		achievement->checkUnlock();
+	}
 }

@@ -88,15 +88,16 @@ void buyAutoFisher::spawnAutoFisher() {
 int buyAutoFisher::calcAutoFisherId() {
 	int autoFisherNumPerWorld = 0; // temp
 	int autoFisherWorldNum = 0;
+	std::string currWorldName = Scene::getCurrWorldName();
 	for (FautoFisherStruct autoFisher : SaveData::data.autoFisherData) {
 		if (autoFisher.worldName == "world1")
 			autoFisherNumPerWorld++;
 
-		if (autoFisher.worldName == Main::currWorldName && SaveData::saveData.autoFisherList[autoFisher.id].unlocked)
+		if (autoFisher.worldName == currWorldName && SaveData::saveData.autoFisherList[autoFisher.id].unlocked)
 			autoFisherWorldNum++;
 	}
 
-	std::string stringNum = Main::currWorldName.substr(std::string("world").size(), Main::currWorldName.size());
+	std::string stringNum = currWorldName.substr(std::string("world").size(), currWorldName.size());
 	int worldMultiplier = (std::stoi(stringNum) - 1) * autoFisherNumPerWorld + autoFisherWorldNum;
 
 	return worldMultiplier;
@@ -163,7 +164,7 @@ void buyAutoFisher::setupCollision() {
 bool buyAutoFisher::calcMaxAutoFishers() {
 	int maxAutoFishers = 0;
 	for (FautoFisherStruct autoFisher : SaveData::data.autoFisherData)
-		if (autoFisher.worldName == Main::currWorldName)
+		if (autoFisher.worldName == Scene::getCurrWorldName())
 			maxAutoFishers++;
 
 	return world::currWorld->autoFisherList.size()  >= maxAutoFishers;

@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "Input.h"
+#include "Cursor.h"
 #include "shaderClass.h"
 #include "Image.h"
 #include "worlds.h"
@@ -16,6 +17,7 @@
 #include "upgrades.h"
 #include "petBuffs.h"
 #include "baitBuffs.h"
+#include "achievement.h"
 
 // widget
 #include "fishComboWidget.h"
@@ -249,7 +251,7 @@ void Acharacter::leftClick() {
 		return;
 
 	// puts bobber in water
-	if (Main::mouseOverWater && SaveData::saveData.fishingRod.powerLevel > 0 && !isFishing) {
+	if (Cursor::getMouseOverWater() && !IHoverable::getHoveredItem() && SaveData::saveData.fishingRod.powerLevel > 0 && !isFishing) {
 		fishingStop = true;
 
 		comboOvertimer->stop();
@@ -293,7 +295,7 @@ void Acharacter::leftClick() {
 		}
 		//anim->setAnimation(idleAnimWheel[y], -1, true);
 
-// catch fish
+	// catch fish
 	} else if (isFishing && Main::fishComboWidget->visible) {
 		// catch fish
 		if (upgrades::calcComboUnlocked()) {
@@ -354,7 +356,7 @@ void Acharacter::leftClick() {
 			Main::currencyWidget->updateList();
 		}
 
-		Main::checkAchievements();
+		achievement::checkAchievements();
 
 		// updates held fish widget
 		Main::heldFishWidget->updateList();
@@ -439,7 +441,7 @@ std::vector<std::vector<float>> Acharacter::calcFishProbability(std::vector<Ffis
 	float premiumChance = canCatchPremium ? upgrades::calcPremiumCatchChance() : 0;
 	float totalProb = 0; // premiumChance;
 	for (int i = 1; i < fishData.size(); i++) {
-		if (fishData[i].fishingPower <= upgrades::calcFishingRodPower() && (fishData[i].levelName == Main::currWorldName || fishData[i].levelName == "premium")) {
+		if (fishData[i].fishingPower <= upgrades::calcFishingRodPower() && (fishData[i].levelName == Scene::getCurrWorldName() || fishData[i].levelName == "premium")) {
 			float val = fishData[i].probability;
 			if (i < petBuff.size())
 				val *= petBuff[i];
@@ -452,7 +454,7 @@ std::vector<std::vector<float>> Acharacter::calcFishProbability(std::vector<Ffis
 	std::vector<std::vector<float>> probList;
 	float test = 0;
 	for (int i = 1; i < fishData.size(); i++) {
-		if (fishData[i].fishingPower <= upgrades::calcFishingRodPower() && (fishData[i].levelName == Main::currWorldName || fishData[i].levelName == "premium")) {
+		if (fishData[i].fishingPower <= upgrades::calcFishingRodPower() && (fishData[i].levelName == Scene::getCurrWorldName() || fishData[i].levelName == "premium")) {
 			float multi = 1;
 			if (i < petBuff.size())
 				multi = petBuff[i];
@@ -507,7 +509,7 @@ void Acharacter::premiumFishBuff() {
 	if (rand <= .45) { // instant cash
 		std::cout << "instant money!" << std::endl;
 		// % from bank, or a certian amount of time, which ever is less
-		int worldIndex = math::getWorldIndexFromName(Main::currWorldName);
+		int worldIndex = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 
 		// calc mps
 		double mps = 0;
@@ -517,7 +519,7 @@ void Acharacter::premiumFishBuff() {
 		// calc 10% of currency + held fish
 		double heldCurrency = SaveData::saveData.currencyList[worldIndex + 1].numOwned;
 		for (FfishData fish : SaveData::data.fishData) {
-			if (fish.levelName == Main::currWorldName) {
+			if (fish.levelName == Scene::getCurrWorldName()) {
 				FsaveFishData* saveFish = &SaveData::saveData.fishData[fish.id];
 				heldCurrency += saveFish->numOwned[0] /* temp */ * upgrades::getFishSellPrice(fish, 0);
 			}
@@ -641,7 +643,7 @@ void Acharacter::calcFishSchoolUpgrades() {
 
 bool Acharacter::canCatchWorldFish() {
 	for (FfishData fish : SaveData::data.fishData) {
-		if (Main::currWorldName == fish.levelName) {
+		if (Scene::getCurrWorldName() == fish.levelName) {
 			if (upgrades::calcFishingRodPower() < fish.fishingPower)
 				return false;
 			return true;
