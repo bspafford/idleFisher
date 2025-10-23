@@ -5,13 +5,54 @@
 #include "collision.h"
 #include "Texture.h"
 #include "AStar.h"
+#include "timer.h"
+#include "loadingScreen.h"
+#include "GPULoadCollector.h"
+#include "Image.h"
+#include "animation.h"
+#include "text.h"
 
 void Scene::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
+	if (!loadingScreen)
+		loadingScreen = std::make_unique<LoadingScreen>(nullptr);
+
 	// returns if the world is already open
 	if (!overrideIfInWorld && worldName == currWorldName)
 		return;
 
-	switchingScenes = true;
+	hasFinishedLoading = false;
+	loadingDone = false;
+	if (false) {
+		openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
+	} else {
+		std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
+		loader.detach();
+	}
+}
+
+void Scene::draw(Shader* shaderProgram) {
+	if (loadingDone && !hasFinishedLoading) {
+		hasFinishedLoading = true;
+		finishedLoading();
+	} else if (!loadingDone && world::currWorld) {
+		loadingScreen->draw(shaderProgram);
+	}
+
+	if (loadingDone) {
+		std::string currWorldName = Scene::getCurrWorldName();
+		if (titleScreen::currTitleScreen && currWorldName == "titleScreen")
+			titleScreen::currTitleScreen->draw(shaderProgram);
+		else if (currWorldName == "vault") {
+			vaultWorld::draw(shaderProgram);
+		} else if (currWorldName == "rebirth") {
+			rebirthWorld::draw(shaderProgram);
+		} else if (world::currWorld)
+			world::currWorld->draw(shaderProgram);
+	}
+}
+
+void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
+	GPULoadCollector::open();
 
 	if (worldName == "vault" && currWorldName != "vault")
 		prevWorld = currWorldName;
@@ -26,20 +67,13 @@ void Scene::openLevel(std::string worldName, int worldChangeLoc, bool overrideIf
 	// deconstruct worlds
 	Texture::deleteCache();
 	AStar::Deconstructor();
-	if (titleScreen::currTitleScreen) {
-		delete titleScreen::currTitleScreen;
-		titleScreen::currTitleScreen = nullptr;
-	}
-	if (world::currWorld) {
-		delete world::currWorld;
-		world::currWorld = nullptr;
-	}
 	vaultWorld::deconstructor();
 	rebirthWorld::deconstructor();
+	world::currWorld = nullptr;
+	titleScreen::currTitleScreen = nullptr;
 
 	if (currWorldName == "titleScreen") {
-		titleScreen::currTitleScreen = new titleScreen();
-		titleScreen::currTitleScreen->start();
+		titleScreen::currTitleScreen = std::make_unique<titleScreen>();
 	} else if (currWorldName == "vault") {
 		vaultWorld::vaultWorld();
 		vaultWorld::start();
@@ -47,31 +81,54 @@ void Scene::openLevel(std::string worldName, int worldChangeLoc, bool overrideIf
 		rebirthWorld::rebirthWorld();
 		rebirthWorld::start();
 	} else if (currWorldName == "world1") {
-		world::currWorld = new world1(worldChangeLoc);
+		world::currWorld = std::make_unique<world1>(worldChangeLoc);
 	} else if (currWorldName == "world2") {
-		world::currWorld = new world2(worldChangeLoc);
+		world::currWorld = std::make_unique<world2>(worldChangeLoc);
 	} else if (currWorldName == "world3") {
-		world::currWorld = new world3(worldChangeLoc);
+		world::currWorld = std::make_unique<world3>(worldChangeLoc);
 	} else if (currWorldName == "world4") {
-		world::currWorld = new world4(worldChangeLoc);
+		world::currWorld = std::make_unique<world4>(worldChangeLoc);
 	} else if (currWorldName == "world5") {
-		world::currWorld = new world5(worldChangeLoc);
+		world::currWorld = std::make_unique<world5>(worldChangeLoc);
 	} else if (currWorldName == "world6") {
-		world::currWorld = new world6(worldChangeLoc);
+		world::currWorld = std::make_unique<world6>(worldChangeLoc);
 	} else if (currWorldName == "world7") {
-		world::currWorld = new world7(worldChangeLoc);
+		world::currWorld = std::make_unique<world7>(worldChangeLoc);
 	} else if (currWorldName == "world8") {
-		world::currWorld = new world8(worldChangeLoc);
+		world::currWorld = std::make_unique<world8>(worldChangeLoc);
 	} else if (currWorldName == "world9") {
-		world::currWorld = new world9(worldChangeLoc);
+		world::currWorld = std::make_unique<world9>(worldChangeLoc);
 	} else if (currWorldName == "world10") {
-		world::currWorld = new world10(worldChangeLoc);
+		world::currWorld = std::make_unique<world10>(worldChangeLoc);
+	}
+
+	AStar::init();
+
+	loadingDone = true;
+	GPULoadCollector::close(gpuImages, gpuAnimations, gpuText, gpuRect);
+}
+
+void Scene::finishedLoading() {
+	std::cout << "finished loading!\n";
+	for (int i = 0; i < gpuImages.size(); i++)
+		gpuImages[i]->loadGPU();
+	for (int i = 0; i < gpuAnimations.size(); i++) {
+		gpuAnimations[i]->setQueuedAnim();
+		gpuAnimations[i]->playQueuedStart();
+	}
+	for (int i = 0; i < gpuText.size(); i++) {
+		gpuText[i]->makeTextTexture();
+		gpuText[i]->updatePositionsList();
+	}
+	for (int i = 0; i < gpuRect.size(); i++) {
+		gpuRect[i]->loadGPU();
+		gpuRect[i]->updatePositionsList();
 	}
 
 	if (world::currWorld)
 		world::currWorld->start();
-
-	AStar::init();
+	if (titleScreen::currTitleScreen)
+		titleScreen::currTitleScreen->start();
 }
 
 int Scene::getWorldIndexFromName(std::string worldName) {

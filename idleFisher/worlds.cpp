@@ -11,6 +11,7 @@
 #include "Image.h"
 #include "Texture.h"
 #include "Rectangle.h"
+#include "text.h"
 
 #include "button.h"
 #include "animation.h"
@@ -89,7 +90,7 @@ void titleScreen::start() {
 void titleScreen::newGame() {
 	fadeTimer = std::make_shared<timer>();
 	fadeTimer->addUpdateCallback(this, &titleScreen::fadeToBlack);
-	fadeTimer->start(.3);
+	fadeTimer->start(0.3f);
 	fadeTimer->addCallback(this, &titleScreen::openWorld);
 }
 
@@ -97,9 +98,10 @@ void titleScreen::continueGame() {
 	fadeTimer = std::make_shared<timer>();
 	fadeTimer->addUpdateCallback(this, &titleScreen::fadeToBlack);
 	fadeTimer->addCallback(this, &titleScreen::openWorld);
-	fadeTimer->start(.3);
+	fadeTimer->start(0.3f);
 }
 
+#include "GPULoadCollector.h"
 void titleScreen::fadeToBlack() {
 	alpha = fadeTimer->getTime() / fadeTimer->getMaxTime();
 	transitionBox->setColor(glm::vec4(18 / 255.f, 11.f / 255.f, 22.f / 255.f, alpha));
@@ -503,7 +505,6 @@ void world::sortDraw(Shader* shaderProgram) {
 	std::vector<Image*> dockPoleInFront;
 	std::vector<Image*> dockPoleBehind;
 
-
 	// sort
 	// calc autofisher
 	for (int i = 0; i < autoFisherList.size(); i++) {
@@ -617,36 +618,37 @@ world1::world1(int worldChangeLoc) {
 	spawnLoc = { 517, 476 };
 	houseLoc = { 1670, -870 };
 	bankSellLoc = { 1000, 650 };
+
 	setWorldChangeLoc(worldChangeLoc);
 
 	mapImg = std::make_unique<Image>("./images/map1.png", vector{ 0, 0 }, true);
 	for (int i = 0; i < 19; i++)
 		mapAnimList.push_back("./images/worlds/world1/map" + std::to_string(i + 1) + ".png");
-	ship = std::make_unique<Aship>(vector{ -164+500, 495-25 });
+	ship = std::make_unique<Aship>(vector{ -164 + 500, 495 - 25 });
 
 	std::string circlePath = "./images/circle/circle";
-	circleImgs = std::vector<std::string>{ circlePath + "1.png", circlePath + "2.png", circlePath + "3.png", circlePath + "4.png"};
+	circleImgs = std::vector<std::string>{ circlePath + "1.png", circlePath + "2.png", circlePath + "3.png", circlePath + "4.png" };
 	circle = std::make_unique<Image>(circlePath + "1.png", vector{ 0, 0 }, false);
 
-	sellFish = std::make_unique<dumpster>(vector{ 739+110, 672+50 });
+	sellFish = std::make_unique<dumpster>(vector{ 739 + 110, 672 + 50 });
 
 	// npcs
-	sailor = std::make_unique<Asailor>(vector{ 10+500, -5+554 - 5 });
-	fisherman = std::make_unique<Afisherman>(vector{ 143+8+500, 190+550 - 9 });
-	atm = std::make_unique<Aatm> (vector{ 327 + 500-52, 186 + 547 - 9 + 12 });
-	scuba = std::make_unique<Ascuba> (vector{ 354-105 + 500, -133 + 554-9 });
-	petSeller = std::make_unique<ApetSeller>(vector{ 365+100 + 500, 255 + 554 - 9 });
-	merchant = std::make_unique<Amerchant>(vector{ 143+410 + 500, 270 + 554 - 9 });
-	mechanic = std::make_unique<Amechanic>(vector{ 560+60 + 500, 150 + 560 - 9 });
+	sailor = std::make_unique<Asailor>(vector{ 10 + 500, -5 + 554 - 5 });
+	fisherman = std::make_unique<Afisherman>(vector{ 143 + 8 + 500, 190 + 550 - 9 });
+	atm = std::make_unique<Aatm>(vector{ 327 + 500 - 52, 186 + 547 - 9 + 12 });
+	scuba = std::make_unique<Ascuba>(vector{ 354 - 105 + 500, -133 + 554 - 9 });
+	petSeller = std::make_unique<ApetSeller>(vector{ 365 + 100 + 500, 255 + 554 - 9 });
+	merchant = std::make_unique<Amerchant>(vector{ 143 + 410 + 500, 270 + 554 - 9 });
+	mechanic = std::make_unique<Amechanic>(vector{ 560 + 60 + 500, 150 + 560 - 9 });
 
 	if (SaveData::saveData.mechanicStruct[0].unlocked)
-		fishTransporter = std::make_unique<AfishTransporter>(vector{ 417-140+500, 157+554 });
+		fishTransporter = std::make_unique<AfishTransporter>(vector{ 417 - 140 + 500, 157 + 554 });
 
 	// npc buildings
-	house = std::make_unique<Ahouse>(vector{1157, 429+346 });
-	merchantShop = std::make_unique<AmerchantShop>(vector{ 998, 368+405 });
-	mechanicHouse = std::make_unique<AmechanicHouse>(vector{ 1130, 251+363 });
-	petShop = std::make_unique<ApetShop>(vector{ 930, 321+440 });
+	house = std::make_unique<Ahouse>(vector{ 1157, 429 + 346 });
+	merchantShop = std::make_unique<AmerchantShop>(vector{ 998, 368 + 405 });
+	mechanicHouse = std::make_unique<AmechanicHouse>(vector{ 1130, 251 + 363 });
+	petShop = std::make_unique<ApetShop>(vector{ 930, 321 + 440 });
 
 	// make trees
 	std::vector<vector> treeLocs = { {624, 524}, {739, 514},{842, 502},{944, 485},{229, 480},{415, 477},{525, 477},{1101, 460},{663, 454},{310, 448},{114, 433},{475, 432},{773, 426},{574, 425},{1012, 425},{869, 422},{709, 409},{380, 406},{215, 402},{935, 385},{622, 384},{1155, 372},{803, 371},{1063, 368},{546, 367},{288, 349},{461, 338},{373, 332},{869, 330},{1000, 323},{231, 298},{331, 279},{922, 279},{988, 247},{910, 224} };
@@ -654,7 +656,7 @@ world1::world1(int worldChangeLoc) {
 
 	// temp
 	for (int i = 0; i < treeLocs.size(); i++)
-		treeLocs[i] += vector{500, 622};
+		treeLocs[i] += vector{ 500, 622 };
 	for (int i = 0; i < bushLocs.size(); i++)
 		bushLocs[i] += vector{ 500, 531 };
 
@@ -684,6 +686,10 @@ world1::world1(int worldChangeLoc) {
 		std::unique_ptr<Image> poleImg = std::make_unique<Image>("./images/worlds/world1/dockPole.png", poleLocs[i], true);
 		poleList.push_back(std::move(poleImg));
 	}
+}
+
+void world::loadGPU() {
+	mapImg->loadGPU();
 }
 
 void world::finishedBeachAnim() {

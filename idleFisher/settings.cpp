@@ -90,7 +90,8 @@ Usettings::Usettings(widget* parent) : widget(parent) {
 
 	// show pets
 	petHorizBox = std::make_unique<horizontalBox>(this);
-	petText = std::make_unique<text>(this, "     Show Pets                     ", "straight", vector{ 0, 0 });
+	//petText = std::make_unique<text>(this, "     Show Pets                     ", "straight", vector{ 0, 0 });
+	petText = std::make_unique<text>(this, "     Show Pets", "straight", vector{ 0, 0 });
 	petButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 35, 13, 1, vector{ 0, 0 }, false, false);
 	//petButton->setClickAnim(buttonClickAnim);
 	petButton->addCallback(this, &Usettings::togglePets);
@@ -109,7 +110,6 @@ Usettings::Usettings(widget* parent) : widget(parent) {
 	rainHorizBox->addChild(NULL, 191 * stuff::pixelSize);
 	rainHorizBox->addChild(rainButton.get(), rainButton->getSize().x);
 	scrollBox->addChild(rainHorizBox.get(), 16 * stuff::pixelSize);
-
 
 	setupText();
 

@@ -91,4 +91,13 @@ public:
 	// if getFrameNum = true, then function finds distance from start to frame
 	// if false, then the function finds distance from start to end
 	int calcFrameDistance(bool getFrameNum);
+
+
+	void setQueuedAnim();
+	void playQueuedStart();
+private:
+	// what the animation was set to when GPULoadCollector was active
+	std::string queuedAnim = "";
+	// if the animation was told to start during GPULoadCollector being active
+	bool queuedStart = false;
 };

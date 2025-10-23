@@ -146,9 +146,6 @@
     <ClCompile Include="glac.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="stuff.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="npc.cpp">
       <Filter>Source Files\npc</Filter>
     </ClCompile>
@@ -418,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loadingScreen.cpp">
+      <Filter>Source Files\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -758,6 +758,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScreen.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GPULoadCollector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

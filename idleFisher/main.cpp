@@ -19,6 +19,7 @@
 #include "Input.h"
 #include "Scene.h"
 #include "Cursor.h"
+#include "GPULoadCollector.h"
 
 // npc
 #include "fishTransporter.h"
@@ -53,6 +54,8 @@ int main(int argc, char* argv[]) {
 }
 
 int Main::createWindow() {
+	GPULoadCollector::setMainThread(std::this_thread::get_id());
+
 	fpsCap = 0;
 	// temp
 	stuff::screenSize = { 1920, 1080 };
@@ -160,11 +163,6 @@ int Main::createWindow() {
 		lastTime = currentTime;
 		//std::cout << "fps: " << 1.f / deltaTime << std::endl;
 		
-		int cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
-		if (cursorMode != GLFW_CURSOR_NORMAL) {
-			std::cout << "Cursor mode changed: " << cursorMode << std::endl;
-		}
-
 		// process input
 		Input::pollEvents();
 
@@ -173,7 +171,8 @@ int Main::createWindow() {
 		updateShaders(deltaTime);
 
 		glViewport(0, 0, stuff::screenSize.x, stuff::screenSize.y);
-		glClearColor(.25, .6, .6, 1.f);
+		//glClearColor(.25, .6, .6, 1.f);
+		glClearColor(18.f / 255.f, 11.f / 255.f, 22.f / 255.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 
@@ -275,20 +274,14 @@ void Main::Start() {
 	SaveData::saveData.playerLoc = vector{ 663, 552 };
 
 	textureManager::textureManager();
-
-	// setup sounds
-	sounds();
-
+	sounds::sounds();
 	csvReader();
-
 	SaveData::load();
-
 	upgrades::init();
 	achievementBuffs::init();
-	
 	setupWidgets();
 
-	Scene::openLevel("world1", worldLoc::None, true);
+	Scene::openLevel("titleScreen", worldLoc::None, true);
 	
 	character = new Acharacter();
 	camera = new Camera(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));
@@ -387,15 +380,7 @@ void Main::draw3D(Shader* shaderProgram) {
 void Main::draw(Shader* shaderProgram) {
 	shaderProgram->Activate();
 	
-	std::string currWorldName = Scene::getCurrWorldName();
-	if (titleScreen::currTitleScreen && currWorldName == "titleScreen")
-		titleScreen::currTitleScreen->draw(shaderProgram);
-	else if (currWorldName == "vault") {
-		vaultWorld::draw(shaderProgram);
-	} else if (currWorldName == "rebirth") {
-		rebirthWorld::draw(shaderProgram);
-	} else if (currWorldName.find("world") != std::string::npos)
-		world::currWorld->draw(shaderProgram);
+	Scene::draw(shaderProgram);
 
 	if (widget::getCurrWidget())
 		widget::getCurrWidget()->draw(shaderProgram);

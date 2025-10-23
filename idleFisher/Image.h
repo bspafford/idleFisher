@@ -29,6 +29,8 @@ public:
 	Image(std::shared_ptr<Image> image, std::shared_ptr<Rect>, vector loc, bool useWorldPos);
 	~Image();
 
+	void loadGPU();
+
 	void draw(Shader* shaderProgram);
 	void setSourceRect(std::shared_ptr<Rect> rect);
 	void setLoc(vector loc);
@@ -61,9 +63,11 @@ public:
 	GLenum texType = GL_TEXTURE_2D;
 	GLenum pixelType = GL_UNSIGNED_BYTE;
 
-	VAO* currVAO;
-	GLuint VBOId;
-	EBO* currEBO;
+	VAO* currVAO = nullptr;
+	GLuint VBOId = 0;
+	EBO* currEBO = nullptr;;
+
+	std::vector<float> positions;
 
 	bool useWorldPos;
 	bool useAlpha;
@@ -77,11 +81,10 @@ public:
 	GLenum textureFormat;
 	std::string path;
 
-
+	void updatePositionsList(std::vector<float> positions = std::vector<float>(0));
 private:
 	std::vector<float> getPositionsList();
 
-	void updatePositionsList(std::vector<float> positions = std::vector<float>(0));
 
 	vector loc; // relative to the screen position
 	vector absoluteLoc; // absolute position in the screen

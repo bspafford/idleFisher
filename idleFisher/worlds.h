@@ -17,6 +17,7 @@ class timer;
 class Ubutton;
 class Shader;
 class URectangle;
+class text;
 
 class AautoFisher;
 class buyAutoFisher;
@@ -51,7 +52,7 @@ public:
 	titleScreen();
 	~titleScreen();
 
-	static inline titleScreen* currTitleScreen;
+	static inline std::unique_ptr<titleScreen> currTitleScreen;
 
 	void start();
 	void draw(Shader* shaderProgram);
@@ -132,7 +133,10 @@ public:
 	world();
 	~world();
 	
-	static inline world* currWorld;
+	void loadCPU();
+	void loadGPU();
+
+	static inline std::unique_ptr<world> currWorld;
 
 	void start();
 	void draw(Shader* shaderProgram);

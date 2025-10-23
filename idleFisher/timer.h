@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <functional>
+#include <mutex>
 
 class timer {
 public:
@@ -56,4 +57,6 @@ private:
 
 	std::function<void()> callback_;
 	std::function<void()> updateCallback_;
+
+	std::mutex mutex;
 };

@@ -7,9 +7,10 @@
 #include <iostream>
 
 #include "camera.h"
+#include "GPULoadCollector.h"
 
 text::text(widget* parent, std::string text, std::string font, vector loc, bool useWorldPos, bool isometric, int alignment) : widget(parent) {
-	instances.insert(this);
+	instances.push_back(this);
 
 	this->textString = text;
 	this->alignment = alignment;
@@ -20,10 +21,15 @@ text::text(widget* parent, std::string text, std::string font, vector loc, bool 
 
 	loadTextImg();
 	setText(text);
+
+	GPULoadCollector::add(this);
 }
 
 text::~text() {
-	instances.erase(this);
+	std::lock_guard<std::mutex> lock(mutex);
+	auto it = std::find(instances.begin(), instances.end(), this);
+	if (it != instances.end())
+		instances.erase(it);
 
 	deleteObjects();
 
@@ -257,6 +263,9 @@ void text::deleteObjects() {
 }
 
 void text::makeTextTexture() {
+	if (!GPULoadCollector::isOnMainThread())
+		return;
+
 	deleteObjects();
 
 	if (letters.size() == 0)
@@ -369,7 +378,6 @@ void text::setLoc(vector loc) {
 
 	if (useWorldPos) {
 		vector size = getSize();
-		vector halfScreen = (stuff::screenSize / 2.f);
 
 		if (alignment == textAlign::left) {
 			absoluteLoc = loc;
@@ -404,6 +412,9 @@ void text::setLoc(vector loc) {
 }
 
 void text::updatePositionsList() {
+	if (!GPULoadCollector::isOnMainThread())
+		return;
+
 	if (!currVAO)
 		return;
 

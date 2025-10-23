@@ -390,117 +390,16 @@ float AautoFisher::getCatchTime() {
 }
 
 double AautoFisher::calcIdleProfits(double afkTime) {
-	// needs to load how many fish it has in it before loading idle profits
-	// temp
-	/*
-	FsaveFishData tempFish;
-	tempFish.id = 1; // temp
-	tempFish.numOwned = SaveData::saveData.autoFisherList[id].fullness;
-	heldFish.push_back(tempFish);
-	*/
 	double currencyNum = 0;
 	int numOfFishCatched = round(afkTime / getCatchTime());
 	std::vector<vector> fishList = calcAutoFishList(numOfFishCatched);
 	for (int i = 0; i < fishList.size(); i++) {
-		//FfishData* currFish = &SaveData::data.fishData[i];
 		FfishData* currFish = &SaveData::data.fishData[fishList[i].y];
 		currencyNum += fishList[i].x * upgrades::getFishSellPrice(*currFish, 0);
 	}
 
 	return currencyNum;
 }
-
-// void AautoFisher::calcIdleProfits() {
-/*
-	// needs to load how many fish it has in it before loading idle profits
-	// temp
-	FsaveFishData tempFish;
-	tempFish.id = 1; // temp
-	tempFish.numOwned = SaveData::saveData.autoFisherList[id].fullness;
-	heldFish.push_back(tempFish);
-
-	double currencyHeld = calcCurrencyHeld();
-	if (currencyHeld >= maxCurrency) { // don't load idle profits if already full
-		autoFisherAnim->stop();
-		return;
-	}
-
-	float timeDiffNano = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - SaveData::lastPlayed).count();
-
-	// in seconds
-	float timeDiff = timeDiffNano / 1000000000;
-
-	// copy from UE5
-	int numOfFishCatched = round(timeDiff / getCatchTime());
-
-	std::vector<vector> fishList = calcAutoFishList(numOfFishCatched);
-
-	std::vector<FsaveFishData> tempHeldFish;
-	for (int i = 0; i < fishList.size(); i++) {
-		FfishData* currFish = &SaveData::data.fishData[i];
-
-		// adds the fish to the auto fisher save data, probably should do this in another script or function to make it look prettier
-		if (currFish->levelName == Main::currWorldName) {
-			if (tempHeldFish.size() == 0) {
-				// add fish
-				FsaveFishData fishStats;
-				fishStats.id = fishList[i].y;
-				fishStats.numOwned = fishList[i].x;
-				tempHeldFish.push_back(fishStats);
-
-			} else {
-				bool found = false;
-				for (int j = 0; j < tempHeldFish.size(); j++) {
-					// look for id of 0 // temp
-					if (tempHeldFish[j].id == fishList[i].y) {
-						tempHeldFish[j].numOwned += fishList[i].x;
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
-					// add 0
-					FsaveFishData fishStats;
-					fishStats.id = fishList[i].y;
-					fishStats.numOwned = fishList[i].x;
-					tempHeldFish.push_back(fishStats);
-				}
-			}
-		}
-	}
-
-	// clamps the fish gotten during idle to the max currency number
-	float multi = 1;
-	double tempCurrencyHeld = calcCurrencyHeld(tempHeldFish);
-	double temp = maxCurrency - currencyHeld;
-	if (tempCurrencyHeld + currencyHeld > temp) { // if theres no space in autoFisher
-		multi = temp / tempCurrencyHeld;
-		autoFisherAnim->stop();
-	}
-
-	for (int i = 0; i < tempHeldFish.size(); i++) {
-
-		bool found = false;
-		for (int j = 0; j < heldFish.size(); j++) {
-			// look for id of 0 // temp
-			if (tempHeldFish[i].id == heldFish[j].id) {
-				// if found then
-				heldFish[j].numOwned += round(multi * tempHeldFish[i].numOwned);
-				found = true;
-				break;
-			}
-		}
-
-		if (!found) {
-			FsaveFishData fishStats;
-			fishStats.id = tempHeldFish[i].id;
-			fishStats.numOwned = multi * tempHeldFish[i].numOwned;
-			heldFish.push_back(fishStats);
-		}
-	}
-}
-*/
 
 // { fish num, fish id }
 std::vector<vector> AautoFisher::calcAutoFishList(int fishNum) {
@@ -554,7 +453,7 @@ void AautoFisher::startFishing() {
 // fish per second
 double AautoFisher::calcFPS() {
 	// how fast it can catch fish
-	return 1 / getCatchTime();
+	return 1 / math::max(getCatchTime(), 0.00001f);
 }
 
 // money per second

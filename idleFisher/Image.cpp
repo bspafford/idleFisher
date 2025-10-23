@@ -3,18 +3,18 @@
 #include "stuff.h"
 #include "textureManager.h"
 #include <glm/gtx/rotate_vector.hpp>
+#include "GPULoadCollector.h"
 
 Image::Image(std::shared_ptr<Image> image, std::shared_ptr<Rect> source, vector loc, bool useWorldPos) {
+	this->loc = loc;
+
 	path = image->path;
 	this->source = source;
+	this->useWorldPos = useWorldPos;
 
 	texType = GL_TEXTURE_2D;
 	pixelType = GL_UNSIGNED_BYTE;
 
-	this->useWorldPos = useWorldPos;
-
-	loc = loc.round();
-	this->loc = loc;
 	texture = image->texture;
 
 	if (!texture) {
@@ -22,76 +22,37 @@ Image::Image(std::shared_ptr<Image> image, std::shared_ptr<Rect> source, vector 
 		return;
 	}
 
+	positions = getPositionsList();
+
 	ogW = image->ogW;
 	ogH = image->ogH;
 	w = source->w;
 	h = source->h;
 
-
-	std::vector<float> positions = getPositionsList();
-
-	std::vector<GLuint> indices = {
-		0, 1, 3, // First triangle
-		3, 1, 2  // Second triangle
-	};
-
-	currVAO = new VAO();
-	currVAO->Bind();
-
-	glGenBuffers(1, &VBOId);
-	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
-	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), positions.data(), GL_STATIC_DRAW);
-
-	currEBO = new EBO(indices);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	//currVBO->Unbind();
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	// Assigns the type of the texture ot the texture object
 	type = texType;
 
-	// Generates an OpenGL texture object
-	glGenTextures(1, &ID);
+	textureFormat = image->textureFormat;
 
-	// Assigns the texture to a Texture Unit
-	glActiveTexture(GL_TEXTURE1);
-
-	glBindTexture(texType, ID);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
-	// Assigns the image to the OpenGL Texture object
-	//glTexImage2D(texType, 0, nChannels, w, h, 0, textureFormat, pixelType, bytes);
-	glTexImage2D(texType, 0, image->textureFormat, ogW, ogH, 0, image->textureFormat, pixelType, texture);
-
-	// Generates MipMaps
-	//glGenerateMipmap(texType);
-
-	//setSourceRect(source);
-	setLoc(loc);
+	GPULoadCollector::add(this);
 }
 
 Image::Image(std::string image, vector loc, bool useWorldPos) {
-	path = image;
-	this->useWorldPos = useWorldPos;
-	loc = loc.round();
 	this->loc = loc;
 
-	GLenum texType = GL_TEXTURE_2D;
-	GLenum pixelType = GL_UNSIGNED_BYTE;
+	path = image;
+	this->useWorldPos = useWorldPos;
+
+	texType = GL_TEXTURE_2D;
+	pixelType = GL_UNSIGNED_BYTE;
 	textureStruct* img = textureManager::getTexture(path);
 
 	if (!img) {
 		std::cout << "Filepath NOT Found: " << path << std::endl;
 		return;
 	}
+
+	positions = getPositionsList();
 
 	if (img->texture) {
 		texture = img->texture;
@@ -107,7 +68,35 @@ Image::Image(std::string image, vector loc, bool useWorldPos) {
 		h = 0;
 	}
 
-	std::vector<float> positions = getPositionsList();
+	// Assigns the type of the texture ot the texture object
+	type = texType;
+
+	// Determine the pixel format of the surface.
+	if (img->nChannels == 4) { // Image has an alpha channel
+		textureFormat = GL_RGBA;
+	} else if (img->nChannels == 3) { // No alpha channel
+		textureFormat = GL_RGB;
+	} else if (path != "" && path != "None") {
+		std::cerr << "Warning: the image is not truecolor; this may cause issues." << std::endl;
+	}
+
+	GPULoadCollector::add(this);
+}
+
+Image::~Image() {
+	if (currVAO)
+		currVAO->Delete();
+	if (currEBO)
+		currEBO->Delete();
+	glDeleteBuffers(1, &VBOId);
+	glDeleteTextures(1, &ID);
+	delete currVAO;
+	delete currEBO;
+	currVAO = nullptr;
+	currEBO = nullptr;
+}
+
+void Image::loadGPU() {
 	std::vector<GLuint> indices = {
 		0, 1, 3,
 		3, 1, 2
@@ -126,15 +115,11 @@ Image::Image(std::string image, vector loc, bool useWorldPos) {
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
-	//currVBO->Unbind();
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Assigns the type of the texture ot the texture object
-	type = texType;
 
 	// Generates an OpenGL texture object
 	glGenTextures(1, &ID);
-	
+
 	// Assigns the texture to a Texture Unit
 	glActiveTexture(GL_TEXTURE1);
 
@@ -145,41 +130,17 @@ Image::Image(std::string image, vector loc, bool useWorldPos) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	// Determine the pixel format of the surface.
-	//GLint nOfColors = imgSurface->format->BytesPerPixel;
-	if (img->nChannels == 4) { // Image has an alpha channel
-		textureFormat = GL_RGBA;
-	} else if (img->nChannels == 3) { // No alpha channel
-		textureFormat = GL_RGB;
-	} else if (path != "" && path != "None") {
-		std::cerr << "Warning: the image is not truecolor; this may cause issues."
-			<< std::endl;
+	if (texture) {
+		glTexImage2D(texType, 0, textureFormat, ogW, ogH, 0, textureFormat, pixelType, texture);
 	}
-
-	// Assigns the image to the OpenGL Texture object
-	//glTexImage2D(texType, 0, nChannels, w, h, 0, textureFormat, pixelType, bytes);
-
-	if (texture)
-		glTexImage2D(texType, 0, textureFormat, w, h, 0, textureFormat, pixelType, texture);
-	
-	// Generates MipMaps
-	//glGenerateMipmap(texType);
 
 	setLoc(loc);
 }
 
-Image::~Image() {
-	currVAO->Delete();
-	currEBO->Delete();
-	glDeleteBuffers(1, &VBOId);
-	glDeleteTextures(1, &ID);
-	delete currVAO;
-	delete currEBO;
-	currVAO = nullptr;
-	currEBO = nullptr;
-}
-
 void Image::draw(Shader* shaderProgram) {
+	if (!currVAO)
+		return;
+
 	shaderProgram->Activate();
 	glActiveTexture(GL_TEXTURE0);
 	Bind();
@@ -253,6 +214,9 @@ vector Image::getAbsoluteLoc() {
 }
 
 void Image::updatePositionsList(std::vector<float> positions) {
+	if (!currVAO || !GPULoadCollector::isOnMainThread())
+		return;
+
 	currVAO->Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
 
@@ -386,6 +350,9 @@ void Image::setSize(vector size) {
 }
 
 void Image::setImage(std::string path) {
+	if (!GPULoadCollector::isOnMainThread())
+		return;
+
 	textureStruct* texStruct = textureManager::getTexture(path);
 	if (texStruct) {
 		this->path = path;

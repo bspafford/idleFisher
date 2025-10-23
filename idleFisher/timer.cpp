@@ -6,12 +6,10 @@
 #include "math.h"
 
 timer::timer() {
-	// adds timer obj to instances list
 	instances.push_back(this);
 }
 
 timer::~timer() {
-	// removes timer obj to instances list on destruct
 	auto it = std::find(instances.begin(), instances.end(), this);
 	if (it != instances.end())
 		instances.erase(it);
@@ -19,8 +17,8 @@ timer::~timer() {
 
 // calls update function to all instances of object
 void timer::callUpdate(float deltaTime) {
-	for (timer* obj : timer::instances) {
-		obj->Update(deltaTime);
+	for (timer* t : instances) {
+		if (t) t->Update(deltaTime);
 	}
 }
 

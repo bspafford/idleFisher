@@ -226,6 +226,9 @@
     <ClCompile Include="fishUnlocked.cpp" />
     <ClCompile Include="fps.cpp" />
     <ClCompile Include="glac.c" />
+    <ClInclude Include="GPULoadCollector.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="heldFishWidget.cpp" />
     <ClCompile Include="horizontalBox.cpp" />
     <ClCompile Include="house.cpp" />
@@ -236,6 +239,7 @@
     <ClCompile Include="journal.cpp" />
     <ClCompile Include="journalProgressWidget.cpp" />
     <ClCompile Include="line.cpp" />
+    <ClCompile Include="loadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="math.cpp" />
@@ -279,7 +283,6 @@
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="slider.cpp" />
     <ClCompile Include="stb.cpp" />
-    <ClCompile Include="stuff.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="textureManager.cpp" />
@@ -349,6 +352,7 @@
     <ClInclude Include="journal.h" />
     <ClInclude Include="journalProgressWidget.h" />
     <ClInclude Include="line.h" />
+    <ClInclude Include="loadingScreen.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="math.h" />

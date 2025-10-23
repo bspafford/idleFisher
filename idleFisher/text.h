@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <mutex>
 
 #include "math.h"
 #include "widget.h"
@@ -38,6 +39,7 @@ public:
 
 	void setLocAndSize(vector loc, vector size) override;
 	void setLoc(vector loc) override;
+	// anchor::...
 	void setAnchor(std::string xAnchor, std::string yAnchor);
 
 	void updatePositionsList();
@@ -51,10 +53,9 @@ public:
 	int calcFontSize();
 	Image* normFont;
 
-private:
-	static inline std::set<text*> instances;
-
 	void makeTextTexture();
+private:
+	static inline std::vector<text*> instances;
 
 	std::string textString;
 
@@ -96,4 +97,6 @@ private:
 	std::string yAnchor = anchor::top;
 
 	int textHeight;
+
+	std::mutex mutex;
 };

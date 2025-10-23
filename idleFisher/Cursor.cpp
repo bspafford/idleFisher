@@ -5,11 +5,11 @@
 #include "textureManager.h"
 
 void Cursor::calcMouseImg() {
-	bool canHover = IHoverable::checkValidInteract();
 	IHoverable* hoveredItem = IHoverable::getHoveredItem();
+	bool canHover = IHoverable::checkValidInteract();
 	if (hoveredItem && canHover) {
+		std::string hoveredIcon = hoveredItem->getMouseHoverIcon();
 		if (Input::getMouseButtonHeld(GLFW_MOUSE_BUTTON_LEFT)) {
-			std::string hoveredIcon = hoveredItem->getMouseHoverIcon();
 			if (hoveredIcon == "cursor1")
 				setMouseImg("cursor4");
 			else if (hoveredIcon == "cursor2")

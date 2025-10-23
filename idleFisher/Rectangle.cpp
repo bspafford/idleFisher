@@ -1,5 +1,6 @@
 #include "Rectangle.h"
 #include "stuff.h"
+#include "GPULoadCollector.h"
 
 URectangle::URectangle(vector loc, vector size, bool useWorldLoc, glm::vec4 color) {
 	this->loc = loc;
@@ -7,6 +8,10 @@ URectangle::URectangle(vector loc, vector size, bool useWorldLoc, glm::vec4 colo
 	this->color = color;
 	this->useWorldLoc = useWorldLoc;
 
+	GPULoadCollector::add(this);
+}
+
+void URectangle::loadGPU() {
 	float vertices[] = {
 		// Positions // Texture Coords
 		size.x + loc.x, loc.y,           // Bottom-right
@@ -49,12 +54,16 @@ URectangle::~URectangle() {
 }
 
 void URectangle::draw(Shader* shaderProgram) {
+	if (!currVAO || !GPULoadCollector::isOnMainThread())
+		return;
+
+	shaderProgram->Activate();
+	currVAO->Bind();
+
 	shaderProgram->setVec4("color", color);
 	glUniform1i(glGetUniformLocation(shaderProgram->ID, "useWorldPos"), useWorldLoc);
 	shaderProgram->setInt("isRectangle", 1);
 
-	shaderProgram->Activate();
-	currVAO->Bind();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	
 	shaderProgram->setInt("isRectangle", 0);
@@ -129,6 +138,9 @@ void URectangle::setAnchor(std::string xAnchor, std::string yAnchor) {
 }
 
 void URectangle::updatePositionsList() {
+	if (!currVAO || !GPULoadCollector::isOnMainThread())
+		return;
+
 	currVAO->Bind();
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);

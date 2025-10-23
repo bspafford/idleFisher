@@ -2,6 +2,14 @@
 
 #include <string>
 
+#include "loadingScreen.h"
+
+class world;
+class LoadingScreen;
+class Image;
+class animation;
+class text;
+
 struct worldLoc {
 	// don't set the position of that character when opening level
 	static inline int None = 0;
@@ -19,8 +27,21 @@ public:
 	static int getWorldIndexFromName(std::string worldName);
 	static std::string getPrevWorldName();
 	static std::string getCurrWorldName();
+
+	static void draw(Shader* shaderProgram);
+	static void openLevelThread(std::string worldName, int worldChangeLoc, bool overrideIfInWorld);
 private:
+	static inline bool loadingDone = false;
+	static inline bool hasFinishedLoading = false;
+
 	static inline std::string prevWorld;
 	static inline std::string currWorldName;
-	static inline bool switchingScenes = false;
+
+	static inline std::unique_ptr<LoadingScreen> loadingScreen;
+
+	static void finishedLoading();
+	static inline std::vector<Image*> gpuImages;
+	static inline std::vector<animation*> gpuAnimations;
+	static inline std::vector<text*> gpuText;
+	static inline std::vector<URectangle*> gpuRect;
 };

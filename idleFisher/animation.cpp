@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "Image.h"
 #include "shaderClass.h"
+#include "GPULoadCollector.h"
 
 #include <functional>
 #include <iostream>
@@ -20,6 +21,8 @@ animation::animation(std::string spriteSheetPath, int cellWidth, int cellHeight,
 
 	animTimer = std::make_unique<timer>();
 	animTimer->addCallback(this, &animation::animCallBack);
+
+	GPULoadCollector::add(this);
 }
 
 animation::animation(std::shared_ptr<Image> spriteSheetImg, int cellWidth, int cellHeight, std::unordered_map<std::string, animDataStruct> animData, bool useWorldLoc, vector loc) {
@@ -37,6 +40,8 @@ animation::animation(std::shared_ptr<Image> spriteSheetImg, int cellWidth, int c
 
 	animTimer = std::make_unique<timer>();
 	animTimer->addCallback(this, &animation::animCallBack);
+
+	GPULoadCollector::add(this);
 }
 
 animation::~animation() {
@@ -56,6 +61,12 @@ void animation::draw(Shader* shaderProgram) {
 }
 
 void animation::start() {
+	if (!GPULoadCollector::isOnMainThread()) {
+		// queue that set animation for when its set later
+		queuedStart = true;
+		return;
+	}
+
 	// reset frame back to beginning
 	currFrameLoc = animData[currAnim].start;
 	bStopped = false;
@@ -80,6 +91,12 @@ void animation::stop() {
 }
 
 void animation::setAnimation(std::string name, bool instantUpdate) {
+	if (!GPULoadCollector::isOnMainThread()) {
+		// queue that set animation for when its set later
+		queuedAnim = name;
+		return;
+	}
+
 	int frameNum = calcFrameDistance(true);
 
 	currAnim = name;
@@ -98,6 +115,8 @@ void animation::setAnimation(std::string name, bool instantUpdate) {
 
 	// updates loc, so it isn't offset by the change in source
 	setLoc(loc);
+
+	queuedAnim = "";
 }
 
 void animation::animCallBack() {
@@ -170,4 +189,15 @@ void animation::setLoc(vector loc) {
 
 vector animation::getLoc() {
 	return loc;
+}
+
+void animation::setQueuedAnim() {
+	setAnimation(queuedAnim);
+	queuedAnim = "";
+}
+
+void animation::playQueuedStart() {
+	if (queuedStart)
+		start();
+	queuedStart = false;
 }

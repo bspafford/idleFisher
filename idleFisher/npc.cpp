@@ -6,7 +6,7 @@
 #include "Image.h"
 
 npc::npc(vector loc) {
-	instances.insert(this);
+	instances.push_back(this);
 	this->loc = loc;
 
 	std::unordered_map<std::string, animDataStruct> exclamationPointAnimData;
@@ -17,7 +17,10 @@ npc::npc(vector loc) {
 }
 
 npc::~npc() {
-	instances.erase(this);
+	auto it = std::find(instances.begin(), instances.end(), this);
+	if (it != instances.end())
+		instances.erase(it);
+
 	// remove col
 	collision::removeCollisionObject(col.get());
 }

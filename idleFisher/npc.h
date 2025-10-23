@@ -20,7 +20,7 @@ protected:
 public:
 	virtual ~npc();
 
-	static inline std::set<npc*> instances;
+	static inline std::vector<npc*> instances;
 
 	virtual void draw(Shader* shaderProgram);
 

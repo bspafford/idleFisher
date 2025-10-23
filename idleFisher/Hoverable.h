@@ -30,7 +30,7 @@ public:
 		// if object is widget, then check if its part of the override widget
 		// if no overriding widget left click
 		widget* _widget = dynamic_cast<widget*>(hoveredItem);
-		if (!widget::getCurrWidget() || (widget::getCurrWidget() && _widget && _widget->getRootParent() == widget::getCurrWidget()))
+		if (!widget::getCurrWidget() || (_widget && _widget->getRootParent() == widget::getCurrWidget()))
 			return true;
 		return false;
 	}

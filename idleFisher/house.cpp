@@ -1,6 +1,7 @@
 #include "house.h"
 #include "Scene.h"
 #include "button.h"
+#include "worlds.h"
 
 Ahouse::Ahouse(vector loc) : Abuilding(loc) {
 	buildingImg = std::make_unique<Image>("./images/house.png", loc, true);
