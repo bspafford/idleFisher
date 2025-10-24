@@ -93,7 +93,7 @@ void animation::stop() {
 void animation::setAnimation(std::string name, bool instantUpdate) {
 	if (!GPULoadCollector::isOnMainThread()) {
 		// queue that set animation for when its set later
-		queuedAnim = name;
+		setQueuedAnimString(name);
 		return;
 	}
 
@@ -115,8 +115,6 @@ void animation::setAnimation(std::string name, bool instantUpdate) {
 
 	// updates loc, so it isn't offset by the change in source
 	setLoc(loc);
-
-	queuedAnim = "";
 }
 
 void animation::animCallBack() {
@@ -193,10 +191,15 @@ vector animation::getLoc() {
 
 void animation::setQueuedAnim() {
 	setAnimation(queuedAnim);
-	queuedAnim = "";
+	setQueuedAnimString("");
+}
+
+void animation::setQueuedAnimString(std::string anim) {
+	queuedAnim = anim;
 }
 
 void animation::playQueuedStart() {
+	//std::lock_guard<std::mutex> lock(mutex);
 	if (queuedStart)
 		start();
 	queuedStart = false;

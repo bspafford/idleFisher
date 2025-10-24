@@ -26,7 +26,6 @@ text::text(widget* parent, std::string text, std::string font, vector loc, bool 
 }
 
 text::~text() {
-	std::lock_guard<std::mutex> lock(mutex);
 	auto it = std::find(instances.begin(), instances.end(), this);
 	if (it != instances.end())
 		instances.erase(it);

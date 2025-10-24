@@ -97,6 +97,4 @@ private:
 	std::string yAnchor = anchor::top;
 
 	int textHeight;
-
-	std::mutex mutex;
 };

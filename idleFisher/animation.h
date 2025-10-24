@@ -96,6 +96,7 @@ public:
 	void setQueuedAnim();
 	void playQueuedStart();
 private:
+	void setQueuedAnimString(std::string anim);
 	// what the animation was set to when GPULoadCollector was active
 	std::string queuedAnim = "";
 	// if the animation was told to start during GPULoadCollector being active

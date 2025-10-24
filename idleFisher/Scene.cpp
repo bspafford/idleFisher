@@ -31,18 +31,22 @@ void Scene::openLevel(std::string worldName, int worldChangeLoc, bool overrideIf
 }
 
 void Scene::draw(Shader* shaderProgram) {
+	// first frame after finished loading
 	if (loadingDone && !hasFinishedLoading) {
 		hasFinishedLoading = true;
 		finishedLoading();
+	// draw loading screen while loading
 	} else if (!loadingDone && world::currWorld) {
 		loadingScreen->draw(shaderProgram);
 	}
 
+	// draw game loop after loaded
 	if (loadingDone) {
 		std::string currWorldName = Scene::getCurrWorldName();
-		if (titleScreen::currTitleScreen && currWorldName == "titleScreen")
+		if (titleScreen::currTitleScreen && currWorldName == "titleScreen") {
 			titleScreen::currTitleScreen->draw(shaderProgram);
-		else if (currWorldName == "vault") {
+			std::cout << "drawing titleScreen!\n";
+		} else if (currWorldName == "vault") {
 			vaultWorld::draw(shaderProgram);
 		} else if (currWorldName == "rebirth") {
 			rebirthWorld::draw(shaderProgram);
@@ -104,18 +108,23 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 
 	AStar::init();
 
-	loadingDone = true;
 	GPULoadCollector::close(gpuImages, gpuAnimations, gpuText, gpuRect);
+
+	loadingDone = true;
 }
 
 void Scene::finishedLoading() {
 	std::cout << "finished loading!\n";
-	for (int i = 0; i < gpuImages.size(); i++)
+	for (int i = 0; i < gpuImages.size(); i++) {
 		gpuImages[i]->loadGPU();
+	} 
 	for (int i = 0; i < gpuAnimations.size(); i++) {
+		std::cout << "queuedAnim: " << i << "\n";
 		gpuAnimations[i]->setQueuedAnim();
 		gpuAnimations[i]->playQueuedStart();
 	}
+	std::cout << "finished queuedAnim!\n";
+
 	for (int i = 0; i < gpuText.size(); i++) {
 		gpuText[i]->makeTextTexture();
 		gpuText[i]->updatePositionsList();

@@ -13,10 +13,14 @@ public:
 	static void open() {
 		std::lock_guard<std::mutex> lock(mutex);
 		imagesToUpload.clear();
+		animationsToUpload.clear();
+		textToUpload.clear();
+		rectToUpload.clear();
 		active = true;
 	}
 
 	static void setMainThread(std::thread::id mainThread) {
+		std::lock_guard<std::mutex> lock(mutex);
 		mainThreadId = mainThread;
 	}
 

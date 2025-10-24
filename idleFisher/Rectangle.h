@@ -31,6 +31,6 @@ private:
 	std::string yAnchor = anchor::top;
 
 	GLuint VBOId;
-	VAO* currVAO;
-	EBO* currEBO;
+	VAO* currVAO = nullptr;
+	EBO* currEBO = nullptr;
 };

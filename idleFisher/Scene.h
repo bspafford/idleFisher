@@ -31,8 +31,8 @@ public:
 	static void draw(Shader* shaderProgram);
 	static void openLevelThread(std::string worldName, int worldChangeLoc, bool overrideIfInWorld);
 private:
-	static inline bool loadingDone = false;
-	static inline bool hasFinishedLoading = false;
+	static inline std::atomic<bool> loadingDone = false;
+	static inline std::atomic<bool> hasFinishedLoading = false;
 
 	static inline std::string prevWorld;
 	static inline std::string currWorldName;
