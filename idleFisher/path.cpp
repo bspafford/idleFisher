@@ -1,5 +1,6 @@
 #include "path.h"
 #include "shaderClass.h"
+#include "Rectangle.h"
 
 Path::Path(std::vector<vector> waypoints, vector startPos, float turnDst) {
 	lookPoints = waypoints;
@@ -25,11 +26,9 @@ Path::~Path() {
 }
 
 void Path::draw(Shader* shaderProgram) {
-	/*
 	for (vector p : lookPoints) {
-		vector loc = math::worldToScreen(p);
-		SDL_Rect* rect = new SDL_Rect{ int(loc.x), int(loc.y), 4, 4 };
-		SDL_RenderFillRect(shaderProgram, rect);
+		vector loc = math::worldToScreen(p, "topleft");
+		URectangle rect(loc, { 4, 4 }, true);
+		rect.draw(shaderProgram);
 	}
-	*/
 }

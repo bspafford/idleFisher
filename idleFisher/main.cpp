@@ -80,7 +80,7 @@ int Main::createWindow() {
 	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
 	window = glfwCreateWindow(stuff::screenSize.x, stuff::screenSize.y, "Idle Fisher", NULL, NULL);
 	// Error check if the window fails to create
-	if (window == NULL) {
+	if (window == nullptr) {
 		std::cout << "Failed to create GLFW window" << std::endl;						
 		glfwTerminate();
 		return -1;
@@ -250,6 +250,9 @@ int Main::createWindow() {
 	glfwDestroyWindow(window);
 	// Terminate GLFW before ending the program
 	glfwTerminate();
+
+	running = false;
+
 	return 0;
 }
 
@@ -281,7 +284,7 @@ void Main::Start() {
 	achievementBuffs::init();
 	setupWidgets();
 
-	Scene::openLevel("titleScreen", worldLoc::None, true);
+	Scene::openLevel("world1", worldLoc::None, true);
 	
 	character = new Acharacter();
 	camera = new Camera(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));
@@ -397,6 +400,9 @@ void Main::windowSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 void Main::checkInputs() {
+	if (Scene::isLoading())
+		return;
+
 	if (Input::getKeyDown(GLFW_KEY_ESCAPE) && Scene::getCurrWorldName() != "titleScreen") {
 		//glfwSetWindowShouldClose(window, true);
 		if (widget::getCurrWidget()) {
@@ -475,7 +481,7 @@ void Main::rebirth() {
 	SaveData::saveData.baitList = std::vector<FsaveBaitStruct>(0);
 	SaveData::saveData.buffList = std::vector<FsaveBuffStruct>(0);
 
-	pet = NULL;
+	pet = nullptr;
 
 	SaveData::recalcLists();
 

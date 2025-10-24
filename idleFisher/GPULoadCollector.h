@@ -52,6 +52,8 @@ public:
 		std::lock_guard<std::mutex> lock(mutex);
 		if (active && !isOnMainThread())
 			rectToUpload.push_back(rect);
+		else
+			rect->loadGPU();
 	}
 
 	static void close(std::vector<Image*>& images, std::vector<animation*>& animations, std::vector<text*>& text, std::vector<URectangle*>& rect) {
@@ -61,6 +63,11 @@ public:
 		animations = animationsToUpload;
 		text = textToUpload;
 		rect = rectToUpload;
+
+		imagesToUpload.clear();
+		animationsToUpload.clear();
+		textToUpload.clear();
+		rectToUpload.clear();
 	}
 
 private:

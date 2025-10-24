@@ -5,6 +5,7 @@
 class node {
 public:
 	node(bool _walkable, vector _worldPos, int _gridX, int _gridY);
+
 	int fCost();
 
 	vector loc;

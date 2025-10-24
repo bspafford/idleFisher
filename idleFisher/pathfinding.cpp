@@ -23,18 +23,17 @@ void pathfinding::findPath(vector startPos, vector targetPos, AStar* AStarRef) {
 			}
 		}
 
-		//openSet.erase(std::find(openSet.begin(), openSet.end(), *currentNode));
 		eraseFromList(openSet, currentNode);
 		closedSet.push_back(currentNode);
 
-		if (currentNode == targetNode) {// finished
+		if (currentNode == targetNode) { // finished
 			std::vector<vector> waypoints = retracePath(startNode, targetNode, AStarRef);
 			AStarRef->onPathFound(waypoints, true);
 			std::cout << "path was found!: " << waypoints.size() << std::endl;
 			return;
 		}
 
-		for (node* neighbor : AStarRef->getNeighbors(currentNode)) {
+		for (node* neighbor : AStarRef->getNeighbors(*currentNode)) {
 			if (!neighbor->walkable || std::find(closedSet.begin(), closedSet.end(), neighbor) != closedSet.end())
 				continue;
 
@@ -54,13 +53,13 @@ std::vector<vector> pathfinding::retracePath(node* startNode, node* endNode, ASt
 	std::vector<node> path;
 	node* currentNode = endNode;
 
-	while (currentNode != startNode) {
+	while (currentNode->loc != startNode->loc) {
 		path.push_back(*currentNode);
 		currentNode = currentNode->parent;
 	}
 	std::vector<vector> waypoints = simplifyPath(path);
 	std::reverse(waypoints.begin(), waypoints.end());
-	AStarRef->nodePath = path; // temp
+	AStarRef->nodePath = path;
 
 	return waypoints;
 }

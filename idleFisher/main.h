@@ -62,6 +62,8 @@ public:
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 	static void checkInputs();
 
+	static inline bool running = true;
+
 	// shaders
 	static inline Shader* shaderProgram;
 	static inline Shader* shadowMapProgram;

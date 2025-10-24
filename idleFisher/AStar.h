@@ -14,7 +14,7 @@ public:
 	static void init();
 	void drawBoard(Shader* shaderProgram);
 	node* nodeFromWorldPoint(vector worldPos);
-	std::vector<node*> getNeighbors(node* currNode);
+	std::vector<node*> getNeighbors(node& currNode);
 	// returns the move diff
 	void startPathFinding(vector startLoc, vector targetLoc);
 	void stopPathFinding();
@@ -27,8 +27,10 @@ public:
 	bool finished = false;
 	bool stopped = true;
 
+	int getIndex(int x, int y);
+
 private:
-	static inline node*** grid;
+	static inline std::vector<node> grid;
 	static inline vector gridOffset;
 	static inline vector gridWorldSize;
 	static inline vector gridSize;

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <cassert>
 #include <functional>
-#include <mutex>
 
 class timer {
 public:
@@ -48,7 +47,7 @@ public:
 
 private:
 	// keeps track of all instances to call update function on
-	static inline std::vector<timer*> instances;
+	static inline std::set<timer*> instances;
 
 	float time = 0;
 	float maxTime;
@@ -57,6 +56,4 @@ private:
 
 	std::function<void()> callback_;
 	std::function<void()> updateCallback_;
-
-	std::mutex mutex;
 };

@@ -17,11 +17,11 @@ void AStar::init() {
 	gridSize.x = round(gridWorldSize.x / nodeSize * stuff::pixelSize);
 	gridSize.y = round(gridWorldSize.y / nodeSize * stuff::pixelSize);
 
-	gridOffset = { 400, 350 };// { -100, -375 };
+	grid.reserve(gridSize.x * gridSize.y);
+
+	gridOffset = { 400, 350 };
 	// create grid
-	grid = new node **[gridSize.y];
 	for (int y = 0; y < gridSize.y; y++) {
-		grid[y] = new node *[gridSize.x];
 		for (int x = 0; x < gridSize.x; x++) {
 			// do col test
 			vector loc = vector{ nodeSize * x, nodeSize * y } + gridOffset;
@@ -31,33 +31,27 @@ void AStar::init() {
 			nodeList[1] = loc + vector{ nodeSize, 0 };
 			nodeList[2] = loc + vector{ nodeSize, nodeSize };
 			nodeList[3] = loc + vector{ 0, nodeSize };
+
 			std::unique_ptr<Fcollision> col = std::make_unique<Fcollision>(nodeList, "");
 
 			bool walkable = true;
 			for (int i = 0; i < collision::allCollision.size(); i++) {
-				//if (collision::isCloseEnough(col.get(), collision::allCollision[i])) {
+				if (collision::isCloseEnough(col.get(), collision::allCollision[i])) {
 					vector normal;
 					float depth;
 					if (collision::intersectPolygons(nodeList, collision::allCollision[i]->points, normal, depth)) {
 						walkable = false;
 					}
-				//}
+				}
 			}
 
-			grid[y][x] = new node(walkable, loc, x, y);
+			grid.emplace_back(walkable, loc, x, y);
 		}
 	}
 }
 
 void AStar::Deconstructor() {
-	for (int y = 0; y < gridSize.y; y++) {
-		for (int x = 0; x < gridSize.x; x++) {
-			delete grid[y][x];
-		}
-		delete[] grid[y];
-	}
-	delete[] grid;
-	grid = nullptr;
+	grid.clear();
 }
 
 void AStar::drawBoard(Shader* shaderProgram) {
@@ -67,17 +61,16 @@ void AStar::drawBoard(Shader* shaderProgram) {
 	// draw grid
 	for (int y = 0; y < gridSize.y; y++) {
 		for (int x = 0; x < gridSize.x; x++) {
-			vector loc = grid[y][x]->loc;
+			vector loc = grid[getIndex(x, y)].loc;
 			glm::vec4 color;
-			if (grid[y][x]->parent)
-				color = glm::vec4(255, 0, 255, 50);
-			else if (grid[y][x]->walkable)
+			//if (grid[getIndex(x, y)].parent)
+				//color = glm::vec4(255, 0, 255, 50);
+			if (grid[getIndex(x, y)].walkable)
 				color = glm::vec4(0, 255, 255, 50);
-			else {
+			else
 				color = glm::vec4(255, 0, 0, 50);
-				URectangle rect(loc, vector{ 1, 1 } *nodeSize * stuff::pixelSize, true, color);
-				rect.draw(shaderProgram);
-			}
+			URectangle rect(loc, vector{ 1, 1 } * nodeSize * stuff::pixelSize, true, color);
+			rect.draw(shaderProgram);
 		}
 	}
 
@@ -93,10 +86,10 @@ node* AStar::nodeFromWorldPoint(vector worldPos) {
 
 	int x = round((gridSize.x - 1) * percentX);
 	int y = round((gridSize.y - 1) * percentY);
-	return grid[y][x];
+	return &grid[getIndex(x, y)];
 }
 
-std::vector<node*> AStar::getNeighbors(node* currNode) {
+std::vector<node*> AStar::getNeighbors(node& currNode) {
 	std::vector<node*> neighbors;
 
 	for (int y = -1; y <= 1; y++) {
@@ -104,11 +97,11 @@ std::vector<node*> AStar::getNeighbors(node* currNode) {
 			if (x == 0 && y == 0)
 				continue;
 
-			int checkX = currNode->gridX + x;
-			int checkY = currNode->gridY + y;
+			int checkX = currNode.gridX + x;
+			int checkY = currNode.gridY + y;
 
 			if (checkX >= 0 && checkX < gridSize.x && checkY >= 0 && checkY < gridSize.y) {
-				neighbors.push_back(grid[checkY][checkX]);
+				neighbors.push_back(&grid[getIndex(checkX, checkY)]);
 			}
 		}
 	}
@@ -167,4 +160,8 @@ vector AStar::followPath(vector loc, float deltaTime, float speed) {
 		// return diff to put character at target pos
 		return (targetPos - pos) / speed;
 	}
+}
+
+int AStar::getIndex(int x, int y) {
+	return y * gridSize.x + x;
 }

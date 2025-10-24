@@ -6,19 +6,19 @@
 #include "math.h"
 
 timer::timer() {
-	instances.push_back(this);
+	instances.insert(this);
 }
 
 timer::~timer() {
-	auto it = std::find(instances.begin(), instances.end(), this);
-	if (it != instances.end())
-		instances.erase(it);
+	if (Main::running)
+		instances.erase(this);
 }
 
 // calls update function to all instances of object
 void timer::callUpdate(float deltaTime) {
 	for (timer* t : instances) {
-		if (t) t->Update(deltaTime);
+		if (instances.contains(t))
+			t->Update(deltaTime);
 	}
 }
 
@@ -39,9 +39,8 @@ void timer::Update(float deltaTime) {
 		// call callback function
 		stop();
 		bFinished = true;
-		if (callback_) {
+		if (callback_)
 			callback_();
-		}
 	}
 }
 

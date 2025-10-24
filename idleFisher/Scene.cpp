@@ -22,12 +22,9 @@ void Scene::openLevel(std::string worldName, int worldChangeLoc, bool overrideIf
 
 	hasFinishedLoading = false;
 	loadingDone = false;
-	if (false) {
-		openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
-	} else {
-		std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
-		loader.detach();
-	}
+	//openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
+	std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
+	loader.detach();
 }
 
 void Scene::draw(Shader* shaderProgram) {
@@ -45,7 +42,6 @@ void Scene::draw(Shader* shaderProgram) {
 		std::string currWorldName = Scene::getCurrWorldName();
 		if (titleScreen::currTitleScreen && currWorldName == "titleScreen") {
 			titleScreen::currTitleScreen->draw(shaderProgram);
-			std::cout << "drawing titleScreen!\n";
 		} else if (currWorldName == "vault") {
 			vaultWorld::draw(shaderProgram);
 		} else if (currWorldName == "rebirth") {
@@ -114,17 +110,13 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 }
 
 void Scene::finishedLoading() {
-	std::cout << "finished loading!\n";
 	for (int i = 0; i < gpuImages.size(); i++) {
 		gpuImages[i]->loadGPU();
 	} 
 	for (int i = 0; i < gpuAnimations.size(); i++) {
-		std::cout << "queuedAnim: " << i << "\n";
 		gpuAnimations[i]->setQueuedAnim();
 		gpuAnimations[i]->playQueuedStart();
 	}
-	std::cout << "finished queuedAnim!\n";
-
 	for (int i = 0; i < gpuText.size(); i++) {
 		gpuText[i]->makeTextTexture();
 		gpuText[i]->updatePositionsList();
@@ -153,4 +145,8 @@ std::string Scene::getPrevWorldName() {
 
 std::string Scene::getCurrWorldName() {
 	return currWorldName;
+}
+
+bool Scene::isLoading() {
+	return !loadingDone;
 }

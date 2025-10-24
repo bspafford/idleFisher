@@ -46,7 +46,6 @@ animation::animation(std::shared_ptr<Image> spriteSheetImg, int cellWidth, int c
 
 animation::~animation() {
 	stop();
-	animTimer = nullptr;
 	eventCallback_ = nullptr;
 	finishedCallback_ = nullptr;
 	frameCallback_ = nullptr;
