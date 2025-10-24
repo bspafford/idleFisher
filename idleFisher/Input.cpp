@@ -11,7 +11,7 @@ void Input::pollEvents() {
 	}
 	mouseScrollDir = 0;
 
-	leftClickCallback = nullptr;
+	leftClickCallback = std::pair(nullptr, nullptr);
 
 	for (int i = 0; i < 348; i++) {
 		keysDown[i] = false;
@@ -23,8 +23,9 @@ void Input::pollEvents() {
 
 void Input::fireHeldInputs() {
 	// make sure its the same item thats being hovered and clicked
-	if (IHoverable::checkValidInteract() && leftClickCallback)
-		leftClickCallback();
+	// makes sure that hovered item is the same one thats being clicked
+	if (IHoverable::checkValidInteract() && leftClickCallback.second && leftClickCallback.first == IHoverable::getHoveredItem())
+		leftClickCallback.second();
 }
 
 void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {

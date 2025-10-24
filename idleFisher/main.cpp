@@ -281,7 +281,7 @@ void Main::Start() {
 	achievementBuffs::init();
 	setupWidgets();
 
-	Scene::openLevel("titleScreen", worldLoc::None, true);
+	Scene::openLevel("world1", worldLoc::None, true);
 	
 	character = new Acharacter();
 	camera = new Camera(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));

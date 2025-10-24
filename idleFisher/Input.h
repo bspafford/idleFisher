@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "math.h"
+#include "Hoverable.h"
 
 static struct MouseButton {
 	static inline int left = GLFW_MOUSE_BUTTON_LEFT;
@@ -39,7 +40,7 @@ public:
 	static vector getMousePos();
 
 	template <class T> static void setLeftClick(T* const object, void (T::* const callback) ()) {
-		leftClickCallback = std::bind_front(callback, object);
+		leftClickCallback = std::pair(dynamic_cast<IHoverable*>(object), std::bind_front(callback, object));
 	}
 
 	// returns true for the frame the key went down
@@ -60,7 +61,7 @@ private:
 	static inline vector mousePos;
 
 	// front most items that was clicked that frame
-	static inline std::function<void()> leftClickCallback;
+	static inline std::pair<IHoverable*, std::function<void()>> leftClickCallback;
 
 	static inline bool keysDown[348];
 	static inline bool keysUp[348];
