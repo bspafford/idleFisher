@@ -4,7 +4,10 @@
 
 class IHoverable {
 public:
-	virtual ~IHoverable() = default;
+	virtual ~IHoverable() {
+		if (hoveredItem == this)
+			hoveredItem = nullptr;
+	}
 
 	// set what the mouse hover icon should be
 	void setMouseHoverIcon(std::string mouseName) {

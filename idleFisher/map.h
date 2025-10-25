@@ -5,8 +5,8 @@
 
 class Ubutton;
 class text;
-class UsailorWidget;
 class animation;
+class UsailorWidget;
 
 class Umap : public widget, public IHoverable {
 public:

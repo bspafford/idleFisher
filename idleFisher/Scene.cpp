@@ -12,19 +12,11 @@
 #include "animation.h"
 #include "text.h"
 
-void Scene::openLevel(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
-	if (!loadingScreen)
-		loadingScreen = std::make_unique<LoadingScreen>(nullptr);
-
-	// returns if the world is already open
-	if (!overrideIfInWorld && worldName == currWorldName)
-		return;
-
-	hasFinishedLoading = false;
-	loadingDone = false;
-	//openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
-	std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
-	loader.detach();
+void Scene::openLevel(std::string worldName1, int worldChangeLoc1, bool overrideIfInWorld1) {
+	worldName = worldName1;
+	worldChangeLoc = worldChangeLoc1;
+	overrideIfInWorld = overrideIfInWorld1;
+	loadWorld = true;
 }
 
 void Scene::draw(Shader* shaderProgram) {
@@ -53,7 +45,6 @@ void Scene::draw(Shader* shaderProgram) {
 
 void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
 	GPULoadCollector::open();
-
 	if (worldName == "vault" && currWorldName != "vault")
 		prevWorld = currWorldName;
 	currWorldName = worldName;
@@ -63,7 +54,6 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 		widget::getCurrWidget()->removeFromViewport();
 
 	collision::getCollisionObjects();
-
 	// deconstruct worlds
 	Texture::deleteCache();
 	AStar::Deconstructor();
@@ -71,7 +61,6 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 	rebirthWorld::deconstructor();
 	world::currWorld = nullptr;
 	titleScreen::currTitleScreen = nullptr;
-
 	if (currWorldName == "titleScreen") {
 		titleScreen::currTitleScreen = std::make_unique<titleScreen>();
 	} else if (currWorldName == "vault") {
@@ -101,18 +90,16 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 	} else if (currWorldName == "world10") {
 		world::currWorld = std::make_unique<world10>(worldChangeLoc);
 	}
-
+	
 	AStar::init();
-
 	GPULoadCollector::close(gpuImages, gpuAnimations, gpuText, gpuRect);
-
 	loadingDone = true;
 }
 
 void Scene::finishedLoading() {
 	for (int i = 0; i < gpuImages.size(); i++) {
 		gpuImages[i]->loadGPU();
-	} 
+	}
 	for (int i = 0; i < gpuAnimations.size(); i++) {
 		gpuAnimations[i]->setQueuedAnim();
 		gpuAnimations[i]->playQueuedStart();
@@ -125,7 +112,6 @@ void Scene::finishedLoading() {
 		gpuRect[i]->loadGPU();
 		gpuRect[i]->updatePositionsList();
 	}
-
 	if (world::currWorld)
 		world::currWorld->start();
 	if (titleScreen::currTitleScreen)
@@ -149,4 +135,26 @@ std::string Scene::getCurrWorldName() {
 
 bool Scene::isLoading() {
 	return !loadingDone;
+}
+
+void Scene::deferredChangeWorld() {
+	if (!loadWorld)
+		return;
+
+	loadWorld = false;
+
+	if (!loadingScreen)
+		loadingScreen = std::make_unique<LoadingScreen>(nullptr);
+
+	// returns if the world is already open
+	if (!overrideIfInWorld && worldName == currWorldName)
+		return;
+
+	hasFinishedLoading = false;
+	loadingDone = false;
+
+	//openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
+	timer::clearInstanceList();
+	std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
+	loader.detach();
 }

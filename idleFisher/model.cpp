@@ -249,7 +249,7 @@ std::vector<Texture> Model::getTextures() {
 		if (!skip) {
 			// Load diffuse texture
 			if (texPath.find("baseColor") != std::string::npos) {
-				Texture diffuse = Texture((fileDirectory + texPath).c_str(), loadedTex.size());
+				Texture diffuse = Texture((fileDirectory + texPath).c_str());
 				textures.push_back(diffuse);
 				loadedTex.push_back(diffuse);
 				loadedTexName.push_back(texPath);
@@ -257,7 +257,7 @@ std::vector<Texture> Model::getTextures() {
 
 			// Load specular texture
 			else if (texPath.find("metallicRoughness") != std::string::npos) {
-				Texture specular = Texture((fileDirectory + texPath).c_str(), loadedTex.size());
+				Texture specular = Texture((fileDirectory + texPath).c_str());
 				textures.push_back(specular);
 				loadedTex.push_back(specular);
 				loadedTexName.push_back(texPath);

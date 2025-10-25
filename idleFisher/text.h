@@ -51,7 +51,6 @@ public:
 	static void changeFontAll();
 	void changeFont();
 	int calcFontSize();
-	Image* normFont;
 
 	void makeTextTexture();
 private:
@@ -73,9 +72,6 @@ private:
 	// start of word
 	int start = 0;
 	int numLetters = 0;
-
-	// texture that the text draws onto
-	unsigned char* textTex;
 
 	std::shared_ptr<Image> textImg;
 	std::vector<FtextInfo> textInfo = std::vector<FtextInfo>(126);

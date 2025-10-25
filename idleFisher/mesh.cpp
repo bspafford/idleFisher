@@ -47,7 +47,7 @@ void Mesh::Draw
 		} else if (type == "specular") {
 			num = std::to_string(numSpecular++);
 		}
-		textures[i].texUnit(shader, (type + num).c_str(), i);
+		textures[i].texUnit(shader, (type + num).c_str());
 		textures[i].Bind();
 	}
 	// Take care of the camera Matrix

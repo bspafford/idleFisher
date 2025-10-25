@@ -8,7 +8,7 @@ AfishSchool::AfishSchool(vector loc) {
 
 	std::unordered_map<std::string, animDataStruct> animData;
 	animData.insert({ "fishSchool", {{0, 0}, {6, 0}, .1, true} });
-	anim = std::make_unique<animation>("fishSchool/fishSchool.png", 48, 26, animData, false, loc);
+	anim = std::make_unique<animation>("fishSchool/fishSchool.png", 48, 26, animData, true, loc);
 	anim->setAnimation("fishSchool");
 	anim->start();
 

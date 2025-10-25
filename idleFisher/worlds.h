@@ -58,17 +58,17 @@ public:
 	void draw(Shader* shaderProgram);
 
 	// water stuff
-	std::shared_ptr<Image> waterImg;
+	std::unique_ptr<Image> waterImg;
 
-	std::shared_ptr<animation> fishermanDock;
-	std::shared_ptr<Image> title;
-	std::shared_ptr<animation> trees;
+	std::unique_ptr<animation> fishermanDock;
+	std::unique_ptr<Image> title;
+	std::unique_ptr<animation> trees;
 
-	std::shared_ptr<Ubutton> newGameButton;
-	std::shared_ptr<Ubutton> continueButton;
-	std::shared_ptr<Ubutton> exitButton;
+	std::unique_ptr<Ubutton> newGameButton;
+	std::unique_ptr<Ubutton> continueButton;
+	std::unique_ptr<Ubutton> exitButton;
 
-	std::shared_ptr<URectangle> transitionBox;
+	std::unique_ptr<URectangle> transitionBox;
 
 	// button callback
 	void newGame();
@@ -78,7 +78,7 @@ public:
 	void fadeToBlack();
 	void openWorld();
 
-	std::shared_ptr<timer> fadeTimer;
+	std::unique_ptr<timer> fadeTimer;
 	float alpha;
 };
 
@@ -133,9 +133,6 @@ public:
 	world();
 	~world();
 	
-	void loadCPU();
-	void loadGPU();
-
 	static inline std::unique_ptr<world> currWorld;
 
 	void start();

@@ -227,6 +227,8 @@ int Main::createWindow() {
 		}
 
 		Input::fireHeldInputs();
+		Scene::deferredChangeWorld();
+
 		glfwSwapBuffers(window);
 
 		// checks for errors

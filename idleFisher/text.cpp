@@ -34,12 +34,6 @@ text::~text() {
 
 	letters.clear();
 	textInfo.clear();
-
-	delete textTex;
-	textTex = nullptr;
-
-	delete normFont;
-	normFont = nullptr;
 }
 
 void text::changeFontAll() {
@@ -361,20 +355,6 @@ void text::setLocAndSize(vector loc, vector size) {
 
 void text::setLoc(vector loc) {
 	__super::setLoc(loc);
-	// this is the non pixel font
-	if (normFont) {
-		if (alignment == textAlign::center) {
-			this->loc = (loc - vector{ (normFont->getSize().x / 2.f), 0 }).round();
-			normFont->setLoc(this->loc);
-		} else if (alignment == textAlign::right) {
-			this->loc = (loc - vector{ (normFont->getSize().x), 0 }).round();
-			normFont->setLoc(this->loc);
-		} else {
-			this->loc = (loc - vector{ (normFont->getSize().x / 2.f), 0 }).round();
-			normFont->setLoc(this->loc);
-		}
-	}
-
 	if (useWorldPos) {
 		vector size = getSize();
 
@@ -457,34 +437,27 @@ void text::setAnchor(std::string xAnchor, std::string yAnchor) {
 }
 
 vector text::getSize() {
-	if (!SaveData::settingsData.pixelFont && normFont) {
-		return normFont->getSize();
-	} else {
+	if (letters.size() == 0)
+		return { 0, 0 };
 
-		if (letters.size() == 0)
-			return { 0, 0 };
+	float minX = INFINITY, minY = INFINITY;
+	float maxX = 0, maxY = 0;
+	for (int i = 0; i < letters.size(); i++) {
+		Image* letter = letters[i].get();
+		if (!letter)
+			continue;
 
-		float minX = INFINITY, minY = INFINITY;
-		float maxX = 0, maxY = 0;
-		for (int i = 0; i < letters.size(); i++) {
-			Image* letter = letters[i].get();
-			if (!letter)
-				continue;
+		if (minX > letter->getLoc().x)
+			minX = letter->getLoc().x;
+		if (maxX < letter->getLoc().x + letter->w * stuff::pixelSize)
+			maxX = letter->getLoc().x + letter->w * stuff::pixelSize;
 
-			if (minX > letter->getLoc().x)
-				minX = letter->getLoc().x;
-			if (maxX < letter->getLoc().x + letter->w * stuff::pixelSize)
-				maxX = letter->getLoc().x + letter->w * stuff::pixelSize;
-
-			if (minY > letter->getLoc().y)
-				minY = letter->getLoc().y;
-			if (maxY < letter->getLoc().y + letter->h * stuff::pixelSize)
-				maxY = letter->getLoc().y + letter->h * stuff::pixelSize;
-		}
-		return { maxX - minX, maxY - minY };
+		if (minY > letter->getLoc().y)
+			minY = letter->getLoc().y;
+		if (maxY < letter->getLoc().y + letter->h * stuff::pixelSize)
+			maxY = letter->getLoc().y + letter->h * stuff::pixelSize;
 	}
-
-	return { 0, 0 };
+	return { maxX - minX, maxY - minY };
 }
 
 void text::setLineLength(float length) {

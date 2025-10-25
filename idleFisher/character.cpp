@@ -622,6 +622,9 @@ void Acharacter::bobberBobAnim() {
 }
 
 AfishSchool* Acharacter::bobberInFishSchool() {
+	if (!world::currWorld)
+		return nullptr;
+
 	for (std::unique_ptr<AfishSchool>& fishSchool : world::currWorld->fishSchoolList) {
 		// check if bobber is inside of fish school
 		// if it is then return true

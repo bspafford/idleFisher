@@ -1,5 +1,4 @@
 #include "sailor.h"
-#include "sailorWidget.h"
 #include "main.h"
 
 Asailor::Asailor(vector loc) : npc(loc) {

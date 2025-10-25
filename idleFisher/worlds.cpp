@@ -42,31 +42,33 @@
 
 // title screen
 titleScreen::titleScreen() {
-	waterImg = std::make_shared<Image>("./images/worlds/titleScreen/depthMap.png", vector{ 0, 0 }, false);
+	waterImg = std::make_unique<Image>("./images/worlds/titleScreen/depthMap.png", vector{ 0, 0 }, false);
 
 	std::unordered_map<std::string, animDataStruct> fishermanDockAnimData;
 	fishermanDockAnimData.insert({ "anim", { {0, 0}, {48, 0}, .1, true } });
-	fishermanDock = std::make_shared<animation>("worlds/titleScreen/characterDockSpriteSheet.png", 403, 303, fishermanDockAnimData, false);
+	fishermanDock = std::make_unique<animation>("worlds/titleScreen/characterDockSpriteSheet.png", 403, 303, fishermanDockAnimData, false);
 	fishermanDock->setAnimation("anim");
 	fishermanDock->start();
-	title = std::make_shared<Image>("./images/worlds/titleScreen/title.png", vector{ 0, 0 }, false);
+	title = std::make_unique<Image>("./images/worlds/titleScreen/title.png", vector{ 0, 0 }, false);
 
 	std::unordered_map<std::string, animDataStruct> treesAnimData;
 	treesAnimData.insert({ "anim", {{0, 0}, {14, 0}, .1, true} });
-	trees = std::make_shared<animation>("worlds/titleScreen/treesSpriteSheet.png", 337, 96, treesAnimData, false);
+	trees = std::make_unique<animation>("worlds/titleScreen/treesSpriteSheet.png", 337, 96, treesAnimData, false);
 	trees->setAnimation("anim");
 	trees->start();
 
-	newGameButton = std::make_shared<Ubutton>(nullptr, "widget/pauseMenu/newGame.png", 64, 19, 1, vector{ 45.f * stuff::pixelSize, 150.f * stuff::pixelSize }, false, false);
+	newGameButton = std::make_unique<Ubutton>(nullptr, "widget/pauseMenu/newGame.png", 64, 19, 1, vector{ 45.f * stuff::pixelSize, 150.f * stuff::pixelSize }, false, false);
 	newGameButton->addCallback(this, &titleScreen::newGame);
 
-	continueButton = std::make_shared<Ubutton>(nullptr, "widget/pauseMenu/continue.png", 67, 19, 1, vector{ 45.f * stuff::pixelSize, 182.f * stuff::pixelSize }, false, false);
+	continueButton = std::make_unique<Ubutton>(nullptr, "widget/pauseMenu/continue.png", 67, 19, 1, vector{ 45.f * stuff::pixelSize, 182.f * stuff::pixelSize }, false, false);
 	continueButton->addCallback(this, &titleScreen::continueGame);
 
-	exitButton = std::make_shared<Ubutton>(nullptr, "widget/pauseMenu/exit.png", 35, 19, 1, vector{ 45.f * stuff::pixelSize, 214.f * stuff::pixelSize }, false, false);
+	exitButton = std::make_unique<Ubutton>(nullptr, "widget/pauseMenu/exit.png", 35, 19, 1, vector{ 45.f * stuff::pixelSize, 214.f * stuff::pixelSize }, false, false);
 	exitButton->addCallback(this, &titleScreen::exit);
 
-	transitionBox = std::make_shared<URectangle>(vector{ 0, 0 }, stuff::screenSize, false, glm::vec4(0.f));
+	transitionBox = std::make_unique<URectangle>(vector{ 0, 0 }, stuff::screenSize, false, glm::vec4(0.f));
+
+	fadeTimer = std::make_unique<timer>();
 }
 
 titleScreen::~titleScreen() {
@@ -88,23 +90,22 @@ void titleScreen::start() {
 }
 
 void titleScreen::newGame() {
-	fadeTimer = std::make_shared<timer>();
 	fadeTimer->addUpdateCallback(this, &titleScreen::fadeToBlack);
 	fadeTimer->start(0.3f);
 	fadeTimer->addCallback(this, &titleScreen::openWorld);
 }
 
 void titleScreen::continueGame() {
-	fadeTimer = std::make_shared<timer>();
 	fadeTimer->addUpdateCallback(this, &titleScreen::fadeToBlack);
 	fadeTimer->addCallback(this, &titleScreen::openWorld);
 	fadeTimer->start(0.3f);
+	//openWorld();
 }
 
-#include "GPULoadCollector.h"
 void titleScreen::fadeToBlack() {
 	alpha = fadeTimer->getTime() / fadeTimer->getMaxTime();
-	transitionBox->setColor(glm::vec4(18 / 255.f, 11.f / 255.f, 22.f / 255.f, alpha));
+	if (transitionBox)
+		transitionBox->setColor(glm::vec4(18 / 255.f, 11.f / 255.f, 22.f / 255.f, alpha));
 }
 
 void titleScreen::openWorld() {
@@ -140,8 +141,6 @@ void titleScreen::draw(Shader* shaderProgram) {
 		newGameButton->draw(shaderProgram);
 	if (continueButton)
 		continueButton->draw(shaderProgram);
-	if (Scene::getCurrWorldName() != "titleScreen")
-		return;
 	if (exitButton)
 		exitButton->draw(shaderProgram);
 
@@ -178,8 +177,6 @@ void vaultWorld::leaveHouse() {
 
 void vaultWorld::draw(Shader* shaderProgram) {
 	map->draw(shaderProgram);
-	if (Scene::getCurrWorldName() != "vault")
-		return; // if clicked on vault to change worlds
 
 	AvaultPlacedItems::draw(shaderProgram);
 	decorator->draw(shaderProgram);
@@ -335,14 +332,7 @@ void world::darkenScreen() {
 }
 
 world::~world() {
-	npcList.clear();
-	buildingList.clear();
-	fishSchoolList.clear();
-	trees.clear();
-	autoFisherList.clear();
-	poleList.clear();
-	circleImgs.clear();
-	mapAnimList.clear();
+
 }
 
 void world::start() {
@@ -433,9 +423,6 @@ void world::makeDrawLists() {
 
 void world::draw(Shader* shaderProgram) {
 	renderWater();
-
-	if (Scene::getCurrWorldName() == "vault")
-		return; // if clicked on vault
 
 	for (int i = 0; i < fishSchoolList.size(); i++)
 		fishSchoolList[i]->draw(shaderProgram);
@@ -686,10 +673,6 @@ world1::world1(int worldChangeLoc) {
 		std::unique_ptr<Image> poleImg = std::make_unique<Image>("./images/worlds/world1/dockPole.png", poleLocs[i], true);
 		poleList.push_back(std::move(poleImg));
 	}
-}
-
-void world::loadGPU() {
-	mapImg->loadGPU();
 }
 
 void world::finishedBeachAnim() {

@@ -6,8 +6,8 @@
 #include "saveData.h"
 #include "currencyWidget.h"
 #include "shortNumbers.h"
-#include "sailorWidget.h"
 #include "animation.h"
+#include "sailorWidget.h"
 
 Umap::Umap(UsailorWidget* parent, vector mapSize) : widget(parent) {
 	this->sailorWidgetParent = parent;
@@ -140,7 +140,7 @@ void Umap::moveMap() {
 }
 
 void Umap::setLocs(vector loc) {
-	this->ogLoc = sailorWidgetParent->mapBackground->getLoc() + vector{35, 35} * stuff::pixelSize;
+	this->ogLoc = sailorWidgetParent->mapBackground->getLoc() + vector{ 35, 35 } *stuff::pixelSize;
 	mapImg->setLoc(loc);
 
 	for (int i = 0; i < worldButtons.size(); i++) {

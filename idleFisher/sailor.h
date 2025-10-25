@@ -1,8 +1,7 @@
 #pragma once
 
 #include "npc.h"
-
-class UsailorWidget;
+#include "sailorWidget.h"
 
 class Asailor : public npc {
 public:
@@ -13,5 +12,4 @@ public:
 
 private:
 	std::unique_ptr<UsailorWidget> sailorWidget;
-
 };

@@ -27,6 +27,7 @@ public:
 	static int getWorldIndexFromName(std::string worldName);
 	static std::string getPrevWorldName();
 	static std::string getCurrWorldName();
+	static void deferredChangeWorld();
 
 	static void draw(Shader* shaderProgram);
 	static void openLevelThread(std::string worldName, int worldChangeLoc, bool overrideIfInWorld);
@@ -46,4 +47,9 @@ private:
 	static inline std::vector<animation*> gpuAnimations;
 	static inline std::vector<text*> gpuText;
 	static inline std::vector<URectangle*> gpuRect;
+
+	static inline std::string worldName;
+	static inline int worldChangeLoc;
+	static inline bool overrideIfInWorld;
+	static inline bool loadWorld = false;
 };

@@ -122,7 +122,6 @@ void collision::removeCollisionObject(Fcollision* collision) {
 	auto it = std::find(allCollision.begin(), allCollision.end(), collision);
 	if (it != allCollision.end()) {
 		allCollision.erase(it);
-		std::cout << "removing collision!\n";
 	}
 }
 

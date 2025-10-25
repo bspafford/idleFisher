@@ -6,20 +6,40 @@
 #include "math.h"
 
 timer::timer() {
-	instances.insert(this);
+	instances.push_back(this);
 }
 
 timer::~timer() {
 	if (Main::running)
-		instances.erase(this);
+		toDelete.push_back(this);
 }
 
 // calls update function to all instances of object
 void timer::callUpdate(float deltaTime) {
-	for (timer* t : instances) {
-		if (instances.contains(t))
+	for (int i = 0; i < instances.size(); i++) {
+		timer* t = instances[i];
+		if (findElementIdx(toDelete, t) == -1) // not in toDelete list
 			t->Update(deltaTime);
 	}
+
+	for (int i = 0; i < toDelete.size(); i++) {
+		int idx = findElementIdx(instances, toDelete[i]);
+		if (idx != -1)
+			instances.erase(instances.begin() + idx);
+	}
+	toDelete.clear();
+}
+
+void timer::clearInstanceList() {
+	instances.clear();
+}
+
+int timer::findElementIdx(std::vector<timer*>& list, timer* item) {
+	for (int i = 0; i < list.size(); i++) {
+		if (list[i] == item)
+			return i;
+	}
+	return -1;
 }
 
 void timer::setFps(float fps) {

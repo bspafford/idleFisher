@@ -12,6 +12,8 @@ public:
 
 	static void callUpdate(float deltaTime);
 
+	static void clearInstanceList();
+
 	void Update(float deltaTime);
 
 	void setFps(float fps);
@@ -27,7 +29,6 @@ public:
 	// sets up callback and fps
 	template <class T> void addCallback(T* const object, void(T::* const finish)(), void(T::* const update)() = NULL) {
 		callback_ = std::bind_front(finish, object);
-
 		if (update != NULL)
 			updateCallback_ = std::bind_front(update, object);
 	}
@@ -47,13 +48,15 @@ public:
 
 private:
 	// keeps track of all instances to call update function on
-	static inline std::set<timer*> instances;
+	static inline std::vector<timer*> instances;
+	static inline std::vector<timer*> toDelete;
+	static int findElementIdx(std::vector<timer*>& list, timer* item);
 
 	float time = 0;
 	float maxTime;
 	bool bStart = false;
 	bool bFinished = false;
 
-	std::function<void()> callback_;
-	std::function<void()> updateCallback_;
+	std::function<void()> callback_ = nullptr;
+	std::function<void()> updateCallback_ = nullptr;
 };
