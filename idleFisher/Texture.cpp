@@ -9,7 +9,6 @@ Texture::Texture(const char* image) {
 		glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxCombined);
 		usedSlots.resize(maxCombined, false);
 		usedSlots[0] = true;
-		usedSlots[1] = true;
 	}
 
 	if (image == "")

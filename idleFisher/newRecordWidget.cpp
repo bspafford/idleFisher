@@ -28,7 +28,7 @@ void UnewRecordWidget::draw(Shader* shaderProgram) {
 }
 
 void UnewRecordWidget::start(int fishSize) {
-	recordText->setText("New Record; " + std::to_string(fishSize) + "in!");
+	recordText->setText("New Record: " + std::to_string(fishSize) + "in!");
 	setVisibility(true);
 	startTimer->start(3);
 }

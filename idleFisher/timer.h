@@ -12,7 +12,7 @@ public:
 
 	static void callUpdate(float deltaTime);
 
-	static void clearInstanceList();
+	static void clearInstanceList(bool changingWorlds);
 
 	void Update(float deltaTime);
 
@@ -25,6 +25,8 @@ public:
 	float getTime();
 	float getMaxTime();
 	bool finished();
+
+	void shouldntDelete(bool dontDelete);
 
 	// sets up callback and fps
 	template <class T> void addCallback(T* const object, void(T::* const finish)(), void(T::* const update)() = NULL) {
@@ -59,4 +61,7 @@ private:
 
 	std::function<void()> callback_ = nullptr;
 	std::function<void()> updateCallback_ = nullptr;
+
+	// whether or not this object should be removed from instance list when changing worlds
+	bool dontDelete;
 };

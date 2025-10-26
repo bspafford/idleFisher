@@ -70,6 +70,7 @@ public:
 	bool bFinished = false;
 	bool bStopped = false;
 
+	void shouldntDeleteTimer(bool dontDelete);
 
 private:
 	vector loc;

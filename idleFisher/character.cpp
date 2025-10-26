@@ -63,6 +63,7 @@ Acharacter::Acharacter() {
 	animData.insert({ "pullSE", { {7, 7}, {18, 7}, .1, false } });
 
 	anim = std::make_unique<animation>("character/characterSpriteSheet.png", 21, 49, animData, false, vector{ 0, 0 });
+	anim->shouldntDeleteTimer(true);
 	anim->spriteSheet->setAnchor(anchor::center, anchor::center);
 	anim->setAnimation("idleSE", true);
 	anim->addFinishedCallback(this, &Acharacter::animFinished);
@@ -77,6 +78,7 @@ Acharacter::Acharacter() {
 	fishingRodData.insert({ "pullSE", { {39, 0}, {51, 0}, .1, false } });
 
 	fishingRod = std::make_unique<animation>("character/fishingRod.png", 108, 83, fishingRodData, false);
+	fishingRod->shouldntDeleteTimer(true);
 	fishingRod->spriteSheet->setAnchor(anchor::center, anchor::center);
 
 	fishingTimer = std::make_unique<timer>();
@@ -93,6 +95,8 @@ Acharacter::Acharacter() {
 	bobberData.insert({ "water", {{0, 0}, {3, 0}, .3, true } });
 	bobberWaterAnimFront = std::make_unique<animation>("bobberWaterAnimFront.png", 15, 12, bobberData, false, vector{ 0, 0 });
 	bobberWaterAnimBack = std::make_unique<animation>("bobberWaterAnimBack.png", 15, 12, bobberData, false, vector{ 0, 0 });
+	bobberWaterAnimFront->shouldntDeleteTimer(true);
+	bobberWaterAnimBack->shouldntDeleteTimer(true);
 	bobberWaterAnimFront->setAnimation("water");
 	bobberWaterAnimBack->setAnimation("water");
 	bobberWaterAnimFront->start();

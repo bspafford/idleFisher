@@ -68,7 +68,7 @@ Main::~Main() {
 	delete twoDWaterShader;
 
 	textureManager::Deconstructor();
-	timer::clearInstanceList();
+	timer::clearInstanceList(false);
 
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
@@ -242,7 +242,7 @@ int Main::createWindow() {
 		camera->Matrix(shaderProgram, "camMatrix");
 		shaderProgram->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 		if (renderShadows) {
-			glActiveTexture(GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, shadowMap);
 			shaderProgram->setInt("shadowMap", 1);
 			shaderProgram->setInt("shadowOnly", 1);

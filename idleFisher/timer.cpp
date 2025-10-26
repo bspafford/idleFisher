@@ -24,11 +24,17 @@ void timer::callUpdate(float deltaTime) {
 	}
 }
 
-void timer::clearInstanceList() {
-	// keeps character timer because character doesn't repopulate on world change
-	timer* keep = Main::character->anim->animTimer.get();
-	instances.clear();
-	instances.push_back(keep);
+void timer::clearInstanceList(bool changingWorlds) {
+	if (changingWorlds) {
+		instances.erase(
+			std::remove_if(instances.begin(), instances.end(),
+				[](auto& timer) { return !timer->dontDelete; }
+			),
+			instances.end()
+		);
+	} else {
+		instances.clear();
+	}
 }
 
 int timer::findElementIdx(std::vector<timer*>& list, timer* item) {
@@ -84,4 +90,8 @@ void timer::start(float maxTime) {
 void timer::stop() {
 	bStart = false;
 	time = 0;
+}
+
+void timer::shouldntDelete(bool dontDelete) {
+	this->dontDelete = dontDelete;
 }

@@ -157,7 +157,7 @@ void Scene::deferredChangeWorld() {
 	hasFinishedLoading = false;
 	loadingDone = false;
 
-	timer::clearInstanceList();
+	timer::clearInstanceList(true);
 	//openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
 	std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
 	loader.detach();

@@ -127,7 +127,7 @@ void Image::loadGPU() {
 	glGenTextures(1, &ID);
 
 	// Assigns the texture to a Texture Unit
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE0);
 
 	glBindTexture(texType, ID);
 
@@ -375,7 +375,7 @@ void Image::setImage(std::string path) {
 			return;
 		}
 
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(texType, ID);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

@@ -205,3 +205,7 @@ void animation::playQueuedStart() {
 		start();
 	queuedStart = false;
 }
+
+void animation::shouldntDeleteTimer(bool dontDelete) {
+	animTimer->shouldntDelete(dontDelete);
+}
