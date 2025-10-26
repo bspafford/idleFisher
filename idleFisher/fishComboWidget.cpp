@@ -58,14 +58,13 @@ void UfishComboWidget::Start(FfishData fish, int quality) {
 }
 
 int UfishComboWidget::getCombo() {
-	/*
-	int fishX = fishRect.x + fishRect.w / 2;
+	int fishX = fishImg->getLoc().x + fishImg->getSize().x / 2;
 
-	int minGreen = greenRect.x;
-	int maxGreen = greenRect.x + greenRect.w;
+	int minGreen = greenRect->getLoc().x;
+	int maxGreen = greenRect->getLoc().x + greenRect->getSize().x;
 
-	int minYellow = yellowRect.x;
-	int maxYellow = yellowRect.x + yellowRect.w;
+	int minYellow = yellowRect->getLoc().x;
+	int maxYellow = yellowRect->getLoc().x + yellowRect->getSize().x;
 
 	if (fishX >= minGreen && fishX <= maxGreen)
 		return 2;
@@ -73,8 +72,6 @@ int UfishComboWidget::getCombo() {
 		return 1;
 	else
 		return 0;
-	*/
-	return 1;
 }
 
 void UfishComboWidget::Update(float deltaTime) {

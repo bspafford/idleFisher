@@ -51,7 +51,6 @@ public:
 	int fishComboBorderX, fishComboBorderY;
 
 	std::unique_ptr<Image> fishImg;
-	int fishX, fishY;
 
 	// should move backwards or forwards
 	bool fishMoveBack = false;

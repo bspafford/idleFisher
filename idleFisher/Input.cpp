@@ -49,6 +49,9 @@ void Input::cursorPosCallback(GLFWwindow* window, double xPos, double yPos) {
 }
 
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (key == -1)
+		return;
+
 	if (action == GLFW_PRESS) {
 		keysDown[key] = true;
 		keysHeld[key] = true;
