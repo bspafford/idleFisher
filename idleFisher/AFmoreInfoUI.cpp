@@ -11,6 +11,8 @@
 #include "text.h"
 #include "button.h"
 
+#include "debugger.h"
+
 AFmoreInfoUI::AFmoreInfoUI(widget* parent, AautoFisher* autoFisher) : widget(parent) {
 	this->autoFisher = autoFisher;
 

@@ -2,6 +2,8 @@
 #include "fishermanWidget.h"
 #include "main.h"
 
+#include "debugger.h"
+
 Afisherman::Afisherman(vector loc) : npc(loc) {
 	setup("fisherman");
 	fishermanWidget = std::make_unique<UfishermanWidget>(nullptr, this);

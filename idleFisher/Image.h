@@ -60,15 +60,6 @@ public:
 	// Deletes a texture
 	void Delete();
 
-	GLenum texType = GL_TEXTURE_2D;
-	GLenum pixelType = GL_UNSIGNED_BYTE;
-
-	VAO* currVAO = nullptr;
-	GLuint VBOId = 0;
-	EBO* currEBO = nullptr;;
-
-	std::vector<float> positions;
-
 	bool useWorldPos;
 	bool useAlpha;
 
@@ -85,6 +76,14 @@ public:
 private:
 	std::vector<float> getPositionsList();
 
+	GLenum texType = GL_TEXTURE_2D;
+	GLenum pixelType = GL_UNSIGNED_BYTE;
+
+	std::unique_ptr<VAO> currVAO = nullptr;
+	GLuint VBOId = 0;
+	std::unique_ptr<EBO> currEBO = nullptr;
+
+	std::vector<float> positions;
 
 	vector loc; // relative to the screen position
 	vector absoluteLoc; // absolute position in the screen
@@ -94,5 +93,7 @@ private:
 	glm::vec4 colorMod = glm::vec4(1.f);
 
 	bool flipHoriz = false;
+
+	bool calledLoadGPU = false;
 };
 #endif

@@ -9,6 +9,8 @@
 #include "animation.h"
 #include "timer.h"
 
+#include "debugger.h"
+
 UsailorWidget::UsailorWidget(widget* parent) : widget(parent) {
 	mapBackground = std::make_unique<Image>("./images/widget/map.png", vector{ 0, 0 }, false);
 

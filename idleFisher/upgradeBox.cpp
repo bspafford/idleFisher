@@ -15,6 +15,8 @@
 #include "merchantWidget.h"
 #include "fishermanWidget.h"
 
+#include "debugger.h"
+
 UupgradeBox::UupgradeBox(widget* parent, widget* NPCWidget, FworldStruct* worldStruct, FsaveWorldStruct* saveWorldStruct) : widget(parent) {
 	this->NPCWidget = NPCWidget;
 	this->worldStruct = worldStruct;

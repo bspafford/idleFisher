@@ -16,6 +16,7 @@
 #include "sailor.h"
 #include "atm.h"
 
+#include "debugger.h"
 
 UUIWidget::UUIWidget(widget* parent) : widget(parent) {
 	progressBar = std::make_unique<UprogressBar>(this, false, 43, 6);

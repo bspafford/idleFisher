@@ -2,6 +2,8 @@
 #include "AStar.h"
 #include "node.h"
 
+#include "debugger.h"
+
 pathfinding::pathfinding() {
 
 }

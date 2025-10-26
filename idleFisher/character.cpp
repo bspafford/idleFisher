@@ -31,6 +31,8 @@
 #include "achievementWidget.h"
 #include "newRecordWidget.h"
 
+#include "debugger.h"
+
 Acharacter::Acharacter() {
 	std::unordered_map<std::string, animDataStruct> animData;
 	// walking
@@ -201,20 +203,13 @@ void Acharacter::setPlayerColPoints() {
 void Acharacter::draw(Shader* shaderProgram) {
 	anim->setLoc({ 0, 0 });
 	anim->draw(shaderProgram);
-	//std::cout << "playerLoc" << SaveData::saveData.playerLoc << std::endl;
 	if (isFishing) {
 		fishingRod->setLoc(anim->getLoc() - vector{ 4, 51.f });
 		fishingRod->draw(shaderProgram);
 	}
-
-	if (SaveData::saveData.fishData.size() > 0) {
-		for (int i = 0; i < SaveData::saveData.fishData[1].numOwned.size(); i++) {
-		}
-	}
 }
 
 vector Acharacter::getCharLoc() {
-	//vector charLoc = (anim->getLoc() - vector{ -float(anim->cellWidth / 2.f), -5 }) * stuff::pixelSize;
 	return (SaveData::saveData.playerLoc + vector{ anim->cellWidth / 2.f, 2});
 }
 
@@ -300,7 +295,6 @@ void Acharacter::leftClick() {
 		// catch fish
 		if (upgrades::calcComboUnlocked()) {
 			int combo = Main::fishComboWidget->click(Acharacter::isFishing);
-			std::cout << "combo: " << upgrades::calcComboStart(upgrades::calcComboMax()) << std::endl;
 			switch (combo) {
 			case 0:
 				if (!baitBuffs::chanceToKeepCombo()) // reset combo if false
@@ -418,7 +412,6 @@ FfishData Acharacter::calcFish(int& quality, float& fishSize) {
 
 
 			fishSize = math::randRangeInt(caughtFish.minSize, caughtFish.maxSize);
-			std::cout << "fish size: " << fishSize << std::endl;
 			return caughtFish;
 		}
 
@@ -504,10 +497,7 @@ void Acharacter::premiumFishBuff() {
 
 	float rand = math::randRange(0.f, 1.f);
 
-	std::cout << "rand: " << rand << ", ";
-
 	if (rand <= .45) { // instant cash
-		std::cout << "instant money!" << std::endl;
 		// % from bank, or a certian amount of time, which ever is less
 		int worldIndex = Scene::getWorldIndexFromName(Scene::getCurrWorldName());
 
@@ -532,12 +522,10 @@ void Acharacter::premiumFishBuff() {
 
 		Main::currencyWidget->updateList();
 	} else if (rand <= .9) { // low long buff
-		std::cout << "10x for 1:30 min" << std::endl;
 		UpremiumBuffWidget* buff = new UpremiumBuffWidget(nullptr, SaveData::data.goldenFishData[2]);
 		Main::premiumBuffList.push_back(buff);
 		Main::UIWidget->setupLocs();
 	} else { // high short buff
-		std::cout << "100x for 10 sec" << std::endl;
 		UpremiumBuffWidget* buff = new UpremiumBuffWidget(nullptr, SaveData::data.goldenFishData[3]);
 		Main::premiumBuffList.push_back(buff);
 		Main::UIWidget->setupLocs();

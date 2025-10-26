@@ -9,6 +9,8 @@
 #include "horizontalBox.h"
 #include "saveData.h"
 
+#include "debugger.h"
+
 Usettings::Usettings(widget* parent) : widget(parent) {
 	SaveData::loadSettings();
 

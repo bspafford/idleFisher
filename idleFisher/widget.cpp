@@ -10,6 +10,8 @@
 #include "worlds.h"
 #include "scuba.h"
 
+#include "debugger.h"
+
 widget::widget(widget* parent) {
 	instances.insert(this);
 

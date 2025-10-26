@@ -23,6 +23,8 @@
 
 #include "textureManager.h"
 
+#include "debugger.h"
+
 AautoFisher::AautoFisher(int id) {
 	if (!autoFisherSpriteSheet)
 		autoFisherSpriteSheet = std::make_shared<Image>("./images/autoFisher/autoFisher.png", vector{ 0, 0 }, true);

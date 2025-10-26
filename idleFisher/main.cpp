@@ -1,4 +1,5 @@
 #include "main.h"
+
 #include "Image.h"
 #include "model.h"
 #include "csvReader.h"
@@ -43,19 +44,40 @@
 #include "comboOvertimeWidget.h"
 #include "newRecordWidget.h"
 
+#include "debugger.h"
+
 int main(int argc, char* argv[]) {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	srand(time(0));
 	math::randRange(0, 100); // steups up srand i guess? otherwise first value always the same
 
 	Main* _main = new Main();
 	_main->createWindow();
 
+	delete _main;
 	return 0;
+}
+
+Main::~Main() {
+	delete shaderProgram;
+	delete shadowMapProgram;
+	delete twoDShader;
+	delete quadShader;
+	delete waterShader;
+	delete twoDWaterShader;
+
+	textureManager::Deconstructor();
+	timer::clearInstanceList();
+
+	// Delete window before ending the program
+	glfwDestroyWindow(window);
+	// Terminate GLFW before ending the program
+	glfwTerminate();
 }
 
 int Main::createWindow() {
 	GPULoadCollector::setMainThread(std::this_thread::get_id());
-
 	fpsCap = 0;
 	// temp
 	stuff::screenSize = { 1920, 1080 };
@@ -68,6 +90,7 @@ int Main::createWindow() {
 		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // Set no decorations
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // Prevent resizing
 	}
+
 
 	// Tell GLFW what version of OpenGL we are using 
 	// In this case we are using OpenGL 3.3
@@ -146,11 +169,11 @@ int Main::createWindow() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// Load in a model for shadows
-	house = new Model("./images/models/idleFisher3D/idleFisher3DNoWater.gltf");
+	house = std::make_unique<Model>("./images/models/idleFisher3D/idleFisher3DNoWater.gltf");
 	house->setPos(glm::vec3(-182.75f, 0.f, -504.5f));
 	house->setScale(glm::vec3(1.89f));
 	house->setColor(glm::vec3(255, 240, 240));
-	characterModel = new Model("./images/models/character/character.gltf");
+	characterModel = std::make_unique<Model>("./images/models/character/character.gltf");
 
 	characterModel->setScale(glm::vec3(3.f));
 
@@ -243,18 +266,7 @@ int Main::createWindow() {
 		}
 	}
 
-	// Delete all the objects we've created
-	shaderProgram->Delete();
-	twoDShader->Delete();
-	shadowMapProgram->Delete();
-
-	// Delete window before ending the program
-	glfwDestroyWindow(window);
-	// Terminate GLFW before ending the program
-	glfwTerminate();
-
 	running = false;
-
 	return 0;
 }
 
@@ -288,8 +300,8 @@ void Main::Start() {
 
 	Scene::openLevel("world1", worldLoc::None, true);
 	
-	character = new Acharacter();
-	camera = new Camera(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));
+	character = std::make_unique<Acharacter>();
+	camera = std::make_unique<Camera>(stuff::screenSize.x, stuff::screenSize.y, glm::vec3(-55, 50, -350));
 
 	// setup projection mat
 	twoDShader->Activate();
@@ -354,28 +366,28 @@ void Main::updateShaders(float deltaTime) {
 }
 
 void Main::setupWidgets() {
-	pauseMenu = new UpauseMenu(nullptr);
-	settingsWidget = new Usettings(nullptr);
+	pauseMenu = std::make_unique<UpauseMenu>(nullptr);
+	settingsWidget = std::make_unique<Usettings>(nullptr);
 
-	fishComboWidget = new UfishComboWidget(nullptr);
+	fishComboWidget = std::make_unique<UfishComboWidget>(nullptr);
 
-	heldFishWidget = new UheldFishWidget(nullptr);
+	heldFishWidget = std::make_unique<UheldFishWidget>(nullptr);
 	heldFishWidget->updateList();
-	currencyWidget = new UcurrencyWidget(nullptr);
+	currencyWidget = std::make_unique<UcurrencyWidget>(nullptr);
 	currencyWidget->updateList();
 
-	comboWidget = new UcomboWidget(nullptr);
-	achievementWidget = new UachievementWidget(nullptr);
-	journal = new Ujournal(nullptr);
-	fishUnlocked = new UfishUnlocked(nullptr);
+	comboWidget = std::make_unique<UcomboWidget>(nullptr);
+	achievementWidget = std::make_unique<UachievementWidget>(nullptr);
+	journal = std::make_unique<Ujournal>(nullptr);
+	fishUnlocked = std::make_unique<UfishUnlocked>(nullptr);
 
-	UIWidget = new UUIWidget(nullptr);
+	UIWidget = std::make_unique<UUIWidget>(nullptr);
 
-	idleProfitWidget = new UidleProfitWidget(nullptr);
+	idleProfitWidget = std::make_unique<UidleProfitWidget>(nullptr);
 
-	comboOvertimeWiget = new UcomboOvertimeWidget(nullptr);
+	comboOvertimeWiget = std::make_unique<UcomboOvertimeWidget>(nullptr);
 
-	newRecordWidget = new UnewRecordWidget(nullptr);
+	newRecordWidget = std::make_unique<UnewRecordWidget>(nullptr);
 }
 
 void Main::draw3D(Shader* shaderProgram) {
@@ -444,7 +456,7 @@ void Main::checkInputs() {
 }
 
 void Main::drawWidgets(Shader* shaderProgram) {
-	if (widget::getCurrWidget() == pauseMenu)
+	if (widget::getCurrWidget() == pauseMenu.get())
 		return;
 
 	fishComboWidget->draw(shaderProgram, stuff::screenSize.x, stuff::screenSize.y);

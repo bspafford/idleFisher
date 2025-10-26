@@ -3,6 +3,8 @@
 #include "widget.h"
 #include "Hoverable.h"
 
+#include "debugger.h"
+
 void Input::pollEvents() {
 	// set mouse up and down to false
 	for (int i = 0; i < 5; i++) {

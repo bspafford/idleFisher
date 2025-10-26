@@ -6,6 +6,8 @@
 #include "text.h"
 #include "achievementWidget.h"
 
+#include "debugger.h"
+
 UequippedWidget::UequippedWidget(widget* parent) : widget(parent) {
 	charImg = std::make_unique<Image>("./images/character/idleSE1.png", vector{ 0, 0 }, false);
 

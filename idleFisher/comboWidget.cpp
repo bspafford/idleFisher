@@ -7,6 +7,8 @@
 #include "character.h"
 #include "text.h"
 
+#include "debugger.h"
+
 UcomboWidget::UcomboWidget(widget* parent) : widget(parent) {
 	comboText = std::make_unique<text>(this, " ", "biggerStraight", vector{ 0, 0 }, false, false, textAlign::center);
 

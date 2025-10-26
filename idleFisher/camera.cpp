@@ -5,6 +5,8 @@
 #include "animation.h"
 #include "image.h"
 
+#include "debugger.h"
+
 Camera::Camera(int width, int height, glm::vec3 position) {
 	// Define a starting orientation vector (pointing forward)
 	Orientation = glm::vec3(0.0f, 0.0f, -1.0f);

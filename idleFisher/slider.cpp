@@ -3,6 +3,8 @@
 #include "text.h"
 #include "Rectangle.h"
 
+#include "debugger.h"
+
 Uslider::Uslider(widget* parent, bool useCharLoc, vector size, float minVal, float maxVal, bool showValueText) : widget(parent) {
 	this->size = size * stuff::pixelSize;
 	this->useCharLoc = useCharLoc;

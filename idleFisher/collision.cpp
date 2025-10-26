@@ -11,6 +11,8 @@
 #include "camera.h"
 #include "Cursor.h"
 
+#include "debugger.h"
+
 collision::collision() {
 
 }

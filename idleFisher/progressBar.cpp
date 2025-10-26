@@ -1,5 +1,7 @@
 #include "progressBar.h"
 
+#include "debugger.h"
+
 UprogressBar::UprogressBar(widget* parent, bool useCharLoc, float width, float height, int dir, bool reverse) : widget(parent) {
 	this->useCharLoc = useCharLoc;
 

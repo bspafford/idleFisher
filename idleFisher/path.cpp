@@ -2,6 +2,8 @@
 #include "shaderClass.h"
 #include "Rectangle.h"
 
+#include "debugger.h"
+
 Path::Path(std::vector<vector> waypoints, vector startPos, float turnDst) {
 	lookPoints = waypoints;
 	turnBoundaries = std::vector<Line*>(lookPoints.size());

@@ -14,6 +14,8 @@
 #include "text.h"
 #include "shortNumbers.h"
 
+#include "debugger.h"
+
 AfishTransporter::AfishTransporter(vector loc) : npc(loc) {
 	std::cout << "i'm the fish transporter!" << std::endl;
 

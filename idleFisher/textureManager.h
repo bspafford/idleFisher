@@ -15,13 +15,16 @@ struct textureStruct {
 	int nChannels;
 
 	textureStruct(unsigned char* bytes, bool _useAlpha, int _w, int _h, int _nChannels)
-		: texture(bytes), useAlpha(_useAlpha), w(_w), h(_h), nChannels(_nChannels) {
+		: texture(bytes), useAlpha(_useAlpha), w(_w), h(_h), nChannels(_nChannels) {}
+	~textureStruct() {
+		delete texture;
 	}
 };
 
 class textureManager {
 public:
 	textureManager();
+	static void Deconstructor();
 	static textureStruct* loadTexture(std::string path, bool loadSurface = false);
 	static textureStruct* getTexture(std::string name);
 

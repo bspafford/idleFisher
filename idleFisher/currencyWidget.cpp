@@ -3,6 +3,8 @@
 #include "main.h"
 #include "saveData.h"
 
+#include "debugger.h"
+
 UcurrencyWidget::UcurrencyWidget(widget* parent) : widget(parent) {
 
 }

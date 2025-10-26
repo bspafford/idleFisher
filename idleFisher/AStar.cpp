@@ -6,6 +6,10 @@
 #include "saveData.h"
 #include "Rectangle.h"
 
+#include "debugger.h"
+
+#include "debugger.h"
+
 AStar::AStar() {
 	stopPathFinding();
 }

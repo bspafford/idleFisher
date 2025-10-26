@@ -2,6 +2,8 @@
 #include "main.h"
 #include "saveData.h"
 
+#include "debugger.h"
+
 template <typename T> void readData(std::vector<T>& a, std::string csvName);
 
 csvReader::csvReader() {

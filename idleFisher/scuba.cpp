@@ -1,6 +1,8 @@
 #include "scuba.h"
 #include "main.h"
 
+#include "debugger.h"
+
 Ascuba::Ascuba(vector loc) : npc(loc) {
 	setup("scuba");
 

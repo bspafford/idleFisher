@@ -2,6 +2,8 @@
 #include "Input.h"
 #include "text.h"
 
+#include "debugger.h"
+
 UjournalProgressWidget::UjournalProgressWidget(widget* parent, int fishNumTotal, int starsNumTotal, int sizeNumTotal) : widget(parent){
 	this->fishNumTotal = fishNumTotal;
 	this->starsNumTotal = starsNumTotal;

@@ -9,6 +9,8 @@
 
 #include "image.h"
 
+#include "debugger.h"
+
 NPCwidget::NPCwidget(widget* parent, npc* NPCParent, std::string npcName) : widget(parent) {
 	this->NPCParent = NPCParent;
 

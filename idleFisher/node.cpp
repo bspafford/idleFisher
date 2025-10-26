@@ -1,5 +1,7 @@
 #include "node.h"
 
+#include "debugger.h"
+
 node::node(bool _walkable, vector _worldPos, int _gridX, int _gridY) {
 	walkable = _walkable;
 	loc = _worldPos;

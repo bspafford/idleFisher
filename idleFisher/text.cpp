@@ -9,6 +9,8 @@
 #include "camera.h"
 #include "GPULoadCollector.h"
 
+#include "debugger.h"
+
 text::text(widget* parent, std::string text, std::string font, vector loc, bool useWorldPos, bool isometric, int alignment) : widget(parent) {
 	instances.push_back(this);
 

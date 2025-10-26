@@ -40,6 +40,8 @@
 #include "rock.h"
 #include "rain.h"
 
+#include "debugger.h"
+
 // title screen
 titleScreen::titleScreen() {
 	waterImg = std::make_unique<Image>("./images/worlds/titleScreen/depthMap.png", vector{ 0, 0 }, false);
@@ -299,7 +301,6 @@ world::world() {
 	darkenScreenTimer->addUpdateCallback(this, &world::darkenScreen);
 	darkenValue = 0;
 	isRaining = false;
-
 	std::unordered_map<std::string, animDataStruct> circleAnimData;
 	circleAnimData.insert({ "anim", {{0, 0}, {3, 0}, .1, false} });
 	circleAnim = std::make_unique<animation>("circle/circleSpriteSheet.png", 640, 360, circleAnimData, false);
@@ -337,11 +338,14 @@ world::~world() {
 
 void world::start() {
 	// on init make the circle appear
-	circleAnim->start();
 	fishSchoolSpawnTimer = std::make_unique<timer>();
 	fishSchoolSpawnTimer->addCallback(this, &world::spawnFishSchool);
 	fishSchoolSpawnTimer->start(math::randRange(upgrades::calcMinFishSchoolSpawnInterval(), upgrades::calcMaxFishSchoolSpawnInterval()));
 
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
+	}
 	// bind texture stuff for water
 	Texture::bindTextureToShader({ Main::waterShader, Main::twoDWaterShader }, "./images/water/waterDUDV.png", "dudvMap");
 	Texture::bindTextureToShader(Main::twoDWaterShader, "./images/water/water.png", "underwaterTexture");
@@ -353,7 +357,9 @@ void world::start() {
 	Main::twoDWaterShader->setVec3("deepWaterColor", glm::vec3(54.f/255.f, 107.f/255.f, 138.f/255.f));
 	Main::twoDWaterShader->setVec3("shallowWaterColor", glm::vec3(206.f / 255.f, 210.f / 255.f, 158.f / 255.f));
 	Main::twoDWaterShader->setFloat("causticSize", 16.f);
-
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
+	}
 	setupAutoFishers();
 
 	// load idle profits
@@ -363,6 +369,11 @@ void world::start() {
 	}
 
 	buyer = std::make_unique<buyAutoFisher>(vector{ 295, -170 });
+
+	circleAnim->start();
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
+	}
 }
 
 void world::spawnFishSchool() {
@@ -654,7 +665,6 @@ world1::world1(int worldChangeLoc) {
 		trees.push_back(std::make_unique<Atree>(bushLocs[i], false));
 
 	sortTreeList();
-
 	makeDrawLists();
 
 	std::unordered_map<std::string, animDataStruct> beachData;

@@ -9,6 +9,8 @@
 #include "hoverBox.h"
 #include "Rectangle.h"
 
+#include "debugger.h"
+
 UrebirthWidget::UrebirthWidget(widget* parent) : widget(parent) {
 	for (int i = 0; i < SaveData::data.rebirthData.size(); i++) {
 		FrebirthStruct curr = SaveData::data.rebirthData[i];

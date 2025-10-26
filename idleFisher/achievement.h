@@ -17,7 +17,7 @@ private:
     FachievementStruct* achievementData;
     FsaveAchievementStruct* saveAchievementData;
     std::function<bool()> condition; // Condition as a lambda function
-    static inline std::vector<achievement*> achievements;
+    static inline std::vector<std::unique_ptr<achievement>> achievements;
 
 public:
     achievement(int id,

@@ -12,6 +12,8 @@
 #include "animation.h"
 #include "text.h"
 
+#include "debugger.h"
+
 void Scene::openLevel(std::string worldName1, int worldChangeLoc1, bool overrideIfInWorld1) {
 	worldName = worldName1;
 	worldChangeLoc = worldChangeLoc1;
@@ -45,11 +47,11 @@ void Scene::draw(Shader* shaderProgram) {
 
 void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool overrideIfInWorld) {
 	GPULoadCollector::open();
+
 	if (worldName == "vault" && currWorldName != "vault")
 		prevWorld = currWorldName;
 	currWorldName = worldName;
 	SaveData::saveData.currWorld = currWorldName;
-
 	if (widget::getCurrWidget())
 		widget::getCurrWidget()->removeFromViewport();
 
@@ -61,6 +63,7 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 	rebirthWorld::deconstructor();
 	world::currWorld = nullptr;
 	titleScreen::currTitleScreen = nullptr;
+	
 	if (currWorldName == "titleScreen") {
 		titleScreen::currTitleScreen = std::make_unique<titleScreen>();
 	} else if (currWorldName == "vault") {
@@ -97,25 +100,41 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 }
 
 void Scene::finishedLoading() {
+	GLuint err;
 	for (int i = 0; i < gpuImages.size(); i++) {
 		gpuImages[i]->loadGPU();
+		while ((err = glGetError()) != GL_NO_ERROR) {
+			std::cout << "OpenGL Error: " << err << std::endl;
+		}
 	}
 	for (int i = 0; i < gpuAnimations.size(); i++) {
 		gpuAnimations[i]->setQueuedAnim();
 		gpuAnimations[i]->playQueuedStart();
 	}
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
+	}
 	for (int i = 0; i < gpuText.size(); i++) {
 		gpuText[i]->makeTextTexture();
 		gpuText[i]->updatePositionsList();
+	}
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
 	}
 	for (int i = 0; i < gpuRect.size(); i++) {
 		gpuRect[i]->loadGPU();
 		gpuRect[i]->updatePositionsList();
 	}
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
+	}
 	if (world::currWorld)
 		world::currWorld->start();
 	if (titleScreen::currTitleScreen)
 		titleScreen::currTitleScreen->start();
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL Error: " << err << std::endl;
+	}
 }
 
 int Scene::getWorldIndexFromName(std::string worldName) {
@@ -153,8 +172,8 @@ void Scene::deferredChangeWorld() {
 	hasFinishedLoading = false;
 	loadingDone = false;
 
+	//timer::clearInstanceList();
 	//openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
-	timer::clearInstanceList();
 	std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
 	loader.detach();
 }

@@ -9,6 +9,8 @@
 #include "fishNumWidget.h"
 #include "Rectangle.h"
 
+#include "debugger.h"
+
 UheldFishWidget::UheldFishWidget(widget* parent) : widget(parent) {
 	line = std::make_unique<URectangle>(vector{ 0, 0 }, vector{ 20 * stuff::pixelSize, stuff::pixelSize }, false);
 }

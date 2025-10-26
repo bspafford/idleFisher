@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "debugger.h"
+
 fps::fps() {
 	fpsTimer = std::make_unique<timer>();
 	fpsTimer->addCallback(fps::returnTimer);

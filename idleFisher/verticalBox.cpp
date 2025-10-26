@@ -1,6 +1,9 @@
 #include "verticalBox.h"
 
 #include <iostream>
+
+#include "debugger.h"
+
 verticalBox::verticalBox(widget* parent) : widget(parent) {
 
 }

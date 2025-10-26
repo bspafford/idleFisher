@@ -7,6 +7,8 @@
 #include "text.h"
 #include "button.h"
 
+#include "debugger.h"
+
 UcurrencyConverterWidget::UcurrencyConverterWidget(widget* parent, npc* NPCParent) : widget(parent) {
 	this->parent = NPCParent;
 
@@ -107,8 +109,6 @@ void UcurrencyConverterWidget::setupLocs() {
 }
 
 void UcurrencyConverterWidget::addedToViewport() {
-	std::cout << "added to viewport" << std::endl;
-
 	// check to see if there are now more currencies unlocked
 	// if so add the child
 	// if not do nothing
@@ -116,20 +116,17 @@ void UcurrencyConverterWidget::addedToViewport() {
 	//for (const FsaveCurrencyStruct currency : SaveData::saveData.currencyList) {
 	for (int i = 1; i < SaveData::saveData.currencyList.size(); i++) {
 		FsaveCurrencyStruct currency = SaveData::saveData.currencyList[i];
-		std::cout << "currency: " << currency.id << ", " << currency.unlocked << std::endl;
 		if (currency.unlocked)
 			unlockedNum++;
 	}
 
 	int childListSize = upgradeHolder->childList.size();
-	std::cout << "childListSize123: " << childListSize << ", " << unlockedNum << std::endl;
 	if (childListSize != unlockedNum) {
 		// add children needed
 		// its possible for there to be multiple new currencies
 
 		// loop through starting at i = childListSize - 1 to unlockedNum
 		// then add child, child being currency[i]
-		std::cout << "childListSize: " << childListSize << ", " << unlockedNum << std::endl;
 		for (int i = childListSize; i < unlockedNum-1; i++) {
 			FcurrencyStruct* currData = &SaveData::data.currencyData[i+1];
 			FsaveCurrencyStruct* currSaveData = &SaveData::saveData.currencyList[currData->id];
@@ -137,7 +134,6 @@ void UcurrencyConverterWidget::addedToViewport() {
 				std::unique_ptr<UcurrencyConverterBox> upgradeBox = std::make_unique<UcurrencyConverterBox>(this, currData, currSaveData);
 				if (upgradeBox->buyButton)
 					upgradeBox->buyButton->setParent(upgradeHolder.get());
-				std::cout << "adding child:" << std::endl;
 				upgradeHolder->addChild(upgradeBox.get(), upgradeBox->getSize().y);
 				currencyConverterBoxList.push_back(std::move(upgradeBox));
 			}

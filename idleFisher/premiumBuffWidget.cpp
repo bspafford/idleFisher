@@ -7,6 +7,8 @@
 #include "math.h"
 #include "hoverBox.h"
 
+#include "debugger.h"
+
 UpremiumBuffWidget::UpremiumBuffWidget(widget* parent, FgoldenFishStruct goldenFish) : widget(parent) {
 	this->goldenFish = goldenFish;
 

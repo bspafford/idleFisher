@@ -9,6 +9,8 @@
 #include "upgrades.h"
 #include "shortNumbers.h"
 
+#include "debugger.h"
+
 UfishermanWidget::UfishermanWidget(widget* parent, npc* NPCParent) : widget(parent) {
 	this->NPCParent = NPCParent;
 

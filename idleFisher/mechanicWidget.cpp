@@ -13,6 +13,8 @@
 #include "worlds.h"
 #include "fishTransporter.h"
 
+#include "debugger.h"
+
 UmechanicWidget::UmechanicWidget(widget* parent, npc* NPCParent) : widget(parent) {
 	this->NPCParent = NPCParent;
 

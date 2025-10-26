@@ -5,17 +5,27 @@
 #include "main.h"
 #include "math.h"
 
+#include "debugger.h"
+
 timer::timer() {
 	instances.push_back(this);
 }
 
 timer::~timer() {
-	if (Main::running)
-		toDelete.push_back(this);
+	//if (Main::running)
+		//toDelete.push_back(this);
+	auto it = std::find(instances.begin(), instances.end(), this);
+	if (it != instances.end())
+		instances.erase(it);
 }
 
 // calls update function to all instances of object
 void timer::callUpdate(float deltaTime) {
+	for (int i = 0; i < instances.size(); i++) {
+		instances[i]->Update(deltaTime);
+	}
+
+	/*
 	for (int i = 0; i < instances.size(); i++) {
 		timer* t = instances[i];
 		if (findElementIdx(toDelete, t) == -1) // not in toDelete list
@@ -28,10 +38,12 @@ void timer::callUpdate(float deltaTime) {
 			instances.erase(instances.begin() + idx);
 	}
 	toDelete.clear();
+	*/
 }
 
 void timer::clearInstanceList() {
 	instances.clear();
+	//toDelete.clear();
 }
 
 int timer::findElementIdx(std::vector<timer*>& list, timer* item) {

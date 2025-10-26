@@ -1,8 +1,8 @@
 #pragma once
 
 #include "widget.h"
+#include "timer.h"
 
-class timer;
 struct FachievementStruct;
 struct FsaveAchievementStruct;
 

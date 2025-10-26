@@ -3,6 +3,8 @@
 #include "sounds.h"
 #include "animation.h"
 
+#include "debugger.h"
+
 // only give NON NULL values to overriding widgets ONLY
 Ubutton::Ubutton(widget* parent, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha) : widget(parent) {
 	// buttons will have a sprite sheet with click anim on top, and hover right below it, and prolly also a disabled one too

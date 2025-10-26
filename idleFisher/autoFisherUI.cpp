@@ -11,6 +11,8 @@
 #include "button.h"
 #include "text.h"
 
+#include "debugger.h"
+
 autoFisherUI::autoFisherUI(widget* parent, AautoFisher* autoFisherRef, vector loc) : widget(parent) {
 	autoFisher = autoFisherRef;
 

@@ -10,6 +10,9 @@
 ./images/continuebutton3.png
 ./images/cursor.png
 ./images/cursor1.png
+./images/cursor2.png
+./images/cursor3.png
+./images/cursor4.png
 ./images/dumpster.png
 ./images/dumpsterhovered.png
 ./images/emptystar.png

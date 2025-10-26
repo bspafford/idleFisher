@@ -1,6 +1,8 @@
 #include "shake.h"
 #include "timer.h"
 
+#include "debugger.h"
+
 Eshake::Eshake(float shakeDist) {
 	shakeTimer = std::make_unique<timer>();
 	shakeTimer->addCallback(this, &Eshake::setShakeLoc);

@@ -14,6 +14,8 @@
 #include "currencyWidget.h"
 #include "text.h"
 
+#include "debugger.h"
+
 buyAutoFisher::buyAutoFisher(vector loc) {
 	std::unordered_map<std::string, animDataStruct> plusData;
 	plusData.insert({ "normal", {{0, 0}, {7, 0}, .1, true } });

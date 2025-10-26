@@ -5,6 +5,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include "GPULoadCollector.h"
 
+#include "debugger.h"
+
 Image::Image(std::shared_ptr<Image> image, std::shared_ptr<Rect> source, vector loc, bool useWorldPos) {
 	this->loc = loc;
 
@@ -90,26 +92,30 @@ Image::~Image() {
 		currEBO->Delete();
 	glDeleteBuffers(1, &VBOId);
 	glDeleteTextures(1, &ID);
-	delete currVAO;
-	delete currEBO;
 	currVAO = nullptr;
 	currEBO = nullptr;
 }
 
 void Image::loadGPU() {
+	if (calledLoadGPU)
+		return;
+
+	calledLoadGPU = true;
 	std::vector<GLuint> indices = {
 		0, 1, 3,
 		3, 1, 2
 	};
 
-	currVAO = new VAO();
+	if (!currVAO)
+		currVAO = std::make_unique<VAO>();
 	currVAO->Bind();
 
 	glGenBuffers(1, &VBOId);
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
 	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), positions.data(), GL_STATIC_DRAW);
 
-	currEBO = new EBO(indices);
+	if (!currEBO)
+		currEBO = std::make_unique<EBO>(indices);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));

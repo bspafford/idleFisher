@@ -9,6 +9,8 @@
 #include "animation.h"
 #include "sailorWidget.h"
 
+#include "debugger.h"
+
 Umap::Umap(UsailorWidget* parent, vector mapSize) : widget(parent) {
 	this->sailorWidgetParent = parent;
 	setSize(mapSize);

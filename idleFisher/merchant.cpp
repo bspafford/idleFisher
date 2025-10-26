@@ -2,6 +2,8 @@
 #include "merchantWidget.h"
 #include "main.h"
 
+#include "debugger.h"
+
 Amerchant::Amerchant(vector loc) : npc(loc) {
 	setup("merchant");
 	merchantWidget = std::make_unique<UmerchantWidget>(nullptr, this);

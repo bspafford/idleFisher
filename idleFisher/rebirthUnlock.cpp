@@ -5,6 +5,8 @@
 #include "button.h"
 #include "rebirthWidget.h"
 
+#include "debugger.h"
+
 UrebirthUnlock::UrebirthUnlock(widget* parent, int id) : widget(parent) {
 	rebirthInfo = &SaveData::data.rebirthData[id];
 	saveRebirthInfo = &SaveData::saveData.rebirthList[id];

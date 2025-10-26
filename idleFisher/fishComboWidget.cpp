@@ -9,6 +9,8 @@
 
 #include "shake.h"
 
+#include "debugger.h"
+
 UfishComboWidget::UfishComboWidget(widget* parent) : widget(parent) {
 	std::string fishComboBorderPath = "./images/widget/fishComboBorder.png";
 	std::string fishPath = "./images/widget/fish.png";

@@ -7,6 +7,8 @@
 #include "text.h"
 #include "verticalBox.h"
 
+#include "debugger.h"
+
 UpauseMenu::UpauseMenu(widget* parent) : widget(parent) {
 	pauseText = std::make_unique<Image>("./images/widget/pauseMenu/pause.png", vector{ 3, 3 } * stuff::pixelSize, false);
 	pauseText->setAnchor(anchor::left, anchor::top);

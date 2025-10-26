@@ -2,6 +2,8 @@
 #include "stuff.h"
 #include "GPULoadCollector.h"
 
+#include "debugger.h"
+
 URectangle::URectangle(vector loc, vector size, bool useWorldLoc, glm::vec4 color) {
 	this->loc = loc;
 	this->size = size;

@@ -4,6 +4,8 @@
 #include "Hoverable.h"
 #include "textureManager.h"
 
+#include "debugger.h"
+
 void Cursor::calcMouseImg() {
 	IHoverable* hoveredItem = IHoverable::getHoveredItem();
 	bool canHover = IHoverable::checkValidInteract();

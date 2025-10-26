@@ -7,6 +7,8 @@
 #include "text.h"
 #include "button.h"
 
+#include "debugger.h"
+
 UmerchantWidget::UmerchantWidget(widget* parent, npc* NPCParent) : widget(parent) {
 	this->NPCParent = NPCParent;
 

@@ -3,6 +3,8 @@
 #include "main.h"
 #include "character.h"
 
+#include "debugger.h"
+
 Apet::Apet(FpetStruct* pet, vector loc) {
 	this->pet = pet;
 	SaveData::saveData.equippedPet = *pet;

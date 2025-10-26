@@ -1,6 +1,8 @@
 #include "scrollBox.h"
 #include "Input.h"
 
+#include "debugger.h"
+
 UscrollBox::UscrollBox(widget* parent) : verticalBox(parent) {
 }
 

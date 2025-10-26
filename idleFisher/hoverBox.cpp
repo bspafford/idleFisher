@@ -5,6 +5,8 @@
 
 #include "text.h"
 
+#include "debugger.h"
+
 UhoverBox::UhoverBox(widget* parent) : widget(parent) {
 	img = std::make_unique<Image>("./images/widget/hoverImg.png", Input::getMousePos(), false);
 	name = std::make_unique<text>(this, " ", "straight", vector{0, 0});

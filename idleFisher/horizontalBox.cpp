@@ -1,6 +1,9 @@
 #include "horizontalBox.h"
 
 #include <iostream>
+
+#include "debugger.h"
+
 horizontalBox::horizontalBox(widget* parent) : widget(parent) {
 
 }

@@ -1,14 +1,15 @@
 #pragma once
 
 #include "widget.h"
+#include "timer.h"
 
-class timer;
 class text;
 class Ubutton;
 class UhoverBox;
 class UscrollBox;
 class UwrapBox;
 class UequippedWidget;
+class UachievementBox;
 
 class UachievementWidget : public widget {
 public:
@@ -36,4 +37,5 @@ private:
 	std::unique_ptr<UwrapBox> achievementHolder;
 	std::unique_ptr<UhoverBox> hoverBox;
 	std::unique_ptr<Ubutton> xButton;
+	std::vector<std::unique_ptr<UachievementBox>> achievementBoxList;
 };

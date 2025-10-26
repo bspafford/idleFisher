@@ -12,6 +12,8 @@
 #include "heldFishWidget.h"
 #include "currencyWidget.h"
 
+#include "debugger.h"
+
 dumpster::dumpster(vector loc) {
 	this->loc = loc;
 	img = std::make_unique<Image>("./images/dumpster.png", loc, true);

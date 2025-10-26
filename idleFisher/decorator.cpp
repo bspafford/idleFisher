@@ -1,6 +1,8 @@
 #include "decorator.h"
 #include "decoratorWidget.h"
 
+#include "debugger.h"
+
 Adecorator::Adecorator(vector loc) : npc(loc) {
 	setup("decorator");
 

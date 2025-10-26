@@ -7,6 +7,8 @@
 #include "text.h"
 #include "button.h"
 
+#include "debugger.h"
+
 UfishBox::UfishBox(Ujournal* parent, FfishData* fishData, FsaveFishData* saveFishData) : widget(parent) {
 	this->ref = parent;
 

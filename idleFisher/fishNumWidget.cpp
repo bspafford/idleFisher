@@ -8,6 +8,8 @@
 #include "image.h"
 #include "text.h"
 
+#include "debugger.h"
+
 UfishNumWidget::UfishNumWidget(widget* parent) : widget(parent) {
 
 }

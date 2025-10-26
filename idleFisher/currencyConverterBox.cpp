@@ -12,6 +12,8 @@
 #include "currencyConverterWidget.h"
 #include "atm.h"
 
+#include "debugger.h"
+
 UcurrencyConverterBox::UcurrencyConverterBox(widget* parent, FcurrencyStruct* currencyStruct, FsaveCurrencyStruct* saveCurrencyStruct) : widget(parent) {
 	this->currencyStruct = currencyStruct;
 	this->saveCurrencyStruct = saveCurrencyStruct;

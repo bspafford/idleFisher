@@ -5,6 +5,8 @@
 #include "currencyWidget.h"
 #include "upgrades.h"
 
+#include "debugger.h"
+
 Aatm::Aatm(vector loc) : npc(loc) {
 	for (int i = 0; i < SaveData::data.currencyData.size(); i++) {
 		conversionTimers.push_back(std::make_unique<timer>());

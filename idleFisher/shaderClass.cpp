@@ -1,6 +1,7 @@
 #include"shaderClass.h"
 #include <glm/gtc/type_ptr.hpp>
 
+#include "debugger.h"
 
 // Reads a text file and outputs a string with everything in the text file
 std::string get_file_contents(const char* filename) {
@@ -59,6 +60,10 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile) {
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+}
+
+Shader::~Shader() {
+	Delete();
 }
 
 // Activates the Shader Program

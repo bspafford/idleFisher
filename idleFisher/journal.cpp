@@ -12,6 +12,8 @@
 #include "progressBar.h"
 #include "journalProgressWidget.h"
 
+#include "debugger.h"
+
 Ujournal::Ujournal(widget* parent) : widget(parent) {
 	background = std::make_unique<Image>("./images/widget/journal.png", vector{ 0, 0 }, false);
 	journalClosed = std::make_unique<Image>("./images/widget/journalClosed.png", vector{ 0, 0 }, false);

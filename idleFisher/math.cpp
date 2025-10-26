@@ -3,6 +3,8 @@
 #include "camera.h"
 #include "saveData.h"
 
+#include "debugger.h"
+
 // returns the dot product of two 2d vectors
 float math::dot(vector a, vector b) {
 	return a.x * b.x + a.y * b.y;

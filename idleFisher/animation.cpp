@@ -8,6 +8,8 @@
 #include <functional>
 #include <iostream>
 
+#include "debugger.h"
+
 animation::animation(std::string spriteSheetPath, int cellWidth, int cellHeight, std::unordered_map<std::string, animDataStruct> animData, bool useWorldLoc, vector loc) {
 	this->cellWidth = cellWidth;
 	this->cellHeight = cellHeight;

@@ -5,6 +5,8 @@
 #include "button.h"
 #include "text.h"
 
+#include "debugger.h"
+
 UdecorationBox::UdecorationBox(widget* parent, UdecoratorWidget* parentRef, widget* buttonParent, FvaultUnlocksStruct* vaultUnlock, FsaveVaultUnlocksStruct* saveVaultUnlock) : widget(parent) {
 	this->parentRef = parentRef;
 	this->setParent(parentRef);

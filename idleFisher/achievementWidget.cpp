@@ -13,6 +13,8 @@
 #include "text.h"
 #include "equippedWidget.h"
 
+#include "debugger.h"
+
 UachievementWidget::UachievementWidget(widget* parent) : widget(parent) {
 	background = std::make_unique<Image>("./images/widget/achievementBackground.png", vector{ 0, 0 }, false);
 
@@ -39,8 +41,9 @@ UachievementWidget::UachievementWidget(widget* parent) : widget(parent) {
 
 
 	for (int i = 0; i < SaveData::data.achievementData.size(); i++) {
-		UachievementBox* achievementBox = new UachievementBox(achievementHolder.get(), i);
-		achievementHolder->addChild(achievementBox);
+		std::unique_ptr<UachievementBox> achievementBox = std::make_unique<UachievementBox>(achievementHolder.get(), i);
+		achievementHolder->addChild(achievementBox.get());
+		achievementBoxList.push_back(std::move(achievementBox));
 	}
 
 	setupLocs();

@@ -2,6 +2,8 @@
 #include "rebirthWidget.h"
 #include "main.h"
 
+#include "debugger.h"
+
 AfishGod::AfishGod(vector loc) : npc(loc) {
 	setup("fishGod");
 	

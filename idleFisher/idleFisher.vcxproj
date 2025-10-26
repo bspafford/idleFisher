@@ -226,6 +226,7 @@
     <ClCompile Include="fishUnlocked.cpp" />
     <ClCompile Include="fps.cpp" />
     <ClCompile Include="glac.c" />
+    <ClInclude Include="debugger.h" />
     <ClInclude Include="GPULoadCollector.h">
       <FileType>CppCode</FileType>
     </ClInclude>
@@ -238,7 +239,6 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="journal.cpp" />
     <ClCompile Include="journalProgressWidget.cpp" />
-    <ClCompile Include="line.cpp" />
     <ClCompile Include="loadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />

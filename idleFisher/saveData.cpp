@@ -5,6 +5,8 @@
 #include "main.h"
 #include <alpaca/alpaca.h>
 
+#include "debugger.h"
+
 void SaveData::save() {
 	const auto filename = "./data/saves/save.save";
 

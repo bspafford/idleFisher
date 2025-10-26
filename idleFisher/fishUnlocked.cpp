@@ -7,6 +7,8 @@
 #include "animation.h"
 #include "text.h"
 
+#include "debugger.h"
+
 UfishUnlocked::UfishUnlocked(widget* parent) : widget(parent) {
 	bannerImg = std::make_unique<Image>("./images/widget/fishUnlocked.png", vector{ 0, 0 }, false);
 

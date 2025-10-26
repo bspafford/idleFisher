@@ -4,6 +4,8 @@
 #include "saveData.h"
 #include "timer.h"
 
+#include "debugger.h"
+
 UachievementBox::UachievementBox(widget* parent, int id) : widget(parent) {
 	this->id = id;
 

@@ -2,6 +2,8 @@
 #include "timer.h"
 #include "text.h"
 
+#include "debugger.h"
+
 LoadingScreen::LoadingScreen(widget* parent) : widget(parent) {
 	loadingText = std::make_unique<text>(this, "Loading...", "afScreen", vector{ 0, 0 });
 	loadingTextTimer = std::make_unique<timer>();

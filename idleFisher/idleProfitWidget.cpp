@@ -6,6 +6,8 @@
 #include "scrollBox.h"
 #include "Rectangle.h"
 
+#include "debugger.h"
+
 UidleProfitWidget::UidleProfitWidget(widget* parent) : widget(parent) {
 	collectButton = std::make_unique<Ubutton>(this, "widget/button.png", 54, 39, 2, vector{ 0, 0 }, false, false);
 

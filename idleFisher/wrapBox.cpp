@@ -1,5 +1,7 @@
 #include "wrapBox.h"
 
+#include "debugger.h"
+
 UwrapBox::UwrapBox(widget* parent, vector loc, vector size) : widget(parent) {
 	this->loc = loc;
 	ogLoc = loc;

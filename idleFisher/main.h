@@ -17,39 +17,44 @@
 #include "Image.h"
 #include "pet.h"
 
+#include "character.h"
+#include "camera.h"
+
+// widgets
+#include "pauseMenu.h"
+#include "settings.h"
+#include "fishComboWidget.h"
+#include "heldFishWidget.h"
+#include "currencyWidget.h"
+#include "comboWidget.h"
+#include "achievementWidget.h"
+#include "journal.h"
+#include "fishUnlocked.h"
+#include "UIWidget.h"
+#include "idleProfitWidget.h"
+#include "comboOvertimeWidget.h"
+#include "newRecordWidget.h"
+#include "idleProfitWidget.h"
+#include "comboOvertimeWidget.h"
+#include "newRecordWidget.h"
+
+class widget;
+class achievement;
+
 class Texture;
 class Shader;
 class Model;
-class Camera;
-class Acharacter;
 class animation;
 class widget;
 class AautoFisher;
 class IHoverable;
 
-//widgets
-class widget;
-class UpauseMenu;
-class Usettings;
-class UfishComboWidget;
-class UheldFishWidget;
-class UcurrencyWidget;
-class UcomboWidget;
-class UachievementWidget;
-class Ujournal;
-class UfishUnlocked;
-class UUIWidget;
-class UloadingScreen;
-class UpremiumBuffWidget;
-class UidleProfitWidget;
-class UcomboOvertimeWidget;
-class UnewRecordWidget;
-class achievement;
-
 struct Fcollision;
 
 class Main {
 public:
+	~Main();
+
 	int createWindow();
 	static inline GLFWwindow* window;
 	void Start();
@@ -73,31 +78,31 @@ public:
 	static inline Shader* twoDWaterShader;
 
 	// 3d
-	Model* house;
-	Model* characterModel;
-	static inline Camera* camera;
+	std::unique_ptr<Model> house;
+	std::unique_ptr<Model> characterModel;
+	static inline std::unique_ptr<Camera> camera;
 	
 	// 2d
 	static void loadIdleProfits();
 
 	// widgets
 	void setupWidgets();
-	static inline UpauseMenu* pauseMenu;
-	static inline Usettings* settingsWidget;
-	static inline UfishComboWidget* fishComboWidget;
-	static inline UheldFishWidget* heldFishWidget;
-	static inline UcurrencyWidget* currencyWidget;
-	static inline UcomboWidget* comboWidget;
-	static inline UachievementWidget* achievementWidget;
-	static inline Ujournal* journal;
-	static inline UfishUnlocked* fishUnlocked;
-	static inline UUIWidget* UIWidget;
-	static inline UidleProfitWidget* idleProfitWidget;
-	static inline UcomboOvertimeWidget* comboOvertimeWiget;
-	static inline UnewRecordWidget* newRecordWidget;
+	static inline std::unique_ptr<UpauseMenu> pauseMenu;
+	static inline std::unique_ptr<Usettings> settingsWidget;
+	static inline std::unique_ptr<UfishComboWidget> fishComboWidget;
+	static inline std::unique_ptr<UheldFishWidget> heldFishWidget;
+	static inline std::unique_ptr<UcurrencyWidget> currencyWidget;
+	static inline std::unique_ptr<UcomboWidget> comboWidget;
+	static inline std::unique_ptr<UachievementWidget> achievementWidget;
+	static inline std::unique_ptr<Ujournal> journal;
+	static inline std::unique_ptr<UfishUnlocked> fishUnlocked;
+	static inline std::unique_ptr<UUIWidget> UIWidget;
+	static inline std::unique_ptr<UidleProfitWidget> idleProfitWidget;
+	static inline std::unique_ptr<UcomboOvertimeWidget> comboOvertimeWiget;
+	static inline std::unique_ptr<UnewRecordWidget> newRecordWidget;
 
 public:
-	static inline Acharacter* character;
+	static inline std::unique_ptr<Acharacter> character;
 
 	static inline std::unique_ptr<Apet> pet;
 

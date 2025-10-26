@@ -5,6 +5,8 @@
 #include "textureManager.h"
 #include "Image.h"
 
+#include "debugger.h"
+
 npc::npc(vector loc) {
 	instances.push_back(this);
 	this->loc = loc;

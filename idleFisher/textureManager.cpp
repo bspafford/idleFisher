@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "debugger.h"
+
 textureManager::textureManager() {
 	std::ifstream colFile("./data/png_files.txt");
 	if (colFile.is_open()) {
@@ -18,10 +20,13 @@ textureManager::textureManager() {
 	}
 }
 
+void textureManager::Deconstructor() {
+	textureMap.clear();
+}
+
 textureStruct* textureManager::loadTexture(std::string path, bool loadSurface) {
 	int w, h, nChannels;
 	unsigned char* bytes = stbi_load(path.c_str(), &w, &h, &nChannels, NULL);
-
 	std::unique_ptr<textureStruct> texStruct = std::make_unique<textureStruct>(bytes, loadSurface, w, h, nChannels);
 
 	textureMap[path] = std::move(texStruct);

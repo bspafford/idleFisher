@@ -1,6 +1,8 @@
 #include"Texture.h"
 #include "main.h"
 
+#include "debugger.h"
+
 Texture::Texture(const char* image) {
 	if (usedSlots.size() == 0) {
 		GLint maxCombined;

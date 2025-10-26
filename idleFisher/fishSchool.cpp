@@ -3,6 +3,8 @@
 #include "timer.h"
 #include "worlds.h"
 
+#include "debugger.h"
+
 AfishSchool::AfishSchool(vector loc) {
 	this->loc = loc;
 
