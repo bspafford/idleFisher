@@ -103,38 +103,23 @@ void Scene::finishedLoading() {
 	GLuint err;
 	for (int i = 0; i < gpuImages.size(); i++) {
 		gpuImages[i]->loadGPU();
-		while ((err = glGetError()) != GL_NO_ERROR) {
-			std::cout << "OpenGL Error: " << err << std::endl;
-		}
 	}
 	for (int i = 0; i < gpuAnimations.size(); i++) {
 		gpuAnimations[i]->setQueuedAnim();
 		gpuAnimations[i]->playQueuedStart();
 	}
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "OpenGL Error: " << err << std::endl;
-	}
 	for (int i = 0; i < gpuText.size(); i++) {
 		gpuText[i]->makeTextTexture();
 		gpuText[i]->updatePositionsList();
-	}
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "OpenGL Error: " << err << std::endl;
 	}
 	for (int i = 0; i < gpuRect.size(); i++) {
 		gpuRect[i]->loadGPU();
 		gpuRect[i]->updatePositionsList();
 	}
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "OpenGL Error: " << err << std::endl;
-	}
 	if (world::currWorld)
 		world::currWorld->start();
 	if (titleScreen::currTitleScreen)
 		titleScreen::currTitleScreen->start();
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "OpenGL Error: " << err << std::endl;
-	}
 }
 
 int Scene::getWorldIndexFromName(std::string worldName) {
@@ -172,7 +157,7 @@ void Scene::deferredChangeWorld() {
 	hasFinishedLoading = false;
 	loadingDone = false;
 
-	//timer::clearInstanceList();
+	timer::clearInstanceList();
 	//openLevelThread(worldName, worldChangeLoc, overrideIfInWorld);
 	std::thread loader(&Scene::openLevelThread, worldName, worldChangeLoc, overrideIfInWorld);
 	loader.detach();

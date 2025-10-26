@@ -12,8 +12,6 @@ timer::timer() {
 }
 
 timer::~timer() {
-	//if (Main::running)
-		//toDelete.push_back(this);
 	auto it = std::find(instances.begin(), instances.end(), this);
 	if (it != instances.end())
 		instances.erase(it);
@@ -24,26 +22,13 @@ void timer::callUpdate(float deltaTime) {
 	for (int i = 0; i < instances.size(); i++) {
 		instances[i]->Update(deltaTime);
 	}
-
-	/*
-	for (int i = 0; i < instances.size(); i++) {
-		timer* t = instances[i];
-		if (findElementIdx(toDelete, t) == -1) // not in toDelete list
-			t->Update(deltaTime);
-	}
-
-	for (int i = 0; i < toDelete.size(); i++) {
-		int idx = findElementIdx(instances, toDelete[i]);
-		if (idx != -1)
-			instances.erase(instances.begin() + idx);
-	}
-	toDelete.clear();
-	*/
 }
 
 void timer::clearInstanceList() {
+	// keeps character timer because character doesn't repopulate on world change
+	timer* keep = Main::character->anim->animTimer.get();
 	instances.clear();
-	//toDelete.clear();
+	instances.push_back(keep);
 }
 
 int timer::findElementIdx(std::vector<timer*>& list, timer* item) {
