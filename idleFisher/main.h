@@ -22,7 +22,6 @@
 
 // widgets
 #include "pauseMenu.h"
-#include "settings.h"
 #include "fishComboWidget.h"
 #include "heldFishWidget.h"
 #include "currencyWidget.h"
@@ -88,7 +87,6 @@ public:
 	// widgets
 	void setupWidgets();
 	static inline std::unique_ptr<UpauseMenu> pauseMenu;
-	static inline std::unique_ptr<Usettings> settingsWidget;
 	static inline std::unique_ptr<UfishComboWidget> fishComboWidget;
 	static inline std::unique_ptr<UheldFishWidget> heldFishWidget;
 	static inline std::unique_ptr<UcurrencyWidget> currencyWidget;

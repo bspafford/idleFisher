@@ -15,9 +15,12 @@ public:
 	void setSize(vector size) override;
 	void setSliderTitle(std::string title); // gives a title on the left size of the progress bar
 	void bindValue(float* value);
+
+	bool mouseOver() override;
+
 private:
 	std::unique_ptr<text> sliderTitle;
-	std::unique_ptr<text> sliderValueText; // text to right of slider 0-100
+	std::unique_ptr<text> sliderValueText; // text to right of slider
 
 	bool useCharLoc;
 	float* value;
@@ -29,4 +32,5 @@ private:
 
 
 	bool sliding = false;
+	float defaultVal;
 };

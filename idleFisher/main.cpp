@@ -367,7 +367,6 @@ void Main::updateShaders(float deltaTime) {
 
 void Main::setupWidgets() {
 	pauseMenu = std::make_unique<UpauseMenu>(nullptr);
-	settingsWidget = std::make_unique<Usettings>(nullptr);
 
 	fishComboWidget = std::make_unique<UfishComboWidget>(nullptr);
 

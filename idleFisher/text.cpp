@@ -14,7 +14,6 @@
 text::text(widget* parent, std::string text, std::string font, vector loc, bool useWorldPos, bool isometric, int alignment) : widget(parent) {
 	instances.push_back(this);
 
-	this->textString = text;
 	this->alignment = alignment;
 	this->font = font;
 	this->loc = loc.round();
@@ -199,6 +198,9 @@ void text::makeText(int i, std::string text, vector &offset) {
 }
 
 void text::setText(std::string text) {
+	if (text == textString)
+		return;
+
 	// converts \\n to \n
 	size_t pos = 0;
 	while ((pos = text.find("\\n", pos)) != std::string::npos) {
@@ -326,7 +328,6 @@ void text::makeTextTexture() {
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		std::cerr << "FBO is incomplete!" << std::endl;
 	}
-
 
 	// Renders to the FBO
 	for (int i = 0; i < letters.size(); i++)

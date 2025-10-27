@@ -6,6 +6,7 @@
 #include "button.h"
 #include "text.h"
 #include "verticalBox.h"
+#include "settings.h"
 
 #include "debugger.h"
 
@@ -18,6 +19,8 @@ UpauseMenu::UpauseMenu(widget* parent) : widget(parent) {
 	exitToMenuButton = std::make_unique<Ubutton>(this, "widget/pauseMenu/exitToMenu.png", 91, 19, 1, vector{ 0, 0 }, false, false);
 	exitToDesktopButton = std::make_unique<Ubutton>(this, "widget/pauseMenu/exitGame.png", 72, 19, 1, vector{ 0, 0 }, false, false);
 	
+	settingsWidget = std::make_unique<Usettings>(nullptr);
+
 	vertBox = std::make_unique<verticalBox>(this);
 	if (vertBox) {
 		float padding = 10 * stuff::pixelSize;
@@ -69,8 +72,7 @@ void UpauseMenu::saveGame() {
 }
 
 void UpauseMenu::settings() {
-	Main::settingsWidget->addToViewport(true);
-	Main::settingsWidget->setParent(this);
+	settingsWidget->addToViewport(true);
 }
 
 void UpauseMenu::exitToMenu() {

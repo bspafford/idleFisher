@@ -12,6 +12,8 @@ public:
 	static bool getMouseOverWater();
 	static void setMouseOverWater(bool overWater);
 
+	static void toggleCursor();
+
 private:
 	static inline GLFWcursor* cursor;
 	static inline std::string currCursor;

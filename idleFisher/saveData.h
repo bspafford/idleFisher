@@ -510,6 +510,7 @@ struct FsettingsData {
     bool shortNumbers = true;
     bool showPets = true;
     bool showRain = true;
+    bool cursor = true;
 };
 
 class SaveData {

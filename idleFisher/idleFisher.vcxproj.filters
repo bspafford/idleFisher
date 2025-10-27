@@ -416,6 +416,9 @@
     <ClCompile Include="loadingScreen.cpp">
       <Filter>Source Files\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="settingsBlock.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h">
@@ -765,6 +768,9 @@
     </ClInclude>
     <ClInclude Include="debugger.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settingsBlock.h">
+      <Filter>Header Files\widgets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

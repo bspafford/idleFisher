@@ -2,11 +2,11 @@
 
 #include "widget.h"
 
+struct Image;
 class Ubutton;
 class text;
 class verticalBox;
-struct Image;
-
+class Usettings;
 
 class UpauseMenu : public widget {
 public:
@@ -29,4 +29,6 @@ private:
 	std::unique_ptr<Ubutton> exitToMenuButton;
 	std::unique_ptr<Ubutton> exitToDesktopButton;
 	std::unique_ptr<verticalBox> vertBox;
+
+	std::unique_ptr<Usettings> settingsWidget;
 };

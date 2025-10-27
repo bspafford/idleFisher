@@ -14,7 +14,6 @@ class animation;
 
 class Ubutton : public widget, public IHoverable {
 public:
-	// only give NON NULL values to overriding widgets ONLY
 	Ubutton(widget* parent, std::string spriteSheetPath, int cellWidth, int cellHeight, int numberOfFrames, vector loc, bool useWorldLoc, bool useAlpha);
 	~Ubutton();
 
@@ -26,8 +25,6 @@ public:
 	// static
 	void addCallback(void (*callback) ());
 
-	// void setClickAnim(std::vector <std::string> anim, std::vector<std::string> hoverAnim = std::vector<std::string>(0));
-	// void removeClickAnim();
 	void draw(Shader* shaderProgram);
 
 	void onHover(Shader* shaderProgram);
@@ -36,14 +33,11 @@ public:
 
 	void setLoc(vector loc) override;
 
-	//void setImg(std::string path, std::string hoverPath = "");
-
 	vector getSize();
 	vector getLoc();
 
 	void enable(bool enabled);
 
-	//void setColorMod(int r, int g, int b);
 	std::weak_ptr<Image> getButtonImg();
 
 	// parent

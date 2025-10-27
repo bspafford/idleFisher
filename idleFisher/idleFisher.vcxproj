@@ -278,6 +278,7 @@
     <ClCompile Include="scrollBox.cpp" />
     <ClCompile Include="scuba.cpp" />
     <ClCompile Include="settings.cpp" />
+    <ClCompile Include="settingsBlock.cpp" />
     <ClCompile Include="shaderClass.cpp" />
     <ClCompile Include="shake.cpp" />
     <ClCompile Include="ship.cpp" />
@@ -391,6 +392,7 @@
     <ClInclude Include="scrollBox.h" />
     <ClInclude Include="scuba.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="settingsBlock.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="shake.h" />
     <ClInclude Include="ship.h" />

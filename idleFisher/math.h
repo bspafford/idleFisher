@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include <glm/glm.hpp>
+#include <algorithm>
 #include "vector.h"
 
 class Image;

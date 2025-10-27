@@ -55,3 +55,7 @@ bool Cursor::getMouseOverWater() {
 void Cursor::setMouseOverWater(bool overWater) {
 	mouseOverWater = overWater;
 }
+
+void Cursor::toggleCursor() {
+
+}

@@ -7,6 +7,7 @@ class UscrollBox;
 class Ubutton;
 class Uslider;
 class horizontalBox;
+class UsettingsBlock;
 
 class Usettings : public widget {
 public:
@@ -17,13 +18,6 @@ public:
 private:
 	void goBack();
 	void cancel();
-
-	// setting buttons
-	void setupText();
-	void togglePixelText();
-	void toggleShortNumbers();
-	void togglePets();
-	void toggleRain();
 
 	std::unique_ptr<Image> background;
 	std::unique_ptr<Ubutton> backButton;
@@ -46,20 +40,9 @@ private:
 
 	// graphics
 	std::unique_ptr<text> graphicsTitle;
-	// pixel font
-	std::unique_ptr<horizontalBox> pixelFontHorizBox;
-	std::unique_ptr<text> pixelFontText;
-	std::unique_ptr<Ubutton> pixelFontButton;
-	// short numbers
-	std::unique_ptr<horizontalBox> shortNumHorizBox;
-	std::unique_ptr<text> shortNumbersText;
-	std::unique_ptr<Ubutton> shortNumbersButton;
-	// show pets
-	std::unique_ptr<horizontalBox> petHorizBox;
-	std::unique_ptr<text> petText;
-	std::unique_ptr<Ubutton> petButton;
-	// show rain
-	std::unique_ptr<horizontalBox> rainHorizBox;
-	std::unique_ptr<text> rainText;
-	std::unique_ptr<Ubutton> rainButton;
+	std::unique_ptr<UsettingsBlock> pixelFontBlock;
+	std::unique_ptr<UsettingsBlock> shortNumBlock;
+	std::unique_ptr<UsettingsBlock> petBlock;
+	std::unique_ptr<UsettingsBlock> rainBlock;
+	std::unique_ptr<UsettingsBlock> cursorBlock;
 };

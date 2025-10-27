@@ -25,12 +25,9 @@ void UscrollBox::draw(Shader* shaderProgram) {
 		}
 	}
 
-	vector scrollLoc = ogLoc;
 	glEnable(GL_SCISSOR_TEST);
-	//glScissor(scrollLoc.x, stuff::screenSize.y - pixelSize.y + scrollLoc.y, pixelSize.x, pixelSize.y);
-	glScissor(scrollLoc.x, stuff::screenSize.y - size.y - scrollLoc.y, size.x, size.y);
+	glScissor(ogLoc.x, stuff::screenSize.y - size.y - ogLoc.y, size.x, size.y);
 
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	__super::draw(shaderProgram);
 
 	glDisable(GL_SCISSOR_TEST);

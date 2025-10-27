@@ -100,7 +100,6 @@ void Scene::openLevelThread(std::string worldName, int worldChangeLoc, bool over
 }
 
 void Scene::finishedLoading() {
-	GLuint err;
 	for (int i = 0; i < gpuImages.size(); i++) {
 		gpuImages[i]->loadGPU();
 	}
