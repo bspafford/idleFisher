@@ -47,7 +47,7 @@ void UscrollBox::scrolling() {
 	float yOffset = 0;
 	for (vertChildComp comp : childList) {
 		if (comp.child)
-			comp.child->setLocAndSize({ ogLoc.x, ogLoc.y + loc.y + yOffset}, comp.child->size);
+			comp.child->setLoc(ogLoc + vector{ 0, loc.y + yOffset });
 		yOffset += comp.widgetHeight;
 	}
 }
@@ -95,7 +95,7 @@ void UscrollBox::setLocAndSize(vector loc, vector size) {
 	for (vertChildComp comp : childList) {
 		// need to update position depending on index in horizontal box
 		if (comp.child)
-			comp.child->setLocAndSize({ ogLoc.x, ogLoc.y + yOffset }, { size.x, comp.widgetHeight });
+			comp.child->setLocAndSize({ ogLoc.x, ogLoc.y + yOffset }, { comp.child->getSize().x, comp.widgetHeight});
 		yOffset += comp.widgetHeight;
 	}
 
