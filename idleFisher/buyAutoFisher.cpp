@@ -150,16 +150,13 @@ void buyAutoFisher::setupCollision() {
 
 	if (!collision) {
 		collision = std::make_unique<Fcollision>(points, " ");
-		collision::allCollision.push_back(collision.get());
+		collision::addCollisionObject(collision.get());
 	} else {
 		// find collision in list, then replace it
 		// reseting it this way cause i need the min and max values to update along with the points
-		auto it = std::find(collision::allCollision.begin(), collision::allCollision.end(), collision.get());
-		if (it != collision::allCollision.end()) {
-			int index = it - collision::allCollision.begin();
-			collision = std::make_unique<Fcollision>(points, " ");
-			collision::allCollision[index] = collision.get();
-		}
+		std::unique_ptr<Fcollision> newCol = std::make_unique<Fcollision>(points, " ");
+		collision::replaceCollisionObject(collision.get(), newCol.get());
+		collision = std::move(newCol);
 	}
 }
 

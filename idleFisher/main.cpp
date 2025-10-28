@@ -1,4 +1,5 @@
 #include "main.h"
+#include "resource.h"
 
 #include "Image.h"
 #include "model.h"
@@ -43,6 +44,13 @@
 #include "idleProfitWidget.h"
 #include "comboOvertimeWidget.h"
 #include "newRecordWidget.h"
+
+// includes Windows.h if on windows
+#ifdef _WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#include <Windows.h>
+#endif
 
 #include "debugger.h"
 
@@ -114,10 +122,12 @@ int Main::createWindow() {
 	// Introduce the window into the current context
 	glfwMakeContextCurrent(window);
 
-	GLFWimage iconImgs[1];
-	iconImgs[0].pixels = stbi_load("./images/icon.png", &iconImgs[0].width, &iconImgs[0].height, 0, 4);
-	glfwSetWindowIcon(window, 1, iconImgs);
-	stbi_image_free(iconImgs[0].pixels);
+	GLFWimage iconImgs;
+	iconImgs.pixels = stbi_load("./images/icon.png", &iconImgs.width, &iconImgs.height, 0, 4);
+	glfwSetWindowIcon(window, 1, &iconImgs);
+	stbi_image_free(iconImgs.pixels);
+
+	setTaskbarIcon(window);
 
 	//Load GLAD so it configures OpenGL
 	if (!gladLoadGL(glfwGetProcAddress)) {
@@ -316,7 +326,7 @@ void Main::Start() {
 }
 
 void Main::Update(float deltaTime) {
-	timer::callUpdate(deltaTime);
+		timer::callUpdate(deltaTime);
 
 	character->Update(deltaTime);
 	camera->Update(window, deltaTime);
@@ -534,4 +544,13 @@ void Main::loadIdleProfits() {
 		world::currWorld->fishTransporter->calcIdleProfits(timeDiff);
 	if (world::currWorld && world::currWorld->atm)
 		world::currWorld->atm->calcIdleProfits(timeDiff);
+}
+
+void Main::setTaskbarIcon(GLFWwindow* window) {
+#ifdef _WIN32
+	HWND hwnd = glfwGetWin32Window(window);
+	HICON hIconBig = (HICON)LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+	if (hIconBig)
+		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIconBig);
+#endif
 }

@@ -265,7 +265,7 @@ void AautoFisher::setupCollision() {
 		points[i] = { collisionPoints[i].x + loc.x, collisionPoints[i].y + loc.y };
 
 	col = std::make_unique<Fcollision>(points, " ");
-	collision::allCollision.push_back(col.get());
+	collision::addCollisionObject(col.get());
 }
 
 void AautoFisher::calcIfPlayerInfront() {

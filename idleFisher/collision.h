@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <mutex>
 
 #include "math.h"
 
@@ -70,6 +71,12 @@ public:
 	static bool testMouse(vector mousePos);
 	static bool pointInQuad(vector mousePos, Fcollision* col);
 	static bool pointInTriangle(const vector& pt, const vector& a, const vector& b, const vector& c);
+
+	static std::vector<Fcollision*>& getCollisionList();
+	static void addCollisionObject(Fcollision* col);
+	static void replaceCollisionObject(Fcollision* oldCol, Fcollision* newCol);
+private:
+	static inline std::mutex mutex;
 
 	static inline std::vector<Fcollision*> allCollision;
 	// holds unique_ptr for allCollision

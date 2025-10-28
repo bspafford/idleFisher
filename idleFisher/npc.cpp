@@ -66,7 +66,7 @@ void npc::setupCollision() {
 	float radius = 7;
 
 	col = std::make_unique<Fcollision>(offset, radius, "");
-	collision::allCollision.push_back(col.get());
+	collision::addCollisionObject(col.get());
 }
 
 void npc::draw(Shader* shaderProgram) {

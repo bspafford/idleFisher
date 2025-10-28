@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <functional>
+#include <mutex>
 
 class timer {
 public:
@@ -49,6 +50,8 @@ public:
 	}
 
 private:
+	static inline std::mutex mutex;
+
 	// keeps track of all instances to call update function on
 	static inline std::vector<timer*> instances;
 

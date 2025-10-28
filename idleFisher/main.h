@@ -62,6 +62,7 @@ public:
 	void draw3D(Shader* shaderProgram);
 	void draw(Shader* shaderProgram);
 	static void drawWidgets(Shader* shaderProgram);
+	void setTaskbarIcon(GLFWwindow* window);
 
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 	static void checkInputs();

@@ -39,11 +39,12 @@ void AStar::init() {
 			std::unique_ptr<Fcollision> col = std::make_unique<Fcollision>(nodeList, "");
 
 			bool walkable = true;
-			for (int i = 0; i < collision::allCollision.size(); i++) {
-				if (collision::isCloseEnough(col.get(), collision::allCollision[i])) {
+			std::vector<Fcollision*> collisionList = collision::getCollisionList();
+			for (int i = 0; i < collisionList.size(); i++) {
+				if (collision::isCloseEnough(col.get(), collisionList[i])) {
 					vector normal;
 					float depth;
-					if (collision::intersectPolygons(nodeList, collision::allCollision[i]->points, normal, depth)) {
+					if (collision::intersectPolygons(nodeList, collisionList[i]->points, normal, depth)) {
 						walkable = false;
 					}
 				}

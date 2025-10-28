@@ -52,6 +52,8 @@ Fcollision::Fcollision(vector center, float radius, std::string identifier) {
 }
 
 void collision::getCollisionObjects() {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	// clears all collision
 	collisionStorage.clear();
 	allCollision.clear();
@@ -121,13 +123,28 @@ void collision::getCollisionObjects() {
 }
 
 void collision::removeCollisionObject(Fcollision* collision) {
+	std::lock_guard<std::mutex> lock(mutex);
+
+	if (!Main::running)
+		return;
+
 	auto it = std::find(allCollision.begin(), allCollision.end(), collision);
 	if (it != allCollision.end()) {
 		allCollision.erase(it);
 	}
+
+	// remove it from collisionStorage too
+	collisionStorage.erase(
+		std::remove_if(collisionStorage.begin(), collisionStorage.end(),
+			[collision](auto& col) { return col.get() == collision; }
+		),
+		collisionStorage.end()
+	);
 }
 
 bool collision::mouseOverWater(vector mousePos, std::vector<Fcollision*> allCollision) {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	mousePos = math::screenToWorld(mousePos);
 
 	// mousePos
@@ -369,6 +386,8 @@ std::string collision::getIdentifier(std::string str) {
 }
 
 void collision::showCollisionBoxes(Shader* shaderProgram) {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	glUniform1i(glGetUniformLocation(shaderProgram->ID, "useWorldPos"), 1);
 	shaderProgram->setInt("isRectangle", true);
 
@@ -528,6 +547,8 @@ void collision::showCollisionBoxes(Shader* shaderProgram) {
 
 
 void collision::testCollisions(Fcollision* playerCol, std::vector<Fcollision*> allCollision) {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	temp.clear();
 
 	// mousePos
@@ -558,6 +579,8 @@ void collision::testCollisions(Fcollision* playerCol, std::vector<Fcollision*> a
 
 // tests if player is colliding and pushes them back
 void collision::testPlayerCollision(Fcollision* playerCol, std::vector<Fcollision*> allCollision) {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	temp.clear();
 	if (!Main::character->getCanMove())
 		return;
@@ -651,6 +674,8 @@ bool collision::sweepPointVsCircle(vector p0, vector v, vector center, float rad
 }
 
 bool collision::testCCD(Fcollision* playerCol, vector move, float deltaTime) {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	temp.clear();
 
 	const int maxIterations = 2;
@@ -770,6 +795,8 @@ bool collision::circleVsCircle(Fcollision* playerCol, vector v, Fcollision* circ
 }
 
 bool collision::testMouse(vector mousePos) {
+	std::lock_guard<std::mutex> lock(mutex);
+
 	vector worldPos = math::screenToWorld(mousePos);
 	Cursor::setMouseOverWater(false);
 
@@ -809,4 +836,32 @@ bool collision::pointInTriangle(const vector& pt, const vector& a, const vector&
 	bool has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
 
 	return !(has_neg && has_pos);
+}
+
+std::vector<Fcollision*>& collision::getCollisionList() {
+	std::lock_guard<std::mutex> lock(mutex);
+	return allCollision;
+}
+
+void collision::addCollisionObject(Fcollision* col) {
+	std::lock_guard<std::mutex> lock(mutex);
+	allCollision.push_back(col);
+}
+
+void collision::replaceCollisionObject(Fcollision* oldCol, Fcollision* newCol) {
+	std::lock_guard<std::mutex> lock(mutex);
+
+	auto it = std::find(allCollision.begin(), allCollision.end(), oldCol);
+	if (it != allCollision.end()) {
+		int index = it - allCollision.begin();
+		allCollision[index] = newCol;
+	}
+
+	// also remove from collision storage
+	collisionStorage.erase(
+		std::remove_if(collisionStorage.begin(), collisionStorage.end(),
+			[oldCol](auto& col) { return col.get() == oldCol; }
+		),
+		collisionStorage.end()
+	);
 }
