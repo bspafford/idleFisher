@@ -27,6 +27,8 @@ public:
 	void draw(Shader* shaderProgram);
 	// void setAlignment(std::string alignment);
 	void makeText(int i, std::string text, vector &offset);
+	// includeDanglingCharSizes is whether it should count the size of g, y, j, etc
+	// this is required for things like fbo sizing
 	vector getSize();
 	std::string getString();
 	void loadTextImg();
@@ -54,6 +56,8 @@ public:
 
 	void makeTextTexture();
 private:
+	vector getFBOSize();
+
 	static inline std::vector<text*> instances;
 
 	std::string textString;

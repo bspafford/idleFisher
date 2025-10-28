@@ -18,7 +18,7 @@ Uslider::Uslider(widget* parent, bool useCharLoc, vector size, float minVal, flo
 
 	background = std::make_unique<URectangle>(vector{ 0, 0 }, this->size, useCharLoc, glm::vec4(0, 0, 0, 1));
 	foreground = std::make_unique<URectangle>(vector{ 0, 0 }, this->size, useCharLoc);
-	handle = std::make_unique<URectangle>(vector{ 0, 0 }, vector{ 5, 5 } * stuff::pixelSize, useCharLoc, glm::vec4(0, 0, 1, 1));
+	handle = std::make_unique<Image>("./images/widget/sliderHandle.png", vector{ 0, 0 }, false);
 }
 
 Uslider::~Uslider() {
@@ -31,25 +31,34 @@ void Uslider::draw(Shader* shaderProgram) {
 
 	sliderTitle->draw(shaderProgram);
 	background->draw(shaderProgram);
-	foreground->draw(shaderProgram);
 
 	// clamp to edges
-	vector halfHandleSize = handle->getSize() / 2.f;
+	vector handleHalfSize = handle->getSize() / 2.f;
 	vector backgroundLoc = background->getLoc();
 	vector backgroundSize = background->getSize();
-	float min = backgroundLoc.x - halfHandleSize.x;
-	float max = backgroundLoc.x + backgroundSize.x - halfHandleSize.x;
+	float min = backgroundLoc.x - handleHalfSize.x;
+	float max = backgroundLoc.x + backgroundSize.x - handleHalfSize.x;
 
-	if (Input::getMouseButtonDown(GLFW_MOUSE_BUTTON_1) && mouseOver())
-		sliding = true;
-	else if (Input::getMouseButtonUp(GLFW_MOUSE_BUTTON_1))
+	if (mouseOver()) {
+		IHoverable::setHoveredItem(this);
+		if (Input::getMouseButtonDown(GLFW_MOUSE_BUTTON_1))
+			sliding = true;
+	}
+	if (Input::getMouseButtonUp(GLFW_MOUSE_BUTTON_1))
 		sliding = false;
 
-	if (sliding && Input::getMouseButtonHeld(GLFW_MOUSE_BUTTON_1))
-		handle->setLoc({ math::clamp(Input::getMousePos().x, min, max), backgroundLoc.y + backgroundSize.y / 2.f - halfHandleSize.y});
+	if (sliding && Input::getMouseButtonHeld(GLFW_MOUSE_BUTTON_1)) {
+		setMouseHoverIcon("cursor3");
+		handle->setLoc({ math::clamp(Input::getMousePos().x - handleHalfSize.x, min, max), backgroundLoc.y + backgroundSize.y / 2.f - handleHalfSize.y });
+		float foregroundLength = handle->getLoc().x - backgroundLoc.x + handleHalfSize.x;
+		foreground->setSize({ foregroundLength, foreground->getSize().y});
+	} else
+		setMouseHoverIcon("cursor2");
+
+	foreground->draw(shaderProgram);
 	handle->draw(shaderProgram);
 
-	float percent = (handle->getLoc().x + halfHandleSize.x - backgroundLoc.x) / backgroundSize.x;
+	float percent = (handle->getLoc().x + handleHalfSize.x - backgroundLoc.x) / backgroundSize.x;
 	*value = (maxVal - minVal) * percent + minVal;
 
 	sliderValueText->setText(std::to_string(int(*value)));
@@ -70,13 +79,20 @@ void Uslider::setLoc(vector loc) {
 	__super::setLoc(loc);
 	sliderTitle->setLoc(loc);
 
-	vector sliderSize = sliderTitle->getSize();
-	background->setLoc(loc + vector{sliderSize.x, sliderSize.y / 2.f - background->getSize().y / 2.f});
+	float valueSize = 16 * stuff::pixelSize;
+	float remainingSize = size.x - (titleLength > 0 ? titleLength : sliderTitle->getSize().x + valueSize);
+
+	vector titleSize = titleLength > 0 ? vector{ titleLength, sliderTitle->getSize().y } : sliderTitle->getSize();
+	background->setSize({ remainingSize, background->getSize().y });
+	foreground->setSize(background->getSize());
+	background->setLoc(loc + vector{ titleSize.x, titleSize.y / 2.f - background->getSize().y / 2.f}.round());
 	foreground->setLoc(background->getLoc());
 
 	float percent = math::clamp((*value - minVal) / (maxVal - minVal), 0, 1);
-	vector halfHandleSize = handle->getSize() / 2.f;
-	handle->setLoc({ background->getLoc().x + background->getSize().x * percent - halfHandleSize.x, background->getLoc().y + (background->getSize().y - handle->getSize().y) / 2.f});
+	vector handleHalfSize = handle->getSize() / 2.f;
+	handle->setLoc({ background->getLoc().x + background->getSize().x * percent - handleHalfSize.x, background->getLoc().y + (background->getSize().y - handle->getSize().y) / 2.f});
+	float foregroundLength = handle->getLoc().x - background->getLoc().x + handleHalfSize.x;
+	foreground->setSize({ foregroundLength, foreground->getSize().y });
 }
 
 void Uslider::setSize(vector size) {
@@ -96,9 +112,18 @@ bool Uslider::mouseOver() {
 	vector mousePos = Input::getMousePos();
 
 	vector handleSize = handle->getSize();
-	vector loc = vector{ background->getLoc().x - handleSize.x / 2.f, getLoc().y };
-	vector size = vector{ background->getSize().x + handleSize.x, handleSize.y };
+	// gets which ever size is bigger
+	float vertSize = math::max(background->getSize().y, handleSize.y);
+
+	vector loc = vector{ background->getLoc().x - handleSize.x / 2.f, background->getLoc().y + (background->getSize().y - vertSize) / 2.f };
+	vector size = vector{ background->getSize().x + handleSize.x, vertSize };
 	if (mousePos.x >= loc.x && mousePos.x <= loc.x + size.x && mousePos.y >= loc.y && mousePos.y <= loc.y + size.y)
 		return true;
 	return false;
+}
+
+void Uslider::setTitleLength(float titleLength) {
+	this->titleLength = titleLength;
+	// update positions
+	setLoc(loc);
 }

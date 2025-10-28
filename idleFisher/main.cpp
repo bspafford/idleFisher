@@ -294,6 +294,7 @@ void Main::Start() {
 	sounds::sounds();
 	csvReader();
 	SaveData::load();
+	SaveData::loadSettings();
 	upgrades::init();
 	achievementBuffs::init();
 	setupWidgets();

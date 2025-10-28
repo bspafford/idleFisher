@@ -87,9 +87,6 @@ void SaveData::load() {
 void SaveData::getLoadInfo() {
 	if (saveData.currWorld == "")
 		saveData.currWorld = "world1";
-
-	//Main::currWorld = saveData.currWorld;
-	//Main::prevWorld = saveData.prevWorld;
 }
 
 template <typename T1, typename T2> static void recalcList(std::vector<T1>& data, std::vector<T2>& saveData) {
@@ -138,8 +135,6 @@ void SaveData::recalcLists() {
 }
 
 void SaveData::saveSettings() {
-	std::cout << "saving settings" << std::endl;
-
 	const auto filename = "./data/saves/settings.save";
 
 	// Serialize to file
@@ -147,7 +142,7 @@ void SaveData::saveSettings() {
 	os.open(filename, std::ios::out | std::ios::binary);
 
 	std::vector<uint8_t> bytes;
-	//alpaca::serialize(settingsData, bytes);
+	alpaca::serialize(settingsData, bytes);
 
 	// byte to string
 	std::string text;

@@ -121,7 +121,11 @@ vector URectangle::getLoc() {
 }
 
 void URectangle::setSize(vector size) {
+	if (this->size == size)
+		return;
+
 	this->size = size;
+	updatePositionsList();
 }
 
 vector URectangle::getSize() {
@@ -157,6 +161,11 @@ void URectangle::updatePositionsList() {
 		scaledLoc.x, size.y + scaledLoc.y,
 		scaledLoc.x, scaledLoc.y
 	};
+
+	// round positions list
+	for (int i = 0; i < 8; i++) {
+		positions[i] = floorf(positions[i]);
+	}
 
 	// updates the tex coords
 	void* ptr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);

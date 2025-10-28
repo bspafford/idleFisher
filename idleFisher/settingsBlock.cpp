@@ -4,9 +4,9 @@
 
 #include "debugger.h"
 
-UsettingsBlock::UsettingsBlock(widget* parent, std::string optionsName, int length, std::vector<std::string> options, bool& settingsValue) : widget(parent) {
+UsettingsBlock::UsettingsBlock(widget* parent, std::string optionsName, int length, std::vector<std::string> options, bool* settingsValue) : widget(parent) {
 	this->options = options;
-	this->settingsValue = &settingsValue;
+	this->settingsValue = settingsValue;
 	currOptionsIdx = *this->settingsValue;
 
 	setSize({ float(length), 20 * stuff::pixelSize });
@@ -32,9 +32,9 @@ void UsettingsBlock::addCallback(void (*callback) ()) {
 void UsettingsBlock::setLoc(vector loc) {
 	__super::setLoc(loc);
 
-	optionsTitle->setLoc({loc.x + 10 * stuff::pixelSize, loc.y + size.y / 2});
-	optionsButton->setLoc({loc.x + size.x - optionsButton->getSize().x, loc.y + size.y / 2});
-	selectedOptionText->setLoc(optionsButton->getLoc() + optionsButton->getSize() / 2.f + vector{ 0, -selectedOptionText->getSize().y / 2.f });
+	optionsTitle->setLoc({loc.x + 10.f * stuff::pixelSize, loc.y + size.y / 2.f });
+	optionsButton->setLoc({loc.x + size.x - optionsButton->getSize().x, loc.y + size.y / 2.f });
+	selectedOptionText->setLoc(optionsButton->getLoc() + optionsButton->getSize() / 2.f);
 }
 
 void UsettingsBlock::toggleOption() {
@@ -42,7 +42,8 @@ void UsettingsBlock::toggleOption() {
 	if (currOptionsIdx >= options.size())
 		currOptionsIdx = 0;
 	selectedOptionText->setText(options[currOptionsIdx]);
-
+	*settingsValue = currOptionsIdx;
+	
 	if (callback_)
 		callback_();
 }

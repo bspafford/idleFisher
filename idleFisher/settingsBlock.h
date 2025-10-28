@@ -7,7 +7,7 @@ class Ubutton;
 
 class UsettingsBlock : public widget {
 public:
-	UsettingsBlock(widget* parent, std::string optionsName, int length, std::vector<std::string> options, bool &settingsValue);
+	UsettingsBlock(widget* parent, std::string optionsName, int length, std::vector<std::string> options, bool* settingsValue);
 
 	void draw(Shader* shaderProgram) override;
 

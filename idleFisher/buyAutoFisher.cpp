@@ -124,7 +124,7 @@ void buyAutoFisher::updateLoc() {
 
 	if (plusAnim) {
 		plusAnim->setLoc({ SaveData::data.autoFisherData[int(world::currWorld->autoFisherList.size())].xLoc + 4, SaveData::data.autoFisherData[int(world::currWorld->autoFisherList.size())].yLoc + 2 });
-		priceText->setLoc(plusAnim->getLoc() + vector{ 0, plusAnim->cellHeight - 3.f * stuff::pixelSize });
+		priceText->setLoc(plusAnim->getLoc() + vector{ 0, plusAnim->cellHeight - 6.f * stuff::pixelSize });
 	}
 
 

@@ -39,10 +39,10 @@ autoFisherUI::autoFisherUI(widget* parent, AautoFisher* autoFisherRef, vector lo
 	// level
 	level = std::make_unique<Image>("./images/autoFisher/UI/level1.png", UILoc, true);
 
-	levelText = std::make_unique<text>(this, std::to_string(*autoFisher->level), "tall", UILoc + vector{31, 66}, true, true, textAlign::right);
+	levelText = std::make_unique<text>(this, std::to_string(*autoFisher->level), "tall", UILoc + vector{ 31, 64 }, true, true, textAlign::right);
 	maxText = std::make_unique<text>(this, " ", "tall", UILoc + vector{31, 66}, true, true);
 	maxText->setTextColor(124, 127, 85);
-	buttonTextLoc = UILoc + vector{ 34, 23 };
+	buttonTextLoc = UILoc + vector{ 34, 20 };
 	buttonText = std::make_unique<text>(this, shortNumbers::convert2Short(autoFisher->getUpgradeCost()[1]), "normal", buttonTextLoc, true, true, textAlign::right);
 
 	std::string levelBarPath = "./images/autoFisher/UI/level";

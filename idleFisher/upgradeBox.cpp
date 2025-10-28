@@ -209,29 +209,29 @@ void UupgradeBox::setupLocs() {
 
 	if (buyButton) {
 		vector buttonSize = buyButton->getSize();
-		vector buyButtonLoc = (loc + vector{ size.x - buttonSize.x, size.y / 2 - buttonSize.y / 2 } + vector{ -10 * stuff::pixelSize, 0 }).round();
+		vector buyButtonLoc = (loc + vector{ size.x - buttonSize.x, size.y / 2 - buttonSize.y / 2 } + vector{ -10 * stuff::pixelSize, 0 });
 		buyButton->setLoc(buyButtonLoc);
 
 		if (buttonPriceText) {
-			buttonPriceText->setLoc((buyButtonLoc + buyButton->getSize() / 2 - vector{ 0, buttonPriceText->getSize().y / 2 }).round());
+			buttonPriceText->setLoc(buyButtonLoc + buyButton->getSize() / 2);
 			if (currencyImg)
-				currencyImg->setLoc((buttonPriceText->getLoc() + vector{ -currencyImg->getSize().x - 20 * stuff::pixelSize, buttonPriceText->getSize().y / 2 - currencyImg->getSize().y / 2 }).round());
+				currencyImg->setLoc((buttonPriceText->getLoc() + vector{ -currencyImg->getSize().x - 20 * stuff::pixelSize, -currencyImg->getSize().y / 2 }));
 		}
 
 		if (upgradeText) {
-			vector upgradeTextLoc = vector{ currencyImg->getLoc().x - 1 * stuff::pixelSize, loc.y + size.y / 2 - upgradeText->getSize().y / 2}.round();
+			vector upgradeTextLoc = vector{ currencyImg->getLoc().x - 1 * stuff::pixelSize, loc.y + size.y / 2 };
 			upgradeText->setLoc(upgradeTextLoc);
 		}
 	}
 
 	if (thumbnailBackground)
-		thumbnailBackground->setLoc((loc + vector{ 4 * stuff::pixelSize, size.y / 2 - thumbnailBackground->h / 2 * stuff::pixelSize }).round());
+		thumbnailBackground->setLoc((loc + vector{ 4 * stuff::pixelSize, size.y / 2 - thumbnailBackground->h / 2 * stuff::pixelSize }));
 	
 	if (thumbnail && thumbnailBackground)
 		thumbnail->setLoc(thumbnailBackground->getLoc());
 	
 	if (name)
-		name->setLoc((loc + vector{ (thumbnailBackground->h + 6) * stuff::pixelSize, size.y / 2 - name->getSize().y / 2 }).round());
+		name->setLoc((loc + vector{ (thumbnailBackground->h + 6) * stuff::pixelSize, size.y / 2 }));
 }
 
 bool UupgradeBox::mouseOver() {

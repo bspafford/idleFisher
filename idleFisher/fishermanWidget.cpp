@@ -193,7 +193,7 @@ void UfishermanWidget::setupLocs() {
 	closeButton->setLoc({ float(upgradeBackground->getLoc().x + upgradeBackground->w * stuff::pixelSize - closeButtonSize.x / 2), float(upgradeBackground->getLoc().y - closeButtonSize.y / 2) });
 
 
-	nameHolder->setLocAndSize({ float(infoBackground->getLoc().x) + 6 * stuff::pixelSize, float(infoBackground->getLoc().y) + 6 * stuff::pixelSize }, vector{ float(infoBackground->w), float(infoBackground->h) } *stuff::pixelSize);
+	nameHolder->setLocAndSize({ float(infoBackground->getLoc().x) + 6 * stuff::pixelSize, float(infoBackground->getLoc().y) + 9 * stuff::pixelSize }, vector{ float(infoBackground->w), float(infoBackground->h) } *stuff::pixelSize);
 	name->setLineLength((infoBackground->w - 10) * stuff::pixelSize);
 	buffText->setLineLength((infoBackground->w - 10) * stuff::pixelSize);
 	debuffText->setLineLength((infoBackground->w - 10) * stuff::pixelSize);
@@ -201,16 +201,16 @@ void UfishermanWidget::setupLocs() {
 	fishingRodThumbnail->setLoc(stuff::screenSize / 2.f - fishingRodThumbnail->getSize() / 2.f + vector{ 0, 0 } * stuff::pixelSize);
 	vector offset = { 0, 30 * stuff::pixelSize };
 	vector buttonOffset = (-powerUpgradeButton->getSize() / 2.f).round() + vector{ 90 * stuff::pixelSize, roundf(powerText->getSize().y / 2.f) };
-	powerText->setLoc(stuff::screenSize / 2.f + vector{ 50, -30 } * stuff::pixelSize);
+	powerText->setLoc(stuff::screenSize / 2.f + vector{ 50, -27 } * stuff::pixelSize);
 	speedText->setLoc(powerText->getLoc() + offset);
 	catchChanceText->setLoc(speedText->getLoc() + offset);
 	powerUpgradeButton->setLoc(powerText->getLoc() + buttonOffset);
 	speedUpgradeButton->setLoc(speedText->getLoc() + buttonOffset);
 	catchChanceUpgradeButton->setLoc(catchChanceText->getLoc() + buttonOffset);
 
-	powerButtonPrice->setLoc(powerUpgradeButton->getLoc() + (powerUpgradeButton->getSize() / 2.f).round() + vector{0, roundf(-powerButtonPrice->getSize().y / 2.f)});
-	speedButtonPrice->setLoc(speedUpgradeButton->getLoc() + (speedUpgradeButton->getSize() / 2.f).round() + vector{ 0, roundf(-speedButtonPrice->getSize().y / 2.f) });
-	catchChanceButtonPrice->setLoc(catchChanceUpgradeButton->getLoc() + (catchChanceUpgradeButton->getSize() / 2.f).round() + vector{ 0, roundf(-catchChanceButtonPrice->getSize().y / 2.f) });
+	powerButtonPrice->setLoc(powerUpgradeButton->getLoc() + (powerUpgradeButton->getSize() / 2.f).round());
+	speedButtonPrice->setLoc(speedUpgradeButton->getLoc() + (speedUpgradeButton->getSize() / 2.f).round());
+	catchChanceButtonPrice->setLoc(catchChanceUpgradeButton->getLoc() + (catchChanceUpgradeButton->getSize() / 2.f).round());
 
 	vector levelTextOffset = { -10 * stuff::pixelSize, 0 };
 	powerLevelText->setLoc(vector{ powerUpgradeButton->getLoc().x, powerText->getLoc().y } + levelTextOffset);

@@ -98,7 +98,7 @@ void NPCwidget::setupLocs() {
 	}
 
 	if (infoBackground) {
-		nameHolder->setLocAndSize({ float(infoBackground->getLoc().x) + 6 * stuff::pixelSize, float(infoBackground->getLoc().y) + 6 * stuff::pixelSize}, vector{float(infoBackground->w), float(infoBackground->h)} *stuff::pixelSize);
+		nameHolder->setLocAndSize({ float(infoBackground->getLoc().x) + 6 * stuff::pixelSize, float(infoBackground->getLoc().y) + 9 * stuff::pixelSize}, vector{float(infoBackground->w), float(infoBackground->h)} *stuff::pixelSize);
 		name->setLineLength((infoBackground->w - 10) * stuff::pixelSize);
 		description->setLineLength((infoBackground->w - 10) * stuff::pixelSize);
 	}

@@ -15,8 +15,6 @@
 #include "debugger.h"
 
 Usettings::Usettings(widget* parent) : widget(parent) {
-	SaveData::loadSettings();
-
 	// button click anim
 	std::vector<std::string> buttonClickAnim;
 	for (int i = 0; i < 2; i++)
@@ -34,7 +32,7 @@ Usettings::Usettings(widget* parent) : widget(parent) {
 	graphicsTitle = std::make_unique<text>(this, "  Graphics:", "biggerStraight", vector{ 0, 0 });
 
 	// padding
-	scrollBox->addChild(nullptr, 3 * stuff::pixelSize);
+	scrollBox->addChild(nullptr, 6 * stuff::pixelSize);
 
 // settings
 	scrollBox->addChild(settingsTitle.get(), settingsTitle->getSize().y + 3 * stuff::pixelSize);
@@ -51,50 +49,71 @@ Usettings::Usettings(widget* parent) : widget(parent) {
 // audio
 	scrollBox->addChild(audioTitle.get(), audioTitle->getSize().y + 3 * stuff::pixelSize);
 
+
 	float length = background->getSize().x - 50 * stuff::pixelSize;
-
-	masterVolumeSlider = std::make_unique<Uslider>(this, false, vector{ length, 3 * stuff::pixelSize }, 0, 100);
-	masterVolumeSlider->setSliderTitle("Master");
+	float sliderHeight = 3 * stuff::pixelSize;
+	float titleSliderLength = 38 * stuff::pixelSize;
+	glm::vec4 sliderForegroundColor = glm::vec4(0.94901960784, 0.91372549019, 0.82745098039, 1);
+	glm::vec4 sliderBackgroundColor = glm::vec4(181.f / 255.f, 145.f / 255.f, 101.f/255.f, 1);
+	masterVolumeSlider = std::make_unique<Uslider>(this, false, vector{ length, sliderHeight }, 0, 100);
+	masterVolumeSlider->setForegroundColor(sliderForegroundColor);
+	masterVolumeSlider->setBackgroundColor(sliderBackgroundColor);
+	masterVolumeSlider->setSliderTitle("     Master");
 	masterVolumeSlider->bindValue(&SaveData::settingsData.masterVolume);
+	masterVolumeSlider->setTitleLength(titleSliderLength);
 
-	musicVolume = std::make_unique<Uslider>(this, false, vector{ length, 3 * stuff::pixelSize }, 0, 100);
-	musicVolume->setSliderTitle("Music");
+	musicVolume = std::make_unique<Uslider>(this, false, vector{ length, sliderHeight }, 0, 100);
+	musicVolume->setForegroundColor(sliderForegroundColor);
+	musicVolume->setBackgroundColor(sliderBackgroundColor);
+	musicVolume->setSliderTitle("     Music");
 	musicVolume->bindValue(&SaveData::settingsData.musicVolume);
+	musicVolume->setTitleLength(titleSliderLength);
 
-	sfxVolume = std::make_unique<Uslider>(this, false, vector{ length, 3 * stuff::pixelSize }, 0, 100);
-	sfxVolume->setSliderTitle("SFX");
+	sfxVolume = std::make_unique<Uslider>(this, false, vector{ length, sliderHeight }, 0, 100);
+	sfxVolume->setForegroundColor(sliderForegroundColor);
+	sfxVolume->setBackgroundColor(sliderBackgroundColor);
+	sfxVolume->setSliderTitle("     SFX");
 	sfxVolume->bindValue(&SaveData::settingsData.sfxVolume);
+	sfxVolume->setTitleLength(titleSliderLength);
 
-	dialogVolume = std::make_unique<Uslider>(this, false, vector{ length, 3 * stuff::pixelSize }, 0, 100);
-	dialogVolume->setSliderTitle("Dialog");
+	dialogVolume = std::make_unique<Uslider>(this, false, vector{ length, sliderHeight }, 0, 100);
+	dialogVolume->setForegroundColor(sliderForegroundColor);
+	dialogVolume->setBackgroundColor(sliderBackgroundColor);
+	dialogVolume->setSliderTitle("     Dialog");
 	dialogVolume->bindValue(&SaveData::settingsData.dialogVolume);
+	dialogVolume->setTitleLength(titleSliderLength);
 
-	scrollBox->addChild(masterVolumeSlider.get(), masterVolumeSlider->getSize().y + 5 * stuff::pixelSize);
-	scrollBox->addChild(musicVolume.get(), musicVolume->getSize().y + 5 * stuff::pixelSize);
-	scrollBox->addChild(sfxVolume.get(), sfxVolume->getSize().y + 5 * stuff::pixelSize);
-	scrollBox->addChild(dialogVolume.get(), dialogVolume->getSize().y + 5 * stuff::pixelSize);
+	float sliderPadding = 17 * stuff::pixelSize;
+	scrollBox->addChild(masterVolumeSlider.get(), masterVolumeSlider->getSize().y + sliderPadding);
+	scrollBox->addChild(musicVolume.get(), musicVolume->getSize().y + sliderPadding);
+	scrollBox->addChild(sfxVolume.get(), sfxVolume->getSize().y + sliderPadding);
+	scrollBox->addChild(dialogVolume.get(), dialogVolume->getSize().y + sliderPadding);
+	scrollBox->addChild(nullptr, 5 * stuff::pixelSize);
 
 // graphics
 	scrollBox->addChild(graphicsTitle.get(), graphicsTitle->getSize().y + 3 * stuff::pixelSize);
 
-	pixelFontBlock = std::make_unique<UsettingsBlock>(this, "Pixel Font", length, std::vector<std::string>{ "Off", "On" }, SaveData::settingsData.pixelFont);
+	pixelFontBlock = std::make_unique<UsettingsBlock>(this, "Pixel Font", length, std::vector<std::string>{ "Off", "On" }, &SaveData::settingsData.pixelFont);
 	pixelFontBlock->addCallback(text::changeFontAll);
 	scrollBox->addChild(pixelFontBlock.get(), pixelFontBlock->getSize().y);
 
-	shortNumBlock = std::make_unique<UsettingsBlock>(this, "Enable Short Numbers", length, std::vector<std::string>{ "Long", "Short" }, SaveData::settingsData.shortNumbers);
+	shortNumBlock = std::make_unique<UsettingsBlock>(this, "Enable Short Numbers", length, std::vector<std::string>{ "Long", "Short" }, &SaveData::settingsData.shortNumbers);
 	scrollBox->addChild(shortNumBlock.get(), shortNumBlock->getSize().y);
 
-	petBlock = std::make_unique<UsettingsBlock>(this, "Show Pets", length, std::vector<std::string>{ "Off", "On" }, SaveData::settingsData.showPets);
+	petBlock = std::make_unique<UsettingsBlock>(this, "Show Pets", length, std::vector<std::string>{ "Off", "On" }, &SaveData::settingsData.showPets);
 	scrollBox->addChild(petBlock.get(), petBlock->getSize().y);
 
 	// show rain
-	rainBlock = std::make_unique<UsettingsBlock>(this, "Show Rain", length, std::vector<std::string>{ "Off", "On" }, SaveData::settingsData.showRain);
+	rainBlock = std::make_unique<UsettingsBlock>(this, "Show Rain", length, std::vector<std::string>{ "Off", "On" }, &SaveData::settingsData.showRain);
 	scrollBox->addChild(rainBlock.get(), rainBlock->getSize().y);
 
 	// show cursor
-	cursorBlock = std::make_unique<UsettingsBlock>(this, "Cursor", length, std::vector<std::string>{ "Off", "On" }, SaveData::settingsData.cursor);
+	cursorBlock = std::make_unique<UsettingsBlock>(this, "Cursor", length, std::vector<std::string>{ "Off", "On" }, &SaveData::settingsData.cursor);
 	cursorBlock->addCallback(Cursor::toggleCursor);
 	scrollBox->addChild(cursorBlock.get(), cursorBlock->getSize().y);
+
+	// add bottom padding
+	scrollBox->addChild(nullptr, 20 * stuff::pixelSize);
 
 	setupLocs();
 }

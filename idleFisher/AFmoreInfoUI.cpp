@@ -43,15 +43,15 @@ AFmoreInfoUI::~AFmoreInfoUI() {
 
 void AFmoreInfoUI::setupLocs() {
 	background->setLoc({ stuff::screenSize.x / 2 - background->w / 2 * stuff::pixelSize,  stuff::screenSize.y / 2 - background->h / 2 * stuff::pixelSize });
-	fisherNum->setLoc({ stuff::screenSize.x / 2.f + 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f - 79 * stuff::pixelSize });
-	levelText->setLoc({stuff::screenSize.x / 2.f + 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f - 46 * stuff::pixelSize});
-	fullnessText->setLoc({ stuff::screenSize.x / 2.f,  stuff::screenSize.y / 2.f - 12 * stuff::pixelSize });
+	fisherNum->setLoc({ stuff::screenSize.x / 2.f + 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f - 73 * stuff::pixelSize });
+	levelText->setLoc({stuff::screenSize.x / 2.f + 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f - 40 * stuff::pixelSize});
+	fullnessText->setLoc({ stuff::screenSize.x / 2.f,  stuff::screenSize.y / 2.f - 6 * stuff::pixelSize });
 	if (closeButton)
 		closeButton->setLoc({ stuff::screenSize.x / 2.f + 72 * stuff::pixelSize,  stuff::screenSize.y / 2.f - 108 * stuff::pixelSize });
 	if (fpsText)
-		fpsText->setLoc({ stuff::screenSize.x / 2.f - 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f + 22 * stuff::pixelSize });
+		fpsText->setLoc({ stuff::screenSize.x / 2.f - 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f + 28 * stuff::pixelSize });
 	if (mpsText)
-		mpsText->setLoc({ stuff::screenSize.x / 2.f - 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f + 42 * stuff::pixelSize });
+		mpsText->setLoc({ stuff::screenSize.x / 2.f - 54 * stuff::pixelSize,  stuff::screenSize.y / 2.f + 48 * stuff::pixelSize });
 	fullnessBar->setLoc(background->getLoc());
 	levelBar->setLoc(background->getLoc());
 }

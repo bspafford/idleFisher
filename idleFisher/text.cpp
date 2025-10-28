@@ -144,6 +144,7 @@ void text::makeText(int i, std::string text, vector &offset) {
 	// ignores special chars, and makes sure the char is in the font
 	if (text[i] >= 32 && currInfo.loc.x == 0 && currInfo.loc.y == 0 && currInfo.size.x == 0 && currInfo.size.y == 0) {
 		std::cout << "Char is not in list: '" << text[i] << "' (" << (int)text[i] << ") not in '" << font << "'\n";
+		std::cout << "'" << textString << "'" << "\n";
 		throw std::runtime_error("Character is not in list");
 	}
 
@@ -187,11 +188,6 @@ void text::makeText(int i, std::string text, vector &offset) {
 				offset.x += letters[j]->w * stuff::pixelSize;
 			}
 		}
-
-		std::vector<char> dropList = { 'g', 'p', 'q', 'j', 'y', };
-		std::vector<std::string> dontDropFont = { "afScreen", "biggerStraight", "biggerStraightDark" };
-		if (std::find(dontDropFont.begin(), dontDropFont.end(), font) == dontDropFont.end() && std::find(dropList.begin(), dropList.end(), text[i]) != dropList.end())
-			letters[i]->setLoc((letters[i]->getLoc() + vector{ 0, letters[i]->getSize().y / 2.f - 1 })); // weird problem if i don't subtract 1
 	}
 
 	numLetters++;
@@ -268,7 +264,7 @@ void text::makeTextTexture() {
 	if (letters.size() == 0)
 		return;
 
-	fboSize = getSize();
+	fboSize = getFBOSize() + vector{ 0, textHeight / 2.f * stuff::pixelSize };
 
 	if (fboSize.x == 0 || fboSize.y == 0)
 		return;
@@ -333,11 +329,17 @@ void text::makeTextTexture() {
 		std::cerr << "FBO is incomplete!" << std::endl;
 	}
 
-	// Renders to the FBO
+	// Draws to the FBO
 	for (int i = 0; i < letters.size(); i++)
 		if (letters[i]) {
-			letters[i]->setLoc((letters[i]->getLoc() - fboSize / 2.f + letters[i]->getSize() / 2.f)); // positions top left of frame buffer
+			letters[i]->setLoc(vector{ letters[i]->getLoc().x - (fboSize.x - letters[i]->getSize().x) / 2.f, letters[i]->getLoc().y + (letters[i]->getSize().y - fboSize.y) / 2.f });
+			// drops characters if they are inside the drop list and the correct font
+			std::string dropList = "gpqjy";
+			std::vector<std::string> dontDropFont = { "afScreen", "biggerStraight", "biggerStraightDark" };
+			if (std::find(dontDropFont.begin(), dontDropFont.end(), font) == dontDropFont.end() && std::find(dropList.begin(), dropList.end(), textString[i]) != dropList.end())
+				letters[i]->setLoc({letters[i]->getLoc().x, letters[i]->getLoc().y + letters[i]->getSize().y / 2.f});
 			letters[i]->draw(Main::twoDShader);
+
 		}
 
 	// Unbind FBO
@@ -446,6 +448,10 @@ void text::setAnchor(std::string xAnchor, std::string yAnchor) {
 }
 
 vector text::getSize() {
+	return fboSize - vector{ 0, textHeight / 2.f * stuff::pixelSize };
+}
+
+vector text::getFBOSize() {
 	if (letters.size() == 0)
 		return { 0, 0 };
 
@@ -456,15 +462,16 @@ vector text::getSize() {
 		if (!letter)
 			continue;
 
-		if (minX > letter->getLoc().x)
-			minX = letter->getLoc().x;
-		if (maxX < letter->getLoc().x + letter->w * stuff::pixelSize)
-			maxX = letter->getLoc().x + letter->w * stuff::pixelSize;
+		vector letterLoc = letter->getLoc();
+		if (minX > letterLoc.x)
+			minX = letterLoc.x;
+		if (maxX < letterLoc.x + letter->w * stuff::pixelSize)
+			maxX = letterLoc.x + letter->w * stuff::pixelSize;
 
-		if (minY > letter->getLoc().y)
-			minY = letter->getLoc().y;
-		if (maxY < letter->getLoc().y + letter->h * stuff::pixelSize)
-			maxY = letter->getLoc().y + letter->h * stuff::pixelSize;
+		if (minY > letterLoc.y)
+			minY = letterLoc.y;
+		if (maxY < letterLoc.y + letter->h * stuff::pixelSize)
+			maxY = letterLoc.y + letter->h * stuff::pixelSize;
 	}
 	return { maxX - minX, maxY - minY };
 }

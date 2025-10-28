@@ -40,7 +40,7 @@ UmechanicWidget::UmechanicWidget(widget* parent, npc* NPCParent) : widget(parent
 	buyFishTransporterButton = std::make_unique<Ubutton>(this, "widget/button.png", 27, 13, 2, vector{ 0, 0 }, false, false);
 	buyFishTransporterButton->addCallback(this, &UmechanicWidget::buyFishTransporter);
 	buyFishTransporterText = std::make_unique<text>(this, "Buy Fish Transporter", "biggerStraight", vector{ 0, 0 });
-	buyFishTransporterPriceText = std::make_unique<text>(this, shortNumbers::convert2Short(mechanicStruct->currencyNum), "straight", vector{0, 0});
+	buyFishTransporterPriceText = std::make_unique<text>(this, shortNumbers::convert2Short(mechanicStruct->currencyNum), "straight", vector{0, 0}, false, false, textAlign::center);
 
 	// bought screen
 	fishTransporterName = std::make_unique<text>(this, "Fish Transporter", "biggerStraight", vector{ 0, 0 });
@@ -163,7 +163,7 @@ void UmechanicWidget::setupLocs() {
 	}
 
 	// bought fish transporter
-	fishTransporterName->setLoc(upgradeBackground->getLoc() + vector{6, 6} * stuff::pixelSize);
+	fishTransporterName->setLoc(upgradeBackground->getLoc() + vector{6, 9} * stuff::pixelSize);
 	buyFishTransporterText->setLoc(fishTransporterName->getLoc());
 	fishTransporterImg->setLoc(fishTransporterName->loc + vector{ 2 * stuff::pixelSize, fishTransporterName->getSize().y + 15 * stuff::pixelSize});
 
@@ -174,17 +174,16 @@ void UmechanicWidget::setupLocs() {
 		//buyFishTransporterButton->setLoc(upgradeBackground->loc + upgradeBackground->getSize() / 2 - buyFishTransporterButton->getSize() / 2);
 		// find mid between fish transporter and edge of shop
 		buyFishTransporterButton->setLoc(vector{ xMid - buyFishTransporterButton->getSize().x / 2.f, upgradeBackground->getLoc().y + upgradeBackground->getSize().y / 2 - buyFishTransporterButton->getSize().y / 2});
-		//buyFishTransporterPriceText->setLoc(upgradeBackground->loc + upgradeBackground->getSize() / 2 - buyFishTransporterPriceText->getSize() / 2);
-		buyFishTransporterPriceText->setLoc({ xMid - buyFishTransporterPriceText->getSize().x / 2.f, upgradeBackground->getLoc().y + upgradeBackground->getSize().y / 2 - buyFishTransporterPriceText->getSize().y / 2});
+		buyFishTransporterPriceText->setLoc({ xMid, upgradeBackground->getLoc().y + upgradeBackground->getSize().y / 2});
 	}
 
 	level->setLoc(vector{ fishTransporterImg->getLoc().x + fishTransporterImg->getSize().x + 130 * stuff::pixelSize, upgradeBackground->getLoc().y + 15 * stuff::pixelSize});
 	levelProgress->setLoc(level->getLoc() + vector{ -125, 9 } * stuff::pixelSize);
-	maxHoldText->setLoc(levelProgress->getLoc() + vector{ 0, 20 * stuff::pixelSize });
+	maxHoldText->setLoc(levelProgress->getLoc() + vector{ 0, 23 * stuff::pixelSize });
 	maxHoldValue->setLoc(vector{ upgradeBackground->getLoc().x + upgradeBackground->getSize().x - 5 * stuff::pixelSize, maxHoldText->getLoc().y});
-	speedText->setLoc(maxHoldText->getLoc() + vector{ 0, 20 * stuff::pixelSize });
+	speedText->setLoc(maxHoldText->getLoc() + vector{ 0, 23 * stuff::pixelSize });
 	speedValue->setLoc(maxHoldValue->getLoc() + vector{ 0, 20 * stuff::pixelSize });
-	collectSpeedText->setLoc(speedText->getLoc() + vector{ 0, 20 * stuff::pixelSize });
+	collectSpeedText->setLoc(speedText->getLoc() + vector{ 0, 23 * stuff::pixelSize });
 	collectSpeedValue->setLoc(speedValue->getLoc() + vector{ 0, 20 * stuff::pixelSize });
 	if (buyButton) {
 		buyButton->setLoc({ xMid - buyButton->getSize().x / 2.f, collectSpeedText->getLoc().y + 20 * stuff::pixelSize });
@@ -192,7 +191,7 @@ void UmechanicWidget::setupLocs() {
 		multiMax->setLoc(buyButton->getLoc() - vector{ buyButton->getSize().x + 3 * stuff::pixelSize, 0 });
 		multi10x->setLoc(multiMax->getLoc() - vector{ multiMax->getSize().x, 0 });
 		multi1x->setLoc(multi10x->getLoc() - vector{ multi10x->getSize().x, 0 });
-		upgradePriceText->setLoc(buyButton->getLoc() + buyButton->getSize() / 2.f - vector{ 0, upgradePriceText->getSize().y / 2.f });
+		upgradePriceText->setLoc(buyButton->getLoc() + buyButton->getSize() / 2.f);
 		currencyIcon->setLoc(buyButton->getLoc() + vector{ -currencyIcon->getSize().x - stuff::pixelSize * 2.f, buyButton->getSize().y / 2.f - currencyIcon->getSize().y / 2.f});
 	}
 }
