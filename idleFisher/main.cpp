@@ -51,7 +51,6 @@ int main(int argc, char* argv[]) {
 
 	srand(time(0));
 	math::randRange(0, 100); // steups up srand i guess? otherwise first value always the same
-
 	Main* _main = new Main();
 	_main->createWindow();
 

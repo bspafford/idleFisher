@@ -35,6 +35,8 @@ text::~text() {
 
 	letters.clear();
 	textInfo.clear();
+
+	GPULoadCollector::remove(this);
 }
 
 void text::changeFontAll() {

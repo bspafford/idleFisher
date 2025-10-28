@@ -51,6 +51,8 @@ animation::~animation() {
 	eventCallback_ = nullptr;
 	finishedCallback_ = nullptr;
 	frameCallback_ = nullptr;
+
+	GPULoadCollector::remove(this);
 }
 
 void animation::draw(Shader* shaderProgram) {

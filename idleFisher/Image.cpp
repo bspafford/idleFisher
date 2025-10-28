@@ -94,6 +94,9 @@ Image::~Image() {
 	glDeleteTextures(1, &ID);
 	currVAO = nullptr;
 	currEBO = nullptr;
+
+	// remove itself from GPULoadCollector
+	GPULoadCollector::remove(this);
 }
 
 void Image::loadGPU() {

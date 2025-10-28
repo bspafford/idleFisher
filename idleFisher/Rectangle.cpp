@@ -53,6 +53,8 @@ URectangle::~URectangle() {
 	delete currEBO;
 	currVAO = nullptr;
 	currEBO = nullptr;
+
+	GPULoadCollector::remove(this);
 }
 
 void URectangle::draw(Shader* shaderProgram) {

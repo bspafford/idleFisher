@@ -56,6 +56,50 @@ public:
 			rect->loadGPU();
 	}
 
+	static void remove(Image* img) {
+		std::lock_guard<std::mutex> lock(mutex);
+		// list shouldn't contain anything
+		if (!active)
+			return;
+
+		auto it = std::find(imagesToUpload.begin(), imagesToUpload.end(), img);
+		if (it != imagesToUpload.end())
+			imagesToUpload.erase(it);
+	}
+
+	static void remove(animation* anim) {
+		std::lock_guard<std::mutex> lock(mutex);
+		// list shouldn't contain anything
+		if (!active)
+			return;
+
+		auto it = std::find(animationsToUpload.begin(), animationsToUpload.end(), anim);
+		if (it != animationsToUpload.end())
+			animationsToUpload.erase(it);
+	}
+
+	static void remove(text* text) {
+		std::lock_guard<std::mutex> lock(mutex);
+		// list shouldn't contain anything
+		if (!active)
+			return;
+
+		auto it = std::find(textToUpload.begin(), textToUpload.end(), text);
+		if (it != textToUpload.end())
+			textToUpload.erase(it);
+	}
+
+	static void remove(URectangle* rect) {
+		std::lock_guard<std::mutex> lock(mutex);
+		// list shouldn't contain anything
+		if (!active)
+			return;
+
+		auto it = std::find(rectToUpload.begin(), rectToUpload.end(), rect);
+		if (it != rectToUpload.end())
+			rectToUpload.erase(it);
+	}
+
 	static void close(std::vector<Image*>& images, std::vector<animation*>& animations, std::vector<text*>& text, std::vector<URectangle*>& rect) {
 		std::lock_guard<std::mutex> lock(mutex);
 		active = false;
