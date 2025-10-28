@@ -323,6 +323,10 @@ void text::makeTextTexture() {
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	glViewport(0, 0, fboSize.x, fboSize.y);
+	// puts scissor size to fbo and saves previous size
+	GLint scissorBox[4];
+	glGetIntegerv(GL_SCISSOR_BOX, scissorBox);
+	glScissor(0, 0, fboSize.x, fboSize.y);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textTexture, 0);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
@@ -339,6 +343,8 @@ void text::makeTextTexture() {
 	// Unbind FBO
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, stuff::screenSize.x, stuff::screenSize.y);
+	// puts scissor size back to what it was before
+	glScissor(scissorBox[0], scissorBox[1], scissorBox[2], scissorBox[3]);
 
 	setLoc(loc);
 

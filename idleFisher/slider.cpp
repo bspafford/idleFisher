@@ -33,8 +33,6 @@ void Uslider::draw(Shader* shaderProgram) {
 	background->draw(shaderProgram);
 	foreground->draw(shaderProgram);
 
-	// make sure mouse starts over ~background or handle, prolly handle size around background
-
 	// clamp to edges
 	vector halfHandleSize = handle->getSize() / 2.f;
 	vector backgroundLoc = background->getLoc();

@@ -105,7 +105,6 @@ Usettings::~Usettings() {
 
 void Usettings::draw(Shader* shaderProgram) {
 	background->draw(shaderProgram);
-
 	backButton->draw(shaderProgram);
 
 	scrollBox->draw(shaderProgram);
@@ -116,6 +115,7 @@ void Usettings::draw(Shader* shaderProgram) {
 	if (cancelButton)
 		cancelButton->draw(shaderProgram);
 	cancelText->draw(shaderProgram);
+
 }
 
 void Usettings::goBack() {

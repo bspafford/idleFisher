@@ -51,8 +51,6 @@ public:
 private:
 	// keeps track of all instances to call update function on
 	static inline std::vector<timer*> instances;
-	//static inline std::vector<timer*> toDelete;
-	static int findElementIdx(std::vector<timer*>& list, timer* item);
 
 	float time = 0;
 	float maxTime;

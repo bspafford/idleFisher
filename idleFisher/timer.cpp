@@ -37,14 +37,6 @@ void timer::clearInstanceList(bool changingWorlds) {
 	}
 }
 
-int timer::findElementIdx(std::vector<timer*>& list, timer* item) {
-	for (int i = 0; i < list.size(); i++) {
-		if (list[i] == item)
-			return i;
-	}
-	return -1;
-}
-
 void timer::setFps(float fps) {
 	maxTime = fps;
 }
