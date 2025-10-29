@@ -8,12 +8,12 @@
 #include "debugger.h"
 
 timer::timer() {
-	std::lock_guard<std::mutex> lock(mutex);
+	std::lock_guard<std::recursive_mutex> lock(mutex);
 	instances.push_back(this);
 }
 
 timer::~timer() {
-	std::lock_guard<std::mutex> lock(mutex);
+	std::lock_guard<std::recursive_mutex> lock(mutex);
 	auto it = std::find(instances.begin(), instances.end(), this);
 	if (it != instances.end())
 		instances.erase(it);
@@ -21,14 +21,14 @@ timer::~timer() {
 
 // calls update function to all instances of object
 void timer::callUpdate(float deltaTime) {
-	std::lock_guard<std::mutex> lock(mutex);
+	std::lock_guard<std::recursive_mutex> lock(mutex);
 	for (int i = 0; i < instances.size(); i++) {
 		instances[i]->Update(deltaTime);
 	}
 }
 
 void timer::clearInstanceList(bool changingWorlds) {
-	std::lock_guard<std::mutex> lock(mutex);
+	std::lock_guard<std::recursive_mutex> lock(mutex);
 	if (changingWorlds) {
 		instances.erase(
 			std::remove_if(instances.begin(), instances.end(),

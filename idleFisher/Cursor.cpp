@@ -34,18 +34,23 @@ void Cursor::setMouseImg(std::string cursorName) {
 
 	currCursor = cursorName;
 
-	int width, height, channels;
+	if (SaveData::settingsData.cursor) {
+		int width, height, channels;
 
-	// should be getting texture from texture manager not loading them ever time i switch
-	textureStruct* mouseImg = textureManager::getTexture("./images/" + currCursor + ".png");
-	GLFWimage cursorImg;
-	cursorImg.width = mouseImg->w;
-	cursorImg.height = mouseImg->h;
-	cursorImg.pixels = mouseImg->texture;
+		// should be getting texture from texture manager not loading them ever time i switch
+		textureStruct* mouseImg = textureManager::getTexture("./images/" + currCursor + ".png");
+		GLFWimage cursorImg;
+		cursorImg.width = mouseImg->w;
+		cursorImg.height = mouseImg->h;
+		cursorImg.pixels = mouseImg->texture;
 
-	cursor = glfwCreateCursor(&cursorImg, 0, 0);
-	if (cursor)
-		glfwSetCursor(Main::window, cursor);
+		cursor = glfwCreateCursor(&cursorImg, 0, 0);
+		if (cursor)
+			glfwSetCursor(Main::window, cursor);
+	} else {
+		GLFWcursor* handCursor = glfwCreateStandardCursor(cursorLookup[cursorName]);
+		glfwSetCursor(Main::window, handCursor);
+	}
 }
 
 bool Cursor::getMouseOverWater() {
@@ -57,5 +62,5 @@ void Cursor::setMouseOverWater(bool overWater) {
 }
 
 void Cursor::toggleCursor() {
-
+	glfwSetCursor(Main::window, NULL);
 }

@@ -1134,4 +1134,5 @@
 ./fonts/straightbolddark/straightbolddark.png
 ./fonts/straightdark/straightdark.png
 ./fonts/tall/tall.png
+./images/widget/sliderhandle.png
 none

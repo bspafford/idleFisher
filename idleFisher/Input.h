@@ -6,7 +6,7 @@
 #include "math.h"
 #include "Hoverable.h"
 
-static struct MouseButton {
+struct MouseButton {
 	static inline int left = GLFW_MOUSE_BUTTON_LEFT;
 	static inline int right = GLFW_MOUSE_BUTTON_RIGHT;
 	static inline int middle = GLFW_MOUSE_BUTTON_MIDDLE;

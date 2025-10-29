@@ -39,12 +39,12 @@ Usettings::Usettings(widget* parent) : widget(parent) {
 
 	saveButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 37, 16, 1, vector{ 0, 0 }, false, false);
 	saveButton->addCallback(SaveData::saveSettings);
-	saveText = std::make_unique<text>(this, "Save", "straightDark", vector{ 0, 0 });
+	saveText = std::make_unique<text>(this, "Save", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
 	
 	cancelButton = std::make_unique<Ubutton>(this, "widget/upgradeButton.png", 37, 16, 1, vector{ 0, 0 }, false, false);
 	cancelButton->addCallback(this, &Usettings::cancel);
 	
-	cancelText = std::make_unique<text>(this, "Cancel", "straightDark", vector{ 0, 0 });
+	cancelText = std::make_unique<text>(this, "Cancel", "straightDark", vector{ 0, 0 }, false, false, textAlign::center);
 	
 // audio
 	scrollBox->addChild(audioTitle.get(), audioTitle->getSize().y + 3 * stuff::pixelSize);
@@ -159,11 +159,11 @@ void Usettings::setupLocs() {
 	if (cancelButton && background && saveButton)
 		cancelButton->setLoc(background->getLoc() + background->getSize() - saveButton->getSize() - vector{10, 10} *stuff::pixelSize);
 	if (cancelText && cancelButton)
-		cancelText->setLoc(cancelButton->loc + cancelButton->getSize() / 2 - cancelText->getSize() / 2);
+		cancelText->setLoc(cancelButton->loc + cancelButton->getSize() / 2);
 	if (saveButton && cancelButton)
 		saveButton->setLoc(cancelButton->getLoc() - vector{saveButton->getSize().x + 2 * stuff::pixelSize, 0 });
 	if (saveText && saveButton)
-		saveText->setLoc(saveButton->loc + saveButton->getSize() / 2 - saveText->getSize() / 2);
+		saveText->setLoc(saveButton->loc + saveButton->getSize() / 2);
 }
 
 void Usettings::cancel() {

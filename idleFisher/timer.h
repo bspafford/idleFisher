@@ -50,7 +50,8 @@ public:
 	}
 
 private:
-	static inline std::mutex mutex;
+	// recursive incase Update() or callbacks create a timer and lock mutex while its already locked
+	static inline std::recursive_mutex mutex;
 
 	// keeps track of all instances to call update function on
 	static inline std::vector<timer*> instances;
