@@ -1,3 +1,4 @@
+./images/circle/circlespritesheet.png
 ./images/npc/fishtransporter/fishpilespritesheet.png
 ./images/bobber.png
 ./images/bobberwateranim.png
@@ -9,6 +10,9 @@
 ./images/continuebutton3.png
 ./images/cursor.png
 ./images/cursor1.png
+./images/cursor2.png
+./images/cursor3.png
+./images/cursor4.png
 ./images/dumpster.png
 ./images/dumpsterhovered.png
 ./images/emptystar.png
@@ -434,15 +438,15 @@
 ./images/npc/scuba.png
 ./images/npc/fishtransporter/fishtransporter.png
 ./images/npc/fishtransporter/fishtransporterspritesheet.png
-./images/npc/fishtransporter/idlee.png
-./images/npc/fishtransporter/idlene.png
-./images/npc/fishtransporter/idlenw.png
-./images/npc/fishtransporter/idles.png
-./images/npc/fishtransporter/idlese.png
-./images/npc/fishtransporter/idlesw.png
-./images/npc/fishtransporter/idlew.png
-./images/npc/fishtransporter/walkse.png
-./images/npc/fishtransporter/walksw.png
+./images/npc/fishtransporter/idleE.png
+./images/npc/fishtransporter/idleNE.png
+./images/npc/fishtransporter/idleNW.png
+./images/npc/fishtransporter/idleS.png
+./images/npc/fishtransporter/idleSE.png
+./images/npc/fishtransporter/idleSW.png
+./images/npc/fishtransporter/idleW.png
+./images/npc/fishtransporter/walkSE.png
+./images/npc/fishtransporter/walkSW.png
 ./images/pets/0.png
 ./images/pets/1.png
 ./images/pets/10.png
@@ -1120,7 +1124,6 @@
 ./images/walkRipples.png
 ./images/worlds/rebirth/depthMap.png
 ./images/worlds/world1/dockPole.png
-./images/circle/circlespritesheet.png
 ./fonts/afscreen/afscreen.png
 ./fonts/biggerstraight/biggerstraight.png
 ./fonts/biggerstraightdark/biggerstraightdark.png
